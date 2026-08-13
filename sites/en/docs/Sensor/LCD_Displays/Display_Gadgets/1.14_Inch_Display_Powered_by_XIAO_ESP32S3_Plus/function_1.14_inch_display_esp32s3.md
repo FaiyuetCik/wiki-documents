@@ -1,5 +1,5 @@
 ---
-description: Standalone function-level demos for each onboard peripheral of the 1.14 Inch Display Powered by XIAO ESP32-S3 Plus. Covers screen, IMU, PDM microphone and I2S audio, buttons, and battery voltage detection.
+description: Standalone function-level demos for each onboard peripheral of the 1.14 Inch Display Powered by XIAO ESP32-S3 Plus. Covers screen, IMU, PDM microphone and I2S audio (voice bar + flash recorder), Grove I2C, buttons, and battery voltage detection.
 title: Onboard Peripheral Usage
 keywords:
   - XIAO
@@ -265,7 +265,85 @@ The screen displays real-time motion data while awake. After 8 seconds of stilln
 
 ---
 
-## Microphone & Audio — Flash Recorder
+## Microphone & Audio
+
+The 1.14 Inch Display has an onboard **PDM (Pulse Density Modulation) digital microphone** for audio input, plus I2S output pads for driving an external speaker/amplifier. This section shows two demos: a real-time **Voice Bar** visualization of the microphone input (no extra hardware), and a **Flash Recorder** that records audio to onboard Flash and plays it back through an external I2S amplifier.
+
+<div class="table-center">
+  <table align="center">
+    <tr><th>Pin</th><th>Signal</th><th>Function</th></tr>
+    <tr><td>D0</td><td>PDM_CLK</td><td>PDM clock output to microphone</td></tr>
+    <tr><td>D1</td><td>MIC_DATA</td><td>PDM data input from microphone</td></tr>
+  </table>
+</div>
+
+### Demo 1: Voice Bar
+
+This demo visualizes the PDM microphone's real-time audio input as a dynamic equalizer-style waveform and a segmented volume bar. Speak, clap, or blow into the onboard microphone and watch the bars react instantly — no external hardware is required.
+
+**Code location:** `code/Function/114_ESP32/xiao_esp32s3_114_voice_bar/`
+
+<div class="github_container" style={{textAlign: 'center'}}>
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/114_ESP32/xiao_esp32s3_114_voice_bar" target="_blank" rel="noopener noreferrer">
+    <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
+    <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
+    </a>
+</div><br />
+
+#### How It Works
+
+The sketch captures the onboard PDM microphone through the ESP32-S3's I2S peripheral configured in **PDM RX mode**, using the ESP-IDF v5 driver API (`driver/i2s_pdm.h`). This requires **esp32 Boards by Espressif 3.x** — the legacy `i2s_config_t` API from core 2.x will not compile.
+
+:::note
+The ESP-IDF v5 API (`i2s_new_channel()` / `i2s_channel_read()`) is different from the nRF52840 version of this demo, which uses the nRF52 `PDM` library. If you are porting the nRF52840 code, you must replace the PDM setup entirely.
+:::
+
+The microphone is sampled at **16 kHz mono** into 256-sample DMA buffers (4 descriptors). In `loop()`, `i2s_channel_read()` fetches a buffer, removes the DC offset, computes the peak amplitude, and down-samples the signal into 27 bins for the waveform visualizer. The PDM clock drive strength is also reduced with `gpio_set_drive_capability()` to cut EMI/coupling noise.
+
+The screen is divided into three zones:
+
+<div class="table-center">
+  <table align="center">
+    <tr><th>Zone</th><th>Position</th><th>Description</th></tr>
+    <tr><td><strong>Waveform</strong></td><td>Top (y=30–95)</td><td>27-bar equalizer visualizer. Raw samples are down-sampled and drawn as symmetric bars around a center baseline. Waveform color follows the smoothed volume — green (&lt;50%), yellow (50–90%), red (&gt;90%).</td></tr>
+    <tr><td><strong>Percentage</strong></td><td>Middle</td><td>Large numeric volume percentage (0–100%), color-coded green (&lt;50%), yellow (50–90%), red (&gt;90%).</td></tr>
+    <tr><td><strong>Volume Bar</strong></td><td>Bottom (y=130–225)</td><td>10-segment bar (green/yellow/red gradient). Updates with smoothed volume from the PDM peak.</td></tr>
+  </table>
+</div>
+
+**Signal processing:**
+
+1. **I2S PDM RX** — `i2s_channel_read()` fetches 256 PDM samples. The sketch removes the DC offset (mean) so the peak reflects actual loudness, then computes the peak magnitude.
+2. **Normalization** — peak values below `VOL_FLOOR` (20) are treated as silence. Values above `VOL_CEIL` (2400) saturate to 100%. In between, linear mapping produces a 0.0–1.0 volume level.
+3. **Exponential smoothing** — the displayed volume is smoothed with a 20% mix factor (`SMOOTH = 0.20`) to avoid jitter. During silence, the volume decays at 6% per frame.
+4. **Differential rendering** — the volume bar and percentage label are only redrawn when the value changes, minimizing SPI traffic.
+
+#### Running the Demo
+
+**Step 1.** Open `xiao_esp32s3_114_voice_bar.ino` in Arduino IDE.
+
+**Step 2.** Select **Tools > Board > esp32 > XIAO_ESP32S3_Plus** and the correct **Port**.
+
+**Step 3.** Click **Upload**.
+
+**Step 4.** Open **Tools > Serial Monitor** (115200 baud). You should see:
+
+```
+[MIC] PDM RX ready (ESP-IDF v5)
+```
+
+**Step 5.** Speak, clap, or blow into the microphone. The waveform and volume bar respond in real time. The percentage label changes color as the volume increases.
+
+#### Expected Result
+
+<!-- TODO: Add voice bar GIF -->
+<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_function_voice_bar.gif" style={{width:500, height:'auto'}}/></div> -->
+
+When silent, the waveform is flat and the volume bar is empty (0%). Speak into the microphone and the equalizer bars animate while the volume bar fills up from green through yellow to red. The percentage label updates in real time.
+
+---
+
+### Demo 2: Flash Recorder
 
 This demo records 5 seconds of audio from the onboard PDM microphone into onboard Flash memory, then plays it back through an external speaker connected to the I2S output. Press one button to record, another to play.
 
@@ -297,17 +375,7 @@ The I2S pads (3V3, GND, D11, D12, D13) are exposed on the bottom expansion pad g
 
 ### How It Works
 
-**Recording** — the onboard **PDM (Pulse Density Modulation) digital microphone** is sampled through the ESP32-S3's I2S peripheral configured in PDM RX mode. On ESP-IDF v5 (Arduino core 3.3.11), this uses the new driver API (`driver/i2s_pdm.h`):
-
-<div class="table-center">
-  <table align="center">
-    <tr><th>Pin</th><th>Signal</th><th>Function</th></tr>
-    <tr><td>D0</td><td>PDM_CLK</td><td>PDM clock output to microphone</td></tr>
-    <tr><td>D1</td><td>MIC_DATA</td><td>PDM data input from microphone</td></tr>
-  </table>
-</div>
-
-The microphone is captured at **16 kHz mono** with 4 DMA descriptors of 256 frames each. When you press **USR1**, the sketch samples 5 seconds of audio into a RAM buffer, then writes it to onboard Flash as a WAV file (`/REC_RAW.WAV`) using `LittleFS`.
+**Recording** — the onboard **PDM (Pulse Density Modulation) digital microphone** is sampled through the ESP32-S3's I2S peripheral configured in PDM RX mode. On ESP-IDF v5 (Arduino core 3.3.11), this uses the new driver API (`driver/i2s_pdm.h`). The microphone is captured at **16 kHz mono** with 4 DMA descriptors of 256 frames each. When you press **USR1**, the sketch samples 5 seconds of audio into a RAM buffer, then writes it to onboard Flash as a WAV file (`/REC_RAW.WAV`) using `LittleFS`.
 
 **Playback** — pressing **USR2** reads the WAV back from Flash and streams it out through the I2S peripheral in standard (Philips) stereo mode on D11/D12/D13. The mono samples are duplicated to both channels with a `0.75×` gain applied to avoid clipping. The amplifier drives a small speaker so you can hear the recording.
 
@@ -343,6 +411,118 @@ The recording is stored in onboard Flash (`LittleFS`), so it survives a power cy
 <!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_function_flash_record.gif" style={{width:500, height:'auto'}}/></div> -->
 
 Press USR1 and the screen shows a recording progress bar. After 5 seconds it confirms the WAV was saved. Press USR2 and the audio plays through the connected speaker while the screen shows the playback status.
+
+---
+
+## Grove I2C
+
+The 1.14 Inch Display features a dedicated **Grove I2C connector** that exposes D4 (SDA) and D5 (SCL) on a standard 4-pin Grove socket (GND / 3V3 / SDA / SCL). D4/D5 are shared internally with the onboard IMU.
+
+<div class="table-center">
+  <table align="center">
+    <tr><th>Grove Pin</th><th>XIAO Pin</th><th>Notes</th></tr>
+    <tr><td>GND</td><td>GND</td><td>Common ground</td></tr>
+    <tr><td>3V3</td><td>3V3</td><td>3.3V power output</td></tr>
+    <tr><td>SDA</td><td>D4</td><td>I2C data — shared with onboard IMU</td></tr>
+    <tr><td>SCL</td><td>D5</td><td>I2C clock — shared with onboard IMU</td></tr>
+  </table>
+</div>
+
+:::note
+D4/D5 are shared between the Grove connector and the onboard IMU. The IMU is at address `0x6A`. When connecting an external I2C device, make sure it does not conflict with this address.
+:::
+
+### Demo: Mech Keycap Counter
+
+This demo turns the Grove I2C connector into a button counter using the **Grove Mech Keycap** (SKU 111020049). Press the keycap and the on-screen counter increments from 0 to 9, then wraps back to 0 with a color-coded progress bar.
+
+**Code location:** `code/Function/114_ESP32/xiao_esp32s3_114_counter/`
+
+<div class="github_container" style={{textAlign: 'center'}}>
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/114_ESP32/xiao_esp32s3_114_counter" target="_blank" rel="noopener noreferrer">
+    <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
+    <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
+    </a>
+</div><br />
+
+#### Hardware Setup
+
+Plug the Grove Mech Keycap directly into the **Grove I2C connector** on the display board. The keycap uses the following wiring:
+
+<div class="table-center">
+  <table align="center">
+    <tr><th>Grove Wire</th><th>Color</th><th>XIAO Pin</th><th>Keycap Signal</th></tr>
+    <tr><td>SCL</td><td>Yellow</td><td>D5</td><td>SIG (button)</td></tr>
+    <tr><td>SDA</td><td>White</td><td>D4</td><td>NC (LED, not used)</td></tr>
+    <tr><td>VCC</td><td>Red</td><td>3V3</td><td>Power</td></tr>
+    <tr><td>GND</td><td>Black</td><td>GND</td><td>Ground</td></tr>
+  </table>
+</div>
+
+:::note
+Although the connector is labeled "I2C," this demo reads the keycap button through **analog voltage detection** on D5 — not through I2C communication. When pressed, the keycap pulls D5 to VCC, causing a voltage jump the ADC detects.
+:::
+
+#### How It Works
+
+**Button detection via ADC** — the sketch configures D5 with an internal pull-down, the full 11 dB ADC attenuation range (`ADC_11db`), and 12-bit resolution. Unlike the nRF52840 board (where the released keycap sits near 0 V), the 1.14 ESP32-S3 board has a 5.1 kΩ pull-up on the Grove SCL (D5) line while the keycap has its own internal pull-down, so the released state settles at a **mid voltage** rather than 0 V. The sketch therefore calibrates this released baseline at startup (average of 20 `analogRead()` samples), then registers a press whenever the ADC value deviates from the baseline by more than `ADC_MARGIN = 300`, with a 60 ms debounce window. This makes detection direction-agnostic — it works whether the connected switch is active-high or active-low.
+
+**Display layout:**
+
+<div class="table-center">
+  <table align="center">
+    <tr><th>Element</th><th>Description</th></tr>
+    <tr><td><strong>Title</strong></td><td>"COUNTER" with "Press Mech Keycap" subtitle</td></tr>
+    <tr><td><strong>Number</strong></td><td>Large centered digit (0–9), font size 8. Color transitions from green (0) through yellow to red (9) — a heat-map gradient using <code>color565(r, g, 0)</code>.</td></tr>
+    <tr><td><strong>Progress bar</strong></td><td>Horizontal bar near the bottom. Filled portion grows with each press from 0/9 to 9/9, colored to match the digit.</td></tr>
+    <tr><td><strong>Hint</strong></td><td>Bottom label: "press key: 0 - 9"</td></tr>
+  </table>
+</div>
+
+**Counter logic:**
+
+- `g_count` increments on each press (`0 → 1 → ... → 9 → 0`)
+- `drawAll()` only redraws when the count changes (differential rendering)
+- Serial monitor prints ADC, baseline, delta, and count every 500 ms for debugging
+
+#### Running the Demo
+
+**Step 1.** Open `xiao_esp32s3_114_counter.ino` in Arduino IDE.
+
+**Step 2.** Select **Tools > Board > esp32 > XIAO_ESP32S3_Plus** and the correct **Port**.
+
+**Step 3.** Click **Upload**.
+
+**Step 4.** Open **Tools > Serial Monitor** (115200 baud). You should see the calibrated baseline followed by the live debug stream:
+
+```
+=== Counter | D5 analogRead ===
+[BTN] D5 base=<baseline>  margin=300
+ADC=<baseline>  base=<baseline>  delta=0  cnt=0
+ADC=<baseline>  base=<baseline>  delta=1  cnt=0
+...
+```
+
+:::note
+The exact ADC values depend on the board's pull-up/pull-down network. The released baseline settles at a mid voltage (not 0 V), and a press deviates from it by at least 300 counts.
+:::
+
+**Step 5.** Press the Mech Keycap. The counter increments from 0 to 9 and the progress bar fills. Each press is logged to the serial monitor:
+
+```
+...
+>>> PRESS! ADC=<pressed>  count=1
+>>> PRESS! ADC=<pressed>  count=2
+>>> PRESS! ADC=<pressed>  count=3
+...
+```
+
+#### Expected Result
+
+<!-- TODO: Add counter GIF -->
+<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_function_counter.gif" style={{width:500, height:'auto'}}/></div> -->
+
+The screen shows a large colored digit that increments with each keycap press. The progress bar at the bottom fills proportionally. At count 9, the next press wraps back to 0. The digit and bar color shift smoothly from green (low) to red (high).
 
 ---
 
