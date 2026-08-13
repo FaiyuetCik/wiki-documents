@@ -158,6 +158,10 @@ libraries/esp_lcd_touch_axs5106l/
 
 **Step 3.** Restart the Arduino IDE so the new library is detected.
 
+:::note
+**GFX Library for Arduino** above is only required for the factory Dashboard firmware. If you are working with the standalone function demos in the [Function](/function_1.47_inch_touch_display_esp32s3) page, install **Seeed_GFX** (by Bodmer) instead — the two libraries are different and not interchangeable.
+:::
+
 :::tip
 The **SD**, **Wire**, **SPI**, and **WiFi** libraries are included with the esp32 board package and do not need separate installation.
 :::

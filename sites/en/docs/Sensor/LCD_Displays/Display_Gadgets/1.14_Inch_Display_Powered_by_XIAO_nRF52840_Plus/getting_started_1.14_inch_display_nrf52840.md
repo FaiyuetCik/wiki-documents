@@ -136,6 +136,10 @@ Then go to **Tools > Board > Boards Manager**, search for **Seeed nRF52** and in
   </table>
 </div>
 
+:::note
+**GFX Library for Arduino** above is only required for the factory Dashboard firmware. If you are working with the standalone function demos in the [Function](/function_1.14_inch_display_nrf52840) page, install **Seeed_GFX** (from [Seeed-Studio/Seeed_GFX](https://github.com/Seeed-Studio/Seeed_GFX)) instead — the two libraries are different and not interchangeable.
+:::
+
 ### Download the Dashboard Code
 
 The complete example code is available on GitHub:
@@ -147,7 +151,7 @@ The complete example code is available on GitHub:
     </a>
 </div><br />
 
-Navigate to `code/example/114_nRF52840/0522_DashBoard_114_nRF52840/` and open `0522_DashBoard_114_nRF52840.ino` in Arduino IDE.
+Navigate to `code/example/114_nRF52840/0715_DashBoard_114_nRF52840/` and open `0715_DashBoard_114_nRF52840.ino` in Arduino IDE.
 
 ### Upload the Firmware
 

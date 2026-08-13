@@ -133,6 +133,10 @@ Then go to **Tools > Board > Boards Manager**, search for **Seeed nRF52** and in
   </table>
 </div>
 
+:::note
+**GFX Library for Arduino** above is only required for the factory Dashboard firmware. If you are working with the standalone function demos in the [Function](/function_1.47_inch_touch_display_nrf52840) page, install **Seeed_GFX** (by Bodmer) instead — the two libraries are different and not interchangeable.
+:::
+
 :::tip
 The **axs5106l_device** touch driver is included in the example code repository and does not need separate installation.
 :::
@@ -148,7 +152,7 @@ The complete example code is available on GitHub:
     </a>
 </div><br />
 
-Navigate to `code/example/147_nRF52840/0525_DashBoard_147_nRF52840/0522_DashBoard_147_nRF52840/` and open `0522_DashBoard_147_nRF52840.ino` in Arduino IDE.
+Navigate to `code/example/147_nRF52840/0715_DashBoard_147_nRF52840/` and open `0715_DashBoard_147_nRF52840.ino` in Arduino IDE.
 
 ### Upload the Firmware
 
