@@ -14,7 +14,7 @@ sidebar_label: Getting Started
 sidebar_position: 1
 type: gettingstarted
 last_update:
-  date: 08/13/2026
+  date: 08/14/2026
   author: FaiyuetCik
 ---
 
@@ -23,7 +23,7 @@ last_update:
 <div class="table-center">
   <table align="center">
     <tr><th>1.14 Inch Display (XIAO ESP32-S3 Plus)</th></tr>
-    <!-- TODO: Replace with actual product hero image -->
+    <!-- TODO: Replace with actual product hero image (114_ESP32S3Plus_display_hardware_hero.jpg) -->
     <tr><td><div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/seeed_logo/logo_2023.png" style={{width:100, height:'auto'}}/></div></td></tr>
     <tr><td><div class="get_one_now_container" style={{textAlign: 'center'}}>
         <a class="get_one_now_item" href="#" target="_blank">
@@ -170,8 +170,7 @@ Navigate to `code/example/114_ESP32/0703_DashBoard_114_ESP32/` and open `0703_Da
 
 **Step 4.** Click the **Upload** button (→). The firmware will compile and upload to the board.
 
-<!-- TODO: Add upload page screenshot -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_uploadpage.png" style={{width:1000, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_uploadpage.png" style={{width:1000, height:'auto'}}/></div>
 
 :::tip
 If you can't find the board, follow these steps: **Tools > Board > esp32 > XIAO_ESP32S3_Plus**.
@@ -187,8 +186,7 @@ At the top of the screen, **"Hello,XIAO!"** is displayed in large green text, wi
 
 Pressing <strong>USR3 (D19)</strong> toggles the header text between <strong>"Hello,XIAO!"</strong> and <strong>"Seeed Studio"</strong>. Due to the 135 px display width, the second title is abbreviated to <strong>"Seeed"</strong> on screen.
 
-<!-- TODO: Add welcome banner GIF -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_welcome_banner.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_welcome_banner.gif" style={{width:500, height:'auto'}}/></div>
 
 <a id="battery-voltage"></a>
 
@@ -202,8 +200,18 @@ There are three power scenarios:
 - **Battery only (no USB-C)** — the board runs on battery power, displaying live voltage readings.
 - **USB-C + battery** — both connected; the battery charges while the board operates. There is a switch on the board to toggle battery power mode on or off.
 
-<!-- TODO: Add battery states image grid (4 JPGs: USB-only / battery-only / USB+battery, on/off switch) -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_battery_states1.jpg" style={{width:220, height:'auto'}}/></div> -->
+<div class="table-center">
+  <table align="center">
+    <tr>
+      <td><div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_battery_states1.jpg" style={{width:220, height:'auto'}}/></div></td>
+      <td><div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_battery_states2.jpg" style={{width:220, height:'auto'}}/></div></td>
+    </tr>
+    <tr>
+      <td><div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_battery_states3.jpg" style={{width:220, height:'auto'}}/></div></td>
+      <td><div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_battery_states4.jpg" style={{width:220, height:'auto'}}/></div></td>
+    </tr>
+  </table>
+</div>
 
 :::note
 Unlike the nRF52840 Plus version which can detect charging status and calculate battery percentage, the ESP32-S3 Plus version displays live voltage readings rather than percentage or charging state.
@@ -213,29 +221,25 @@ Unlike the nRF52840 Plus version which can detect charging status and calculate 
 
 Also inside the **SYS** card, the **I2C** line shows the result of a periodic I2C bus scan. It displays the number of detected I2C devices followed by the lowest address. By default it shows the onboard 6-axis IMU — **"1 0x6A"** (or **"1 0x6B"** if the QMI8658-compatible variant is populated).
 
-<!-- TODO: Add I2C scan image -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_i2c_scan.jpg" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_i2c_scan.jpg" style={{width:500, height:'auto'}}/></div>
 
 **Motion Sensor**
 
 The **MOTION** card streams 6-axis IMU data over I2C. Accelerometer readings (X/Y/Z) and gyroscope readings (X/Y/Z) are shown as multi-line text. Pick up the board and tilt or shake it — the values change according to the direction of movement. The IMU supports both LSM6DS3 (primary) and QMI8658-compatible sensors with automatic detection.
 
-<!-- TODO: Add motion GIF -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_motion.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_motion.gif" style={{width:500, height:'auto'}}/></div>
 
 **Double-Tap Counter**
 
 The **"Tap"** counter at the top-right of the MOTION card tracks double-tap gestures. Firmly tap the board twice in quick succession (like a mouse double-click) and the counter increments by 1. This uses the LSM6DS3's built-in double-tap detection on the D14 interrupt line.
 
-<!-- TODO: Add double-tap GIF -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_double_tap.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_double_tap.gif" style={{width:500, height:'auto'}}/></div>
 
 **Microphone Level**
 
 The **MIC LEVEL** card displays a VU-style audio meter — a segmented horizontal bar that grows and shrinks with the ambient sound volume. In a quiet room the bar stays empty or nearly so. Speak into the onboard PDM microphone or blow on it, and the bar fills up, turning orange then red at high volume levels. The raw peak value is printed below the bar for debugging.
 
-<!-- TODO: Add microphone level GIF -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_mic.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_mic.gif" style={{width:500, height:'auto'}}/></div>
 
 **Button & Backlight Control**
 
@@ -252,8 +256,7 @@ The **BACKLIGHT** card at the bottom shows the current brightness percentage and
 
 When the screen is off (0% or toggled), pressing USR2 restores it to the previous non-zero level.
 
-<!-- TODO: Add button GIF -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_button.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_button.gif" style={{width:500, height:'auto'}}/></div>
 
 ## FAQ
 

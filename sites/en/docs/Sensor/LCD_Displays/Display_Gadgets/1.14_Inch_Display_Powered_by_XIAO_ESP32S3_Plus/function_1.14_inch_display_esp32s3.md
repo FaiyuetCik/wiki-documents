@@ -14,7 +14,7 @@ sku: 100086099
 sidebar_label: Function
 sidebar_position: 2
 last_update:
-  date: 08/13/2026
+  date: 08/14/2026
   author: FaiyuetCik
 ---
 
@@ -115,8 +115,7 @@ On the screen, you will see each test pattern displayed for about one second bef
 
 ### Expected Result
 
-<!-- TODO: Add graphictest GIF -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_function_graphictest.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_function_graphictest.gif" style={{width:500, height:'auto'}}/></div>
 
 After the sketch runs through all patterns, the screen shows a "Graphic / Finished" message with "Reset to rerun" below it. Reset the board to run the test again.
 
@@ -182,8 +181,7 @@ or
 
 ### Expected Result
 
-<!-- TODO: Add quicksand GIF -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_function_quicksand.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_function_quicksand.gif" style={{width:500, height:'auto'}}/></div>
 
 The golden sand particles flow smoothly as you tilt the board. When held flat, the sand settles at the bottom of the screen. Rotate the board 90 degrees and the sand flows to the new "bottom" within a second.
 
@@ -258,8 +256,7 @@ sleep in 8s
 
 ### Expected Result
 
-<!-- TODO: Add wakeup GIF -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_function_wakeup.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_function_wakeup.gif" style={{width:500, height:'auto'}}/></div>
 
 The screen displays real-time motion data while awake. After 8 seconds of stillness, the screen goes dark and the ESP32-S3 enters deep sleep. Pick up the device and the screen restores within a fraction of a second, with the wake counter incremented.
 
@@ -336,8 +333,7 @@ The screen is divided into three zones:
 
 #### Expected Result
 
-<!-- TODO: Add voice bar GIF -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_function_voice_bar.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_function_voice_bar.gif" style={{width:500, height:'auto'}}/></div>
 
 When silent, the waveform is flat and the volume bar is empty (0%). Speak into the microphone and the equalizer bars animate while the volume bar fills up from green through yellow to red. The percentage label updates in real time.
 
@@ -519,8 +515,7 @@ The exact ADC values depend on the board's pull-up/pull-down network. The releas
 
 #### Expected Result
 
-<!-- TODO: Add counter GIF -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_function_counter.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_function_counter.gif" style={{width:500, height:'auto'}}/></div>
 
 The screen shows a large colored digit that increments with each keycap press. The progress bar at the bottom fills proportionally. At count 9, the next press wraps back to 0. The digit and bar color shift smoothly from green (low) to red (high).
 
