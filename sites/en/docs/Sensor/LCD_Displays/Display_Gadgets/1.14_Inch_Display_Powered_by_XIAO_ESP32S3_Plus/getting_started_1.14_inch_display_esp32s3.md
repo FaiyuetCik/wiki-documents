@@ -219,13 +219,13 @@ Unlike the nRF52840 Plus version which can detect charging status and calculate 
 
 **I2C Scan**
 
-Also inside the **SYS** card, the **I2C** line shows the result of a periodic I2C bus scan. It displays the number of detected I2C devices followed by the lowest address. By default it shows the onboard 6-axis IMU — **"1 0x6A"** (or **"1 0x6B"** if the QMI8658-compatible variant is populated).
+Also inside the **SYS** card, the **I2C** line shows the result of a periodic I2C bus scan. It displays the number of detected I2C devices followed by the lowest address. By default it shows the onboard 6-axis IMU — **"1 0x6A"**.
 
 <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_i2c_scan.jpg" style={{width:500, height:'auto'}}/></div>
 
 **Motion Sensor**
 
-The **MOTION** card streams 6-axis IMU data over I2C. Accelerometer readings (X/Y/Z) and gyroscope readings (X/Y/Z) are shown as multi-line text. Pick up the board and tilt or shake it — the values change according to the direction of movement. The IMU supports both LSM6DS3 (primary) and QMI8658-compatible sensors with automatic detection.
+The **MOTION** card streams 6-axis IMU data over I2C. Accelerometer readings (X/Y/Z) and gyroscope readings (X/Y/Z) are shown as multi-line text. Pick up the board and tilt or shake it — the values change according to the direction of movement.
 
 <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_motion.gif" style={{width:500, height:'auto'}}/></div>
 
