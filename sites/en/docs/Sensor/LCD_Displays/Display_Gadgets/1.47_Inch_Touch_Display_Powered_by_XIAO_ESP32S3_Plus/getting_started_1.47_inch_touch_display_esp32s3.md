@@ -34,7 +34,7 @@ last_update:
 
 ## Introduction
 
-The 1.47 Inch Touch Display is an expansion board designed for the XIAO series, powered by the XIAO ESP32-S3 Plus. It features a 172×320 color LCD with capacitive touch, onboard PDM microphone, 6-axis IMU (LSM6DS3 with QMI8658 fallback), MicroSD card slot, and battery voltage measurement — all integrated into a compact form factor.
+The 1.47 Inch Touch Display is an expansion board designed for the XIAO series, powered by the XIAO ESP32-S3 Plus. It features a 172×320 color LCD with capacitive touch, onboard PDM microphone, 6-axis IMU (LSM6DS3), MicroSD card slot, and battery voltage measurement — all integrated into a compact form factor.
 
 This combination makes it an ideal platform for portable HMI applications, IoT dashboards, wearable devices, and interactive prototyping. With the ESP32-S3's dual-core processor, Wi-Fi, and Bluetooth capabilities, it extends the dashboard into a wireless-connected hub.
 
@@ -45,7 +45,7 @@ This combination makes it an ideal platform for portable HMI applications, IoT d
     <tr><td>Touch</td><td>AXS5106L, capacitive touch, I2C (D4/D5), interrupt D7</td></tr>
     <tr><td>SD Card</td><td>MicroSD, SPI (D6 CS), shared D8/D9/D10 with LCD</td></tr>
     <tr><td>Microphone</td><td>PDM digital microphone (D0 CLK / D1 DATA)</td></tr>
-    <tr><td>IMU</td><td>LSM6DS3 (QMI8658-compatible fallback), 3-axis accelerometer + 3-axis gyroscope, I2C (D4/D5), interrupt D14, double-tap detection</td></tr>
+    <tr><td>IMU</td><td>LSM6DS3, 3-axis accelerometer + 3-axis gyroscope, I2C (D4/D5), interrupt D14, double-tap detection</td></tr>
     <tr><td>Buttons</td><td>BTN_A = D19 / BTN_B = D15 (2 buttons, active-low)</td></tr>
     <tr><td>Battery</td><td>LiPo battery connector, D16 ADC voltage measurement (raw ADC voltage + calculated battery voltage)</td></tr>
     <tr><td>Expansion</td><td>I2C breakout (GND, 3V3, SDA, SCL); Button breakout (U1, U2); I2S breakout (3V3, GND, D11, D12, D13); SWD (MTDI, MTDO, EN, GND, MTMS, MTCK, D+, D-)</td></tr>
@@ -250,7 +250,7 @@ Unlike the nRF52840 Plus version which can detect charging status and calculate 
 
 **Motion Sensor**
 
-The **MOTION** card streams 6-axis IMU data over I2C. Accelerometer readings (X/Y/Z) and gyroscope readings (X/Y/Z) are shown as multi-line text. Pick up the board and tilt or shake it — the values change according to the direction of movement. The IMU supports both LSM6DS3 (primary) and QMI8658-compatible sensors with automatic detection.
+The **MOTION** card streams 6-axis IMU data over I2C. Accelerometer readings (X/Y/Z) and gyroscope readings (X/Y/Z) are shown as multi-line text. Pick up the board and tilt or shake it — the values change according to the direction of movement.
 
 <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_touch_display_dashboard_motion.gif" style={{width:500, height:'auto'}}/></div>
 

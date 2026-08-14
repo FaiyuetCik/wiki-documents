@@ -46,7 +46,7 @@ This combination makes it an ideal platform for wearable devices, compact sensor
     <tr><td>Microphone</td><td>PDM digital microphone (D0 CLK / D1 DATA)</td></tr>
     <tr><td>IMU</td><td>LSM6DS3 (6-axis: 3-axis accelerometer + 3-axis gyroscope), I2C (D4/D5), interrupt D14, double-tap detection</td></tr>
     <tr><td>Buttons</td><td>USR1 = D6 / USR2 = D7 / USR3 = D19 (3 buttons, active-low)</td></tr>
-    <tr><td>Grove I2C</td><td>Independent D4/D5 breakout (standard Grove I2C connector)</td></tr>
+    <tr><td>Grove I2C</td><td>D4/D5 breakout (shared with onboard IMU; standard Grove I2C connector)</td></tr>
     <tr><td>Battery</td><td>LiPo battery connector, D16 ADC voltage measurement (raw ADC voltage + calculated battery voltage)</td></tr>
     <tr><td>Expansion</td><td>I2C breakout pads (GND, 3V3, SDA, SCL); Button breakout pads (U1, U2, U3); I2S breakout pads (3V3, GND, D11, D12, D13); SWD interface (MTDI, MTDO, EN, GND, MTMS, MTCK, D+, D-)</td></tr>
     <tr><td>Compatibility</td><td>XIAO ESP32-S3 Plus</td></tr>

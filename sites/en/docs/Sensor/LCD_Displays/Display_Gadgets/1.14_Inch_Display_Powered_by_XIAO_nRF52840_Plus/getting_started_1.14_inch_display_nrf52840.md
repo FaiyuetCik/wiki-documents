@@ -46,7 +46,7 @@ This combination makes it an ideal platform for wearable devices, compact sensor
     <tr><td>Microphone</td><td>PDM digital microphone (D0 CLK / D1 DATA)</td></tr>
     <tr><td>IMU</td><td>LSM6DS3-compatible (QMI8658 fallback), 3-axis accelerometer + 3-axis gyroscope, I2C (D4/D5), interrupt D14</td></tr>
     <tr><td>Buttons</td><td>USR1 = D6 / USR2 = D7 / USR3 = D19 (3 buttons, active-low)</td></tr>
-    <tr><td>Grove I2C</td><td>Independent D4/D5 breakout (standard Grove I2C connector)</td></tr>
+    <tr><td>Grove I2C</td><td>D4/D5 breakout (shared with onboard IMU; standard Grove I2C connector)</td></tr>
     <tr><td>Battery</td><td>LiPo battery connector, voltage measurement with percentage display and charging status detection</td></tr>
     <tr><td>Expansion</td><td>I2C breakout (GND, 3V3, SDA, SCL); Button breakout (U1, U2, U3); I2S breakout (3V3, GND, D11, D12, D13); Test pad (D15 / TP11); SWD (DIO, CLK, RST, GND)</td></tr>
     <tr><td>Compatibility</td><td>XIAO nRF52840 Plus</td></tr>
@@ -236,6 +236,7 @@ The **BACKLIGHT** card at the bottom shows the current brightness percentage and
     <tr><th>Button</th><th>Pin</th><th>Action</th></tr>
     <tr><td><strong>USR1</strong></td><td>D6</td><td>Short press: cycle brightness through <strong>100% → 75% → 50% → 25% → 100%</strong></td></tr>
     <tr><td><strong>USR2</strong></td><td>D7</td><td>Short press: <strong>toggle screen off / restore to last brightness</strong></td></tr>
+    <tr><td><strong>USR3</strong></td><td>D19</td><td>Short press: <strong>toggle header title between "Hello,XIAO!" and "Seeed"</strong></td></tr>
   </table>
 </div>
 

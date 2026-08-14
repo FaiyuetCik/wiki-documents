@@ -331,7 +331,7 @@ When silent, the waveform is flat and the volume bar is empty (0%). Speak into t
 
 ## Grove I2C
 
-The 1.14 Inch Display features a dedicated **Grove I2C connector** that exposes D4 (SDA) and D5 (SCL) on a standard 4-pin Grove socket (GND / 3V3 / SDA / SCL). Unlike the 1.47" version where D4/D5 are shared internally with the touch controller and IMU, the 1.14" display routes these pins to a **dedicated physical Grove connector**.
+The 1.14 Inch Display features a dedicated **Grove I2C connector** that exposes D4 (SDA) and D5 (SCL) on a standard 4-pin Grove socket (GND / 3V3 / SDA / SCL). Unlike the 1.47" version where D4/D5 are additionally shared with the touch controller, the 1.14" display shares D4/D5 only with the onboard IMU (it has no touch controller).
 
 <div class="table-center">
   <table align="center">
@@ -538,7 +538,7 @@ In the preloaded factory firmware, the buttons are mapped as follows (you can ov
 <div class="table-center">
   <table align="center">
     <tr><th>Button</th><th>Pin</th><th>Action</th></tr>
-    <tr><td><strong>USR1</strong></td><td>D6</td><td>Cycle screen brightness (100% → 75% → 50% → 25% → 0% → 100%)</td></tr>
+    <tr><td><strong>USR1</strong></td><td>D6</td><td>Cycle screen brightness (100% → 75% → 50% → 25% → 100%)</td></tr>
     <tr><td><strong>USR2</strong></td><td>D7</td><td>Toggle screen off / restore to last brightness</td></tr>
     <tr><td><strong>USR3</strong></td><td>D19</td><td>Toggle header title between "Hello,XIAO!" and "Seeed"</td></tr>
   </table>
@@ -559,9 +559,9 @@ Unlike the ESP32-S3 version which uses a single ADC pin for voltage measurement 
 <div class="table-center">
   <table align="center">
     <tr><th>Signal</th><th>nRF52840 Pin</th><th>Function</th></tr>
-    <tr><td><code>VBAT_READ_ENABLE</code></td><td><strong>P0.14</strong></td><td>Voltage divider enable control. HIGH = enable, LOW = disable (to save power).</td></tr>
-    <tr><td><code>PIN_VBAT</code></td><td><strong>P0.31</strong></td><td>Analog input reading the divided battery voltage (1/3 of actual via internal 2 MΩ / 1 MΩ divider).</td></tr>
-    <tr><td><code>~CHG</code></td><td><strong>P0.17</strong></td><td>Charging status input. LOW = charging, HIGH = not charging. Reads from the onboard charger IC.</td></tr>
+    <tr><td><code>READ_BAT</code></td><td><strong>P0.14</strong></td><td>Battery voltage divider enable. Active-low — set LOW to enable the divider, then release to HIGH (high-impedance) to save power.</td></tr>
+    <tr><td><code>VBAT_ADC</code></td><td><strong>PIN_VBAT</strong> (AIN7 / P0.31)</td><td>Analog input reading the divided battery voltage.</td></tr>
+    <tr><td><code>CHG</code></td><td><strong>P0.17</strong></td><td>Charging status indicator. Active-low — reads LOW when a charger is connected and the battery is charging.</td></tr>
   </table>
 </div>
 
@@ -573,40 +573,44 @@ This three-pin design gives the nRF52840 Plus several advantages over the ESP32-
 ### Reading Battery Voltage
 
 ```cpp
-const int BAT_ENABLE_PIN = P0_14;   // Voltage divider enable
-const int BAT_ADC_PIN    = PIN_VBAT; // Analog input (P0.31)
-const int CHG_STATUS_PIN = P0_17;    // Charging status
+const int READ_BAT_PIN = 14;   // P0.14, active-low divider enable
+const int CHG_PIN      = 17;   // P0.17, active-low charging status
+const float DIVIDER_RATIO = (1000.0f + 510.0f) / 510.0f; // ≈ 2.96
+const float ADC_FULL_SCALE = 3.6f;  // nRF52840 ADC reference
+const int ADC_MAX = 4095;           // 12-bit ADC
 
 void setup() {
-  pinMode(BAT_ENABLE_PIN, OUTPUT);
-  digitalWrite(BAT_ENABLE_PIN, LOW); // Disable by default
-  pinMode(CHG_STATUS_PIN, INPUT);
+  analogReadResolution(12);
+  pinMode(CHG_PIN, INPUT_PULLUP);   // CHG is active-low open-drain
   Serial.begin(115200);
 }
 
 void readBattery() {
-  // Enable the voltage divider
-  digitalWrite(BAT_ENABLE_PIN, HIGH);
-  delay(1); // Stabilize
+  // Enable divider (active-low): drive P0.14 LOW
+  pinMode(READ_BAT_PIN, OUTPUT);
+  digitalWrite(READ_BAT_PIN, LOW);
+  delay(30); // let the divider settle
 
-  // Read the divided voltage (1/3 of battery via internal divider)
-  int raw = analogRead(BAT_ADC_PIN);
-  float voltage = (raw * 3.3) / 1023.0;   // nRF52840: 10-bit ADC, 3.3V ref
-  float batVoltage = voltage * 3.0;        // Internal 2M/1M divider → multiply by 3
+  // Read ADC (discard first samples for accuracy)
+  for (int i = 0; i < 6; i++) { analogRead(PIN_VBAT); delay(2); }
+  uint32_t sum = 0;
+  for (int i = 0; i < 16; i++) { sum += analogRead(PIN_VBAT); delay(2); }
 
-  // Read charging status
-  bool charging = (digitalRead(CHG_STATUS_PIN) == LOW);
+  // Disable divider: release P0.14 to high-impedance (INPUT)
+  pinMode(READ_BAT_PIN, INPUT);
 
-  // Disable divider to save power
-  digitalWrite(BAT_ENABLE_PIN, LOW);
+  uint16_t raw = sum / 16;
+  float vadc = (raw * ADC_FULL_SCALE) / ADC_MAX;
+  float vbat = vadc * DIVIDER_RATIO;
+  bool charging = (digitalRead(CHG_PIN) == LOW); // LOW = charging
 
-  Serial.print("Battery: "); Serial.print(batVoltage);
+  Serial.print("VBAT: "); Serial.print(vbat);
   Serial.print("V, Charging: "); Serial.println(charging ? "Yes" : "No");
 }
 ```
 
 :::note
-The nRF52840 Plus uses an **internal** 2 MΩ / 1 MΩ voltage divider (1/3 ratio) connected to `PIN_VBAT` (P0.31). This is built into the XIAO nRF52840 Plus module itself, not the display board. The external P0.14 enable pin controls whether the divider is active to minimize quiescent current drain when the battery is not being measured.
+The nRF52840 Plus uses an **internal** 1 MΩ / 510 kΩ voltage divider (ratio ≈ 2.96) connected to `PIN_VBAT` (P0.31). This is built into the XIAO nRF52840 Plus module itself, not the display board. The P0.14 enable pin is **active-low**: drive it LOW to enable the divider, then release it to high-impedance (INPUT) to minimize quiescent current drain when the battery is not being measured.
 :::
 
 ### Battery Percentage Calculation
