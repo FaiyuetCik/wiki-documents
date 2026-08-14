@@ -336,9 +336,13 @@ The bar responds in real time. In a quiet room the bar stays empty. Speaking at 
 
 ## IMU
 
-The 1.47 Inch Touch Display features an onboard 6-axis IMU (LSM6DS3 primary, with QMI8658-compatible fallback) connected via I2C on D4/D5. The motion interrupt line on **D14** supports hardware wake-up and gesture detection.
+The 1.47 Inch Touch Display features an onboard 6-axis IMU (LSM6DS3) connected via I2C on D4/D5. The motion interrupt line on **D14** supports hardware wake-up and gesture detection.
 
-Both demos below use automatic IMU detection — the sketch probes for QMI8658 first, then falls back to LSM6DS3, so they work regardless of which sensor variant is populated on your board.
+:::note
+The onboard IMU is the **LSM6DS3** (confirmed from the board schematic, I2C address `0x6A`). The demo sketches additionally probe for a QMI8658-compatible sensor as a defensive fallback, but the shipped 1.47 Inch Display uses the LSM6DS3.
+:::
+
+Both demos below use automatic IMU detection — the sketches probe for both the LSM6DS3 (0x6A) and a QMI8658-compatible sensor, so they work regardless of which sensor variant is populated on your board.
 
 <a id="imu-quicksand"></a>
 
@@ -414,7 +418,7 @@ This demo implements a **screen sleep/wake system** driven by the IMU's built-in
 
 The demo uses the IMU's **embedded wake-up event detector** — a hardware feature that monitors accelerometer data internally and asserts the INT1 pin (routed to D14 on this board) when motion exceeds a configurable threshold. This means the MCU does not need to poll the accelerometer continuously.
 
-The IMU is detected automatically (QMI8658 first, then LSM6DS3). Wake-up interrupt configuration differs slightly between the two, but the sketch handles both transparently.
+The IMU is detected automatically (LSM6DS3 first, then QMI8658). Wake-up interrupt configuration differs slightly between the two, but the sketch handles both transparently.
 
 **IMU configuration (LSM6DS3):**
 
@@ -440,8 +444,8 @@ The IMU is detected automatically (QMI8658 first, then LSM6DS3). Wake-up interru
 <div class="table-center">
   <table align="center">
     <tr><th>Button</th><th>Pin</th><th>Action</th></tr>
-    <tr><td>USR1</td><td>D15</td><td>Force sleep</td></tr>
-    <tr><td>USR2</td><td>D19</td><td>Force wake</td></tr>
+    <tr><td>USR1</td><td>D19</td><td>Force wake</td></tr>
+    <tr><td>USR2</td><td>D15</td><td>Force sleep</td></tr>
   </table>
 </div>
 
@@ -574,7 +578,7 @@ The 1.47 Inch Touch Display includes an onboard battery voltage measurement circ
   </table>
 </div>
 
-**Voltage divider ratio:** R1 = 316 kΩ, R2 = 160 kΩ → **Divider ratio = (316 + 160) / 160 ≈ 2.975**
+**Voltage divider ratio:** R14 = 316 kΩ, R15 = 160 kΩ → **Divider ratio = (316 + 160) / 160 ≈ 2.975**
 
 :::note
 Unlike the nRF52840 Plus version which can detect charging status and calculate battery percentage, the ESP32-S3 Plus version displays live voltage readings rather than percentage or charging state.

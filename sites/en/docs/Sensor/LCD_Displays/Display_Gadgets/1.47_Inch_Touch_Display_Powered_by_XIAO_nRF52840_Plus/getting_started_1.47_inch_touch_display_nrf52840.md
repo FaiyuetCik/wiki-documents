@@ -90,7 +90,7 @@ The 1.47 Inch Touch Display breaks out all XIAO nRF52840 Plus pins. The table be
     <tr><td>D13</td><td>I2S_WS</td><td>Audio word select</td><td>Corresponds to I2S_WS default mapping, exposed to bottom pad group</td></tr>
     <tr><td>D14</td><td>IMU_INT</td><td>IMU motion interrupt</td><td>Function reassignment: used for motion wake-up</td></tr>
     <tr><td>D15</td><td>BTN_B</td><td>Physical button 2 (USR2)</td><td>Function reassignment: user button 2. Externally exposed as button expansion pad</td></tr>
-    <tr><td>D16</td><td>BAT_ADC</td><td>Battery voltage detection</td><td>Internally connected to voltage divider circuit. <strong>Do not use externally</strong></td></tr>
+    <tr><td>D16</td><td>NC</td><td>Floating (reserved)</td><td>No physical connection</td></tr>
     <tr><td>D17</td><td>LCD_RST</td><td>Screen reset signal</td><td>Independent GPIO control for reliable startup</td></tr>
     <tr><td>D18</td><td>LCD_BL</td><td>Screen backlight control</td><td>Supports hardware PWM brightness adjustment</td></tr>
     <tr><td>D19</td><td>BTN_A</td><td>Physical button 1 (USR1)</td><td>User button 1. Externally exposed as button expansion pad</td></tr>

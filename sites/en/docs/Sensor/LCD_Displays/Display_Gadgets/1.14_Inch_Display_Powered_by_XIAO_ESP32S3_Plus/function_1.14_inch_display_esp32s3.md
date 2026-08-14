@@ -643,7 +643,7 @@ The 1.14 Inch Display includes an onboard battery voltage measurement circuit. T
   </table>
 </div>
 
-**Voltage divider ratio:** R1 = 316 kΩ, R2 = 160 kΩ → **Divider ratio = (316 + 160) / 160 ≈ 2.975**
+**Voltage divider ratio:** R13 = 316 kΩ, R14 = 160 kΩ → **Divider ratio = (316 + 160) / 160 ≈ 2.975**
 
 :::note
 Unlike the nRF52840 Plus version which can detect charging status and calculate battery percentage, the ESP32-S3 Plus version displays live voltage readings rather than percentage or charging state.
