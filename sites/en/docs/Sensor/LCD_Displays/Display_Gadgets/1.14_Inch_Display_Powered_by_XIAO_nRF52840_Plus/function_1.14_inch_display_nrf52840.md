@@ -103,6 +103,8 @@ The ST7789 IPS panel on this board requires `invertDisplay(true)` for correct co
 **Step 4.** Open **Tools > Serial Monitor** (115200 baud). You should see timing output for each test:
 
 ```
+LCD width: 135
+LCD height: 240
 Color bars: 333.98 ms
 Lines: 1031.25 ms
 Fast lines: 471.68 ms

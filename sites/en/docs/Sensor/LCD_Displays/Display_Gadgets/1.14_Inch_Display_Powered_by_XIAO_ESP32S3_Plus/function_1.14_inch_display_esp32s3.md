@@ -98,16 +98,16 @@ The ST7789 IPS panel on this board requires `invertDisplay(true)` for correct co
 === XIAO ESP32-S3 Plus 1.14 graphic test ===
 LCD width: 135
 LCD height: 240
-Color bars: ... ms
-Lines: ... ms
-Fast lines: ... ms
-Rectangles: ... ms
-Filled rectangles: ... ms
-Circles: ... ms
-Triangles: ... ms
-Round rectangles: ... ms
-Text: ... ms
-Pixel gradient: ... ms
+Color bars: 13.65 ms
+Lines: 76.51 ms
+Fast lines: 20.23 ms
+Rectangles: 15.64 ms
+Filled rectangles: 47.89 ms
+Circles: 21.78 ms
+Triangles: 26.75 ms
+Round rectangles: 17.78 ms
+Text: 24.46 ms
+Pixel gradient: 479.11 ms
 Graphic test finished.
 ```
 
@@ -171,12 +171,7 @@ Particles near the surface flow freely (higher mobility); particles buried deepe
 
 ```
 === Electronic Quicksand 1.14 ===
-[IMU] QMI8658-compatible at 0x6B, WHO=0x05
-```
-or
-```
-=== Electronic Quicksand 1.14 ===
-[IMU] LSM6-compatible at 0x6A, WHO=0x69
+[IMU] LSM6-compatible at 0x6A, WHO=0x6A
 ```
 
 ### Expected Result
@@ -243,15 +238,11 @@ The demo uses the LSM6-compatible IMU's **embedded wake-up event detector** — 
 
 **Step 3.** Pick up the board or shake it gently — the screen wakes immediately.
 
-**Step 4.** Open **Tools > Serial Monitor** (115200 baud) to observe the sleep/wake transitions:
+**Step 4.** Open **Tools > Serial Monitor** (115200 baud) to confirm initialization:
 
 ```
 === XIAO ESP32-S3 Plus 1.14 IMU Wake Demo ===
-[IMU] LSM6-compatible at 0x6A, WHO=0x69
-[WAKE] POWER_ON count=1
-sleep in 8s
-[WAKE] IMU_D14 count=2
-sleep in 8s
+[IMU] LSM6-compatible at 0x6A, WHO=0x6A
 ```
 
 ### Expected Result
@@ -326,7 +317,9 @@ The screen is divided into three zones:
 **Step 4.** Open **Tools > Serial Monitor** (115200 baud). You should see:
 
 ```
+=== Voice Bar | XIAO ESP32-S3 Plus 1.14 ===
 [MIC] PDM RX ready (ESP-IDF v5)
+[MIC] ready
 ```
 
 **Step 5.** Speak, clap, or blow into the microphone. The waveform and volume bar respond in real time. The percentage label changes color as the volume increases.
