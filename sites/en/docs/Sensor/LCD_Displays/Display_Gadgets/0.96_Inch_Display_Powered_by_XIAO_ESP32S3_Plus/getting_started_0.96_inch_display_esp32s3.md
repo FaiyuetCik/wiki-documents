@@ -170,8 +170,7 @@ Navigate to `code/example/096_ESP32/0708_DashBoard_096_ESP32/` and open `0708_Da
 
 **Step 4.** Click **Upload**. The sketch will compile and upload to the board.
 
-<!-- TODO: Add Arduino IDE upload screenshot -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_dashboard_uploadpage.png" style={{width:1000, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_dashboard_uploadpage.png" style={{width:1000, height:'auto'}}/></div>
 
 **Step 5.** Open **Tools > Serial Monitor** and set the baud rate to **115200** to view the Dashboard diagnostics.
 
@@ -183,8 +182,7 @@ After upload, the Dashboard uses a compact layout optimized for the 80×16 displ
 
 The top of the screen shows **"Hello"** and the subtitle **"0.96 Display"**. Press **USR2 (D7)** to toggle the large header between **"Hello"** and **"XIAO"**.
 
-<!-- TODO: Add Dashboard header animation -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_dashboard_welcome_header.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_dashboard_welcome_header.gif" style={{width:500, height:'auto'}}/></div>
 
 <a id="battery-voltage"></a>
 
@@ -197,29 +195,42 @@ The **SYSTEM** section displays two live readings:
 
 The divider is `VBAT → 316 kΩ → D16 ADC node → 160 kΩ → GND`. D16 can float when no battery is connected, so treat the values as voltage-sense diagnostics rather than a charging-status indication.
 
-<!-- TODO: Add battery voltage states image -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_battery_voltage.jpg" style={{width:500, height:'auto'}}/></div> -->
+There are three power scenarios:
+
+- **USB-C powered, no battery** — the board is powered via USB-C, no battery connected.
+- **Battery only (no USB-C)** — the board runs on battery power, displaying live voltage readings.
+- **USB-C + battery** — both connected.
+
+<div class="table-center">
+  <table align="center">
+    <tr>
+      <td><div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_battery_states1.jpg" style={{width:220, height:'auto'}}/></div></td>
+      <td><div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_battery_states2.jpg" style={{width:220, height:'auto'}}/></div></td>
+    </tr>
+    <tr>
+      <td><div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_battery_states3.jpg" style={{width:220, height:'auto'}}/></div></td>
+      <td><div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_battery_states4.jpg" style={{width:220, height:'auto'}}/></div></td>
+    </tr>
+  </table>
+</div>
 
 **Motion Sensor**
 
 The **MOTION** section displays accelerometer and gyroscope readings from the onboard LSM6DS3. Move, tilt, or rotate the board and observe the values change.
 
-<!-- TODO: Add motion sensor animation -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_dashboard_motion.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_dashboard_motion.gif" style={{width:500, height:'auto'}}/></div>
 
 **Double-Tap Counter**
 
 The **TAP** counter increments when the LSM6DS3 detects a double-tap gesture. The gesture interrupt is connected to **D14**.
 
-<!-- TODO: Add double-tap animation -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_dashboard_double_tap.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_dashboard_double_tap.gif" style={{width:500, height:'auto'}}/></div>
 
 **Microphone Level**
 
 The **MIC** section contains a segmented audio-level meter and a raw peak value. Speak near the onboard PDM microphone to see the meter respond.
 
-<!-- TODO: Add microphone level animation -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_dashboard_mic.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_dashboard_mic.gif" style={{width:500, height:'auto'}}/></div>
 
 **User Buttons**
 
@@ -231,8 +242,7 @@ The **MIC** section contains a segmented audio-level meter and a raw peak value.
   </table>
 </div>
 
-<!-- TODO: Add button demonstration animation -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_dashboard_buttons.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_dashboard_buttons.gif" style={{width:500, height:'auto'}}/></div>
 
 ## FAQ
 
