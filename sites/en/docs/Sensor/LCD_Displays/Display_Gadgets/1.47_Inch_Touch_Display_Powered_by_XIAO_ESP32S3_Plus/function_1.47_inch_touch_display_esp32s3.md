@@ -30,7 +30,7 @@ All demos in this page require **esp32 Boards by Espressif (3.3.11)** as describ
 <div class="table-center">
   <table align="center">
     <tr><th>Library</th><th>Search Keyword</th><th>Author</th><th>Required by</th></tr>
-    <tr><td><strong>SdFat</strong></td><td><code>SdFat</code></td><td>Bill Greiman</td><td>SD Photo Frame only</td></tr>
+    <tr><td><strong>GFX Library for Arduino</strong></td><td><code>GFX Library for Arduino</code></td><td>Moon On Our Nation</td><td>SD BMP Reader only</td></tr>
   </table>
 </div>
 
@@ -102,18 +102,19 @@ The panel requires a specific MADCTL value (`0x48`) for correct color orientatio
 **Step 4.** Open **Tools > Serial Monitor** (115200 baud). You should see timing output for each test:
 
 ```
+=== XIAO ESP32-S3 Plus 1.47 graphic test ===
 LCD width: 172
 LCD height: 320
-Color bars: 580.08 ms
-Lines: 1803.71 ms
-Fast lines: 821.29 ms
-Rectangles: 649.41 ms
-Filled rectangles: 2290.04 ms
-Circles: 799.81 ms
-Triangles: 895.51 ms
-Round rectangles: 667.97 ms
-Text: 716.80 ms
-Pixel gradient: 2866.21 ms
+Color bars: 23.10 ms
+Lines: 130.15 ms
+Fast lines: 33.93 ms
+Rectangles: 26.22 ms
+Filled rectangles: 91.16 ms
+Circles: 38.55 ms
+Triangles: 40.14 ms
+Round rectangles: 28.10 ms
+Text: 36.52 ms
+Pixel gradient: 813.90 ms
 Graphic test finished.
 ```
 
@@ -121,8 +122,7 @@ On the screen, you will see each test pattern displayed for about one second bef
 
 ### Expected Result
 
-<!-- TODO: Add graphictest GIF -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_function_graphictest.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_function_graphictest.gif" style={{width:500, height:'auto'}}/></div>
 
 After the sketch runs through all patterns, the screen shows a "Graphic Test / Finished" message. Reset the board to run the test again.
 
@@ -201,14 +201,14 @@ Each tap leaves a white circle at your fingertip. The screen title bar shows the
 
 ---
 
-## SD Card — Photo Frame
+## SD Card — BMP Reader
 
-This demo reads 24-bit uncompressed `.bmp` image files from a MicroSD card and displays them on the screen in a looping slideshow. Images larger than 172×320 are center-cropped to fit. It runs at SPI 8 MHz for smooth frame transitions.
+This demo reads a 24-bit uncompressed `.bmp` image from a MicroSD card and displays it on the screen. It includes a built-in SD probe test (write/read) and prints full diagnostics to the serial monitor, making it useful for verifying both SD card access and BMP decoding. Images larger than 172×320 are center-cropped; smaller images are centered on the screen.
 
-**Code location:** `code/Function/147_ESP32/xiao_esp32s3_147_sd_photo_frame/`
+**Code location:** `code/Function/147_ESP32/xiao_esp32s3plus_147_sd_bmp_reader_diag_v0_8/`
 
 <div class="github_container" style={{textAlign: 'center'}}>
-    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/147_ESP32/xiao_esp32s3_147_sd_photo_frame" target="_blank" rel="noopener noreferrer">
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/147_ESP32/xiao_esp32s3plus_147_sd_bmp_reader_diag_v0_8" target="_blank" rel="noopener noreferrer">
     <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
     <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
     </a>
@@ -218,50 +218,66 @@ This demo reads 24-bit uncompressed `.bmp` image files from a MicroSD card and d
 
 The LCD and SD card share the same hardware SPI bus (SCK = D8, MOSI = D10). To avoid bus contention, the demo uses software-controlled chip-select switching: before any LCD operation, the SD card CS pin (D6) is de-asserted and LCD CS (D2) is asserted, and vice versa.
 
-The sketch scans the SD card root directory for `.bmp` files, then displays them in a loop with a 2-second interval between images.
+The sketch mounts the SD card at several SPI frequencies (4 MHz → 1 MHz → 400 kHz), then runs a quick write/read probe (`/SDPROBE.TXT`) to confirm the filesystem is accessible before decoding any image. It then looks for a BMP file in the SD root (preferred names: `/test.bmp`, `/TEST.BMP`, `/image.bmp`, `/IMAGE.BMP`, etc.), decodes it row by row into an RGB565 frame buffer, and draws the result with a "BMP OK" header (showing the decode time) and the file path along the bottom edge of the screen.
+
+:::note
+This demo uses **GFX Library for Arduino** (`Arduino_GFX_Library.h`) rather than Seeed_GFX — the same graphics library used by the Dashboard. All other demos on this page use Seeed_GFX.
+:::
 
 **Supported BMP formats:**
 
 <div class="table-center">
   <table align="center">
     <tr><th>Format</th><th>Bit Depth</th><th>Notes</th></tr>
-    <tr><td>Uncompressed BMP</td><td>24-bit</td><td>BGR888 converted to RGB565 for display</td></tr>
+    <tr><td>Uncompressed BMP (BI_RGB)</td><td>24-bit (16/32-bit also accepted)</td><td>BGR888 converted to RGB565 for display</td></tr>
   </table>
 </div>
 
-Images larger than 172×320 are center-cropped. For best results, use images sized exactly 172×320 pixels.
+Images larger than 172×320 are center-cropped; smaller images are centered. For best results, use a 24-bit uncompressed BMP sized exactly 172×320 pixels named `/test.bmp`.
 
 ### Running the Demo
 
 **Step 1.** Format a MicroSD card as **FAT32**.
 
-**Step 2.** Copy one or more `.bmp` images to the root of the SD card.
+**Step 2.** Copy a 24-bit uncompressed BMP image named `test.bmp` (ideally 172×320 pixels) to the root of the SD card.
 
 **Step 3.** Insert the SD card into the MicroSD slot on the display board.
 
-**Step 4.** Open `xiao_esp32s3_147_sd_photo_frame.ino` in Arduino IDE, select the board and port, and click **Upload**.
+**Step 4.** Open `xiao_esp32s3plus_147_sd_bmp_reader_diag_v0_8.ino` in Arduino IDE, select the board and port, and click **Upload**.
 
 **Step 5.** Open **Tools > Serial Monitor** (115200 baud). You should see:
 
 ```
-[SD] mounted @ 8000000
-[SD] Found: /Atest.bmp
-[SD] Found: /Another test.bmp
-[SD] Found: /test.bmp
+=== XIAO ESP32-S3 Plus 1.47 SD BMP Reader Diagnostic v0.8 ===
+[PIN] LCD CS=D2 DC=D3 SCK=D8 MOSI=D10 RST=D17 BL=D18
+[PIN] SD  CS=D6 SCK=D8 MISO=D9 MOSI=D10
+[IMG] Put /test.bmp in SD root
+[SD] Trying 4000000 Hz...
+[SD] OK card=15193 MB freq=4000000 Hz
+[PROBE] write /SDPROBE.TXT
+[PROBE] write OK
+[PROBE] read /SDPROBE.TXT
+[PROBE] read OK: XIAO ESP32-S3 SD probe OK
+
+[IMG] open start /test.bmp
+[IMG] open done  /test.bmp
+[IMG] file size=117814
+[BMP] header OK path=/test.bmp size=122x320 bpp=24 row=368 offset=54
+[IMG] BMP loaded /test.bmp
+[DONE] BMP loaded path=/test.bmp readMs=7881 totalMs=8016
 ```
 
 :::note
-The filenames listed reflect the `.bmp` files you placed on the SD card. Your output will vary depending on the files you copy to the card.
+The exact values (`card=15193 MB`, `file size=117814`, `readMs=7881`, etc.) depend on your SD card and BMP file — your output will differ.
 :::
 
-The screen displays each image for 2 seconds, then advances to the next one in a continuous loop.
+The screen then shows the decoded image with a green "BMP OK" header (displaying the decode time in milliseconds) and the file path along the bottom edge.
 
 ### Expected Result
 
-<!-- TODO: Add SD photo frame GIF -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_function_sd_photo_frame.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_function_sd_bmp_reader.gif" style={{width:500, height:'auto'}}/></div>
 
-If no BMP files are found, the screen shows "No BMP found". If an image fails to decode, the screen briefly shows the file path with "BMP decode failed" and moves to the next file.
+The image appears on the screen with a green "BMP OK" header (showing the decode time) and the file path at the bottom. If no BMP file is found, the screen shows "No BMP loaded" with instructions to check the serial monitor and use `/test.bmp`.
 
 ---
 
@@ -383,19 +399,13 @@ Particles near the surface flow freely (higher mobility); particles buried deepe
 **Step 4.** Open **Tools > Serial Monitor** (115200 baud) to confirm initialization:
 
 ```
-=== Electronic Quicksand ===
-[IMU] QMI8658-compatible at 0x6B, WHO=0x05
-```
-or
-```
-=== Electronic Quicksand ===
-[IMU] LSM6-compatible at 0x6A, WHO=0x69
+=== Electronic Quicksand ESP32-S3 1.47 ===
+[IMU] LSM6-compatible at 0x6A, WHO=0x6A
 ```
 
 ### Expected Result
 
-<!-- TODO: Add quicksand GIF -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_function_quicksand.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_function_quicksand.gif" style={{width:500, height:'auto'}}/></div>
 
 The golden sand particles flow smoothly as you tilt the board. When held flat, the sand settles at the bottom of the screen. Rotate the board 90 degrees and the sand flows to the new "bottom" within a second.
 
@@ -457,21 +467,21 @@ The IMU is detected automatically (LSM6DS3 first, then QMI8658). Wake-up interru
 
 **Step 3.** Pick up the board or shake it gently — the screen wakes immediately.
 
-**Step 4.** Open **Tools > Serial Monitor** (115200 baud) to observe the sleep/wake transitions:
+**Step 4.** Open **Tools > Serial Monitor** (115200 baud) to observe the IMU detection and wake events:
 
 ```
-=== Raise-to-Wake ===
-[IMU] LSM6-compatible at 0x6A, WHO=0x69
-IMU wake INT1 on D14 configured
-[WAKE] reason=POWER_ON
-[WAKE] reason=TIMER
-[SLEEP] screen backlight off, entering deep sleep
+=== XIAO ESP32-S3 Plus 1.47 IMU Wake Demo ===
+[IMU] LSM6-compatible at 0x6A, WHO=0x6A
+[IMU] wake config OK
+[WAKE] IMU_D14  count=1
+[WAKE] IMU_D14  count=2
 ```
+
+Each motion wake prints a new `[WAKE] IMU_D14  count=N` line with an incremented count (pressing USR2 while awake prints `[WAKE] USR2  count=N` instead). The sleep transition is shown on the screen only — no serial line is printed when the board goes to sleep.
 
 ### Expected Result
 
-<!-- TODO: Add wakeup GIF -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_function_wakeup.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_function_wakeup.gif" style={{width:500, height:'auto'}}/></div>
 
 The screen displays real-time accelerometer and gyroscope data while awake. After 8 seconds of stillness, the screen goes dark and the ESP32-S3 enters deep sleep. Pick up the device and the screen restores within a fraction of a second, with the wake counter incremented.
 
