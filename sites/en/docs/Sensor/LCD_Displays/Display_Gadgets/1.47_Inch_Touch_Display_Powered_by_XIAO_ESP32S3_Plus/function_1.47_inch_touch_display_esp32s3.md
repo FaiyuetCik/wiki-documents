@@ -174,6 +174,7 @@ The demo uses the **AXS5106L** capacitive touch controller (I2C address `0x63`) 
 **Step 3.** Open **Tools > Serial Monitor** (115200 baud). You should see:
 
 ```
+=== XIAO ESP32-S3 Touch Circle Demo ===
 LCD: 172x320
 Touch: AXS5106L ready
 Tap screen to draw white circles.
@@ -183,11 +184,8 @@ Tap CLEAR bar at bottom to erase.
 **Step 4.** Tap the screen — each tap prints the raw and mapped coordinates:
 
 ```
-Touch: raw=(27,124) -> screen=(144,124)
-Touch: raw=(5,210) -> screen=(166,210)
-Touch: raw=(50,250) -> screen=(121,250)
-Touch: raw=(134,231) -> screen=(37,231)
-Touch: raw=(49,44) -> screen=(122,44)
+Touch: raw=(55,151) -> screen=(116,151)
+Touch: raw=(103,154) -> screen=(68,154)
 ```
 
 Tap the CLEAR bar at the bottom to erase all circles.
