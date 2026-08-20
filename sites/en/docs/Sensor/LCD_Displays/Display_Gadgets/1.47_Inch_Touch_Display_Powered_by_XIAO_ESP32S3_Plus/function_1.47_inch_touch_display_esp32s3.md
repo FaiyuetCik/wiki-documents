@@ -1,5 +1,5 @@
 ---
-description: Standalone function-level demos for each onboard peripheral of the 1.47 Inch Touch Display Powered by XIAO ESP32-S3 Plus. Covers screen, SD card, IMU, touch, PDM microphone, buttons, and battery voltage detection.
+description: Standalone function-level demos for each onboard peripheral of the 1.47 Inch Touch Display Powered by XIAO ESP32-S3 Plus. Covers screen, SD card, IMU, touch, PDM microphone, I2S audio output, buttons, and battery voltage detection.
 title: Onboard Peripheral Usage
 keywords:
   - XIAO
@@ -13,7 +13,7 @@ sku: 100069905
 sidebar_label: Function
 sidebar_position: 2
 last_update:
-  date: 08/10/2026
+  date: 08/20/2026
   author: FaiyuetCik
 ---
 
@@ -345,6 +345,118 @@ The bar uses **differential rendering**: only segments whose state changed since
 <!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_function_mic_canvas.gif" style={{width:500, height:'auto'}}/></div> -->
 
 The bar responds in real time. In a quiet room the bar stays empty. Speaking at a normal volume from ~20 cm away lights up the green segments. Blowing directly into the mic pushes into the yellow or red range.
+
+---
+
+## Audio Output — I2S Speaker Test
+
+This demo drives an external **I2S amplifier** (such as the MAX98357A or NS4168) through the board's I2S breakout pads to play test tones and a frequency sweep, verifying the audio output path end to end. On boot it automatically plays a 1 kHz tone; you can then switch tones, run a sweep, test each channel, or mute via simple serial commands.
+
+**Code location:** `code/Function/147_ESP32/xiao_esp32s3plus_i2s_speaker_test_v1_1_correct_pins/`
+
+<div class="github_container" style={{textAlign: 'center'}}>
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/147_ESP32/xiao_esp32s3plus_i2s_speaker_test_v1_1_correct_pins" target="_blank" rel="noopener noreferrer">
+    <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
+    <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
+    </a>
+</div><br />
+
+:::note
+This demo uses only the built-in esp32 core I2S driver — **no extra library is required** (Seeed_GFX and GFX Library for Arduino are not needed, since it does not touch the LCD).
+:::
+
+### Hardware Setup
+
+Connect an I2S amplifier module to the bottom I2S breakout pads:
+
+<div class="table-center">
+  <table align="center">
+    <tr><th>I2S Pad</th><th>XIAO Pin</th><th>GPIO</th><th>I2S Amp</th></tr>
+    <tr><td>I2S_SD</td><td>D11</td><td>GPIO38</td><td>DIN / SDIN</td></tr>
+    <tr><td>I2S_SCK</td><td>D12</td><td>GPIO39</td><td>BCLK / SCK</td></tr>
+    <tr><td>I2S_WS</td><td>D13</td><td>GPIO40</td><td>LRCLK / WS</td></tr>
+    <tr><td>3V3</td><td>3V3</td><td>—</td><td>VIN (or 5V, per module)</td></tr>
+    <tr><td>GND</td><td>GND</td><td>—</td><td>GND</td></tr>
+  </table>
+</div>
+
+### How It Works
+
+The sketch configures the ESP32-S3's I2S peripheral in **master / transmit** mode at **16 kHz, 16-bit, Philips (standard) stereo**, using 6 DMA descriptors of 256 frames each. A sine wave is generated in software and streamed continuously through the I2S output.
+
+**Cross-version driver support.** The sketch compiles on both Arduino core generations:
+
+- **core 3.x (ESP-IDF v5)** — uses the new driver API (`driver/i2s_std.h`): `i2s_new_channel()` → `i2s_channel_init_std_mode()` → `i2s_channel_enable()` → `i2s_channel_write()`.
+- **core 2.x (ESP-IDF v4)** — falls back to the legacy API (`driver/i2s.h`): `i2s_driver_install()` → `i2s_set_pin()` → `i2s_write()`.
+
+**Phase-continuous sine.** The tone frequency is tracked as a continuously-accumulating phase (`g_phase`), so changing the frequency (e.g. during the sweep) never causes an audible click or discontinuity.
+
+**Gain.** The default gain is `0.28` (`DEFAULT_GAIN`) — intentionally conservative to avoid clipping and keep the test tone at a comfortable volume.
+
+**Optional amplifier enable.** If your amplifier has an enable/shutdown pin, define `AMP_EN_PIN` (default `-1` = disabled) and the sketch drives it HIGH on init.
+
+**Serial commands:**
+
+<div class="table-center">
+  <table align="center">
+    <tr><th>Command</th><th>Action</th></tr>
+    <tr><td><code>h</code></td><td>Print help</td></tr>
+    <tr><td><code>t</code></td><td>Play a 1 kHz tone (both channels)</td></tr>
+    <tr><td><code>s</code></td><td>Frequency sweep 200 Hz → 4 kHz</td></tr>
+    <tr><td><code>l</code></td><td>Left channel only</td></tr>
+    <tr><td><code>r</code></td><td>Right channel only</td></tr>
+    <tr><td><code>b</code></td><td>Both channels</td></tr>
+    <tr><td><code>m</code></td><td>Mute</td></tr>
+  </table>
+</div>
+
+The sweep multiplies the frequency by `1.08` every 120 ms, wrapping from 4 kHz back to 200 Hz in a loop.
+
+### Running the Demo
+
+**Step 1.** Connect an I2S amplifier and speaker to the I2S breakout pads as described above.
+
+**Step 2.** Open `xiao_esp32s3plus_i2s_speaker_test_v1_1_correct_pins.ino` in Arduino IDE.
+
+**Step 3.** Select **Tools > Board > esp32 > XIAO_ESP32S3_Plus** and the correct **Port**, then click **Upload**.
+
+**Step 4.** Open **Tools > Serial Monitor** (115200 baud). On boot you should see:
+
+```
+=== XIAO ESP32-S3 Plus I2S Speaker Test v1.1 ===
+[I2S] init OK
+[PIN] BCLK=39 LRCLK=40 DOUT=38 AMP_EN=-1
+[AUDIO] sampleRate=16000Hz block=256 frames
+
+Commands:
+  h : help
+  t : 1 kHz tone
+  s : sweep 200 Hz -> 4 kHz
+  l : left channel only
+  r : right channel only
+  b : both channels
+  m : mute
+
+[BOOT] playing 1 kHz tone
+```
+
+The speaker immediately plays a 1 kHz tone. Type a single character into the serial monitor and press Enter to change behavior — for example, `s` starts the sweep and prints the current frequency:
+
+```
+[CMD] sweep mode
+[SWEEP] freq=216.0
+[SWEEP] freq=233.3
+[SWEEP] freq=252.0
+```
+
+Type `m` to mute, `t` to return to the 1 kHz tone, or `l` / `r` / `b` to test the left, right, or both channels.
+
+### Expected Result
+
+<!-- TODO: Add I2S speaker test GIF -->
+<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_function_i2s_speaker.gif" style={{width:500, height:'auto'}}/></div> -->
+
+The speaker plays a clean 1 kHz tone on boot. Switch to sweep mode (`s`) and the pitch glides smoothly from 200 Hz up to 4 kHz and back. The `l` / `r` commands let you confirm each channel independently, and `m` silences the output.
 
 ---
 
