@@ -88,8 +88,8 @@ The table below lists the XIAO ESP32-S3 Plus pins used by the display board and 
     <tr><td>D3</td><td>LCD_DC</td><td>LCD data/command select</td><td>Internally connected to the LCD</td></tr>
     <tr><td>D4</td><td>I2C_SDA</td><td>I2C data</td><td>Shared by the onboard IMU and back-side I2C test pad</td></tr>
     <tr><td>D5</td><td>I2C_SCL</td><td>I2C clock</td><td>Shared by the onboard IMU and back-side I2C test pad</td></tr>
-    <tr><td>D6</td><td>BTN_USR1</td><td>User button 1</td><td>Active-low; toggles the backlight in the factory Dashboard</td></tr>
-    <tr><td>D7</td><td>BTN_USR2</td><td>User button 2</td><td>Active-low; toggles the Dashboard header between Hello and XIAO</td></tr>
+    <tr><td>D6</td><td>BTN_USR1</td><td>User button 1</td><td>Active-low; cycles the backlight brightness in the factory Dashboard</td></tr>
+    <tr><td>D7</td><td>BTN_USR2</td><td>User button 2</td><td>Active-low; toggles the screen backlight ON/OFF in the factory Dashboard</td></tr>
     <tr><td>D8</td><td>LCD_SCK</td><td>Hardware SPI clock</td><td>Internally connected to the LCD</td></tr>
     <tr><td>D9</td><td>NC</td><td>Not connected</td><td>No physical connection</td></tr>
     <tr><td>D10</td><td>LCD_MOSI</td><td>Hardware SPI data output</td><td>Internally connected to the LCD</td></tr>
@@ -180,7 +180,7 @@ After upload, the Dashboard uses a compact layout optimized for the 80×16 displ
 
 **Welcome Header**
 
-The top of the screen shows **"Hello"** and the subtitle **"0.96 Display"**. Press **USR2 (D7)** to toggle the large header between **"Hello"** and **"XIAO"**.
+The top of the screen shows **"Hello"** and the subtitle **"0.96 Display"**.
 
 <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_dashboard_welcome_header.gif" style={{width:500, height:'auto'}}/></div>
 
@@ -237,8 +237,8 @@ The **MIC** section contains a segmented audio-level meter and a raw peak value.
 <div class="table-center">
   <table align="center">
     <tr><th>Button</th><th>Pin</th><th>Dashboard Action</th></tr>
-    <tr><td><strong>USR1</strong></td><td>D6</td><td>Toggle the LCD backlight ON/OFF</td></tr>
-    <tr><td><strong>USR2</strong></td><td>D7</td><td>Toggle the header between Hello and XIAO</td></tr>
+    <tr><td><strong>USR1</strong></td><td>D6</td><td>Cycle backlight brightness (100% → 75% → 50% → 25% → 100%)</td></tr>
+    <tr><td><strong>USR2</strong></td><td>D7</td><td>Toggle the LCD backlight ON/OFF</td></tr>
   </table>
 </div>
 
@@ -259,9 +259,13 @@ The **MIC** section contains a segmented audio-level meter and a raw peak value.
 
 Restart Arduino IDE if the board entry still does not appear.
 
-### Why do the D16 and Calc values change when no battery is connected?
+### Why isn't my screen bright when I plug in the USB-C cable?
 
-With no battery connected, the voltage-sense node can float and produce a non-zero ADC reading. Connect a battery before using **Calc** as an estimate of battery voltage. The Dashboard does not infer charging status from D16.
+The screen backlight may be off. Press the **USR2 (D7)** button to toggle the backlight back on — the display will light up normally.
+
+### How should I hold the board?
+
+Hold the board near the buttons, and do not touch the **XIAO** module. Grip the board by the button area instead.
 
 ## Resources
 
