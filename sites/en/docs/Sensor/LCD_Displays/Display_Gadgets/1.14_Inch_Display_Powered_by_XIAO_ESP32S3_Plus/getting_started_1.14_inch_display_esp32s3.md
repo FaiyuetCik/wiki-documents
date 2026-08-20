@@ -14,7 +14,7 @@ sidebar_label: Getting Started
 sidebar_position: 1
 type: gettingstarted
 last_update:
-  date: 08/14/2026
+  date: 08/20/2026
   author: FaiyuetCik
 ---
 
@@ -276,6 +276,12 @@ If the board still doesn't show up, restart Arduino IDE and try again.
 ### What Grove sensors can I connect?
 
 The Grove I2C connector on the 1.14 Inch Display provides 3.3V power, GND, SDA (D4), and SCL (D5). Any 3.3V-compatible Grove I2C sensor can be connected — for example, the [Grove — Temperature & Humidity Sensor (SHT40)](https://www.seeedstudio.com/Grove-Temperature-Humidity-Sensor-SHT40-p-4798.html). The factory Dashboard's I2C scan line updates every few seconds to show detected devices.
+
+### The I2C scan on the dashboard freezes — what should I do?
+
+Press the **Reset** button on the XIAO ESP32-S3 Plus once to reboot the board. This clears the stuck I2C bus and the dashboard returns to normal.
+
+We strongly recommend **against hot-plugging** devices on the I2C interface. Always power off the board before connecting or disconnecting anything on the Grove I2C connector or the SDA/SCL breakout pads — hot-plugging can hang the I2C bus.
 
 ## Resources
 
