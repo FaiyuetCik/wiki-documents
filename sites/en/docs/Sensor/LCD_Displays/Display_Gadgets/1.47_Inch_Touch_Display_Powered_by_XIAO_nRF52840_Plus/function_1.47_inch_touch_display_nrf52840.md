@@ -13,7 +13,7 @@ sku: 100004242
 sidebar_label: Function
 sidebar_position: 2
 last_update:
-  date: 08/04/2026
+  date: 08/20/2026
   author: FaiyuetCik
 ---
 
@@ -30,7 +30,7 @@ All demos in this page require **Seeed nRF52 Boards (1.1.13)** as described in [
 <div class="table-center">
   <table align="center">
     <tr><th>Library</th><th>Search Keyword</th><th>Author</th><th>Required by</th></tr>
-    <tr><td><strong>SdFat</strong></td><td><code>SdFat</code></td><td>Bill Greiman</td><td>SD Image Reader only</td></tr>
+    <tr><td><strong>SdFat</strong></td><td><code>SdFat</code></td><td>Bill Greiman</td><td>SD demos (Image Reader, Record to SD)</td></tr>
     <tr><td><strong>SparkFun LSM6DS3</strong></td><td><code>SparkFun LSM6DS3</code></td><td>SparkFun</td><td>IMU demos</td></tr>
   </table>
 </div>
@@ -263,7 +263,19 @@ If no BMP files are found, the screen shows "No BMP found". If an image fails to
 
 ---
 
-## Microphone — Big Volume Bar
+## Microphone & Audio
+
+The 1.47 Inch Touch Display has an onboard **PDM (Pulse Density Modulation) digital microphone** for audio input, plus I2S output pads for driving an external speaker/amplifier. This section shows two demos: a real-time **Big Volume Bar** visualization of the microphone input (no extra hardware), and a **Record to SD** demo that records 5 seconds of audio to a MicroSD card and plays it back through an external I2S amplifier.
+
+<div class="table-center">
+  <table align="center">
+    <tr><th>Pin</th><th>Signal</th><th>Function</th></tr>
+    <tr><td>D0</td><td>PDM_CLK</td><td>PDM clock output to microphone</td></tr>
+    <tr><td>D1</td><td>MIC_DATA</td><td>PDM data input from microphone</td></tr>
+  </table>
+</div>
+
+### Demo 1: Big Volume Bar
 
 This demo turns the onboard PDM microphone into a large, responsive volume meter. A 10-segment bar fills the center of the screen — green at low levels, yellow at mid-range, red when loud. The percentage is displayed above the bar and changes color to match the level.
 
@@ -276,17 +288,9 @@ This demo turns the onboard PDM microphone into a large, responsive volume meter
     </a>
 </div><br />
 
-### How It Works
+#### How It Works
 
-The onboard **PDM (Pulse Density Modulation) digital microphone** is connected to the nRF52840's PDM peripheral:
-
-<div class="table-center">
-  <table align="center">
-    <tr><th>Pin</th><th>Signal</th><th>Function</th></tr>
-    <tr><td>D0</td><td>PDM_CLK</td><td>PDM clock output to microphone</td></tr>
-    <tr><td>D1</td><td>MIC_DATA</td><td>PDM data input from microphone</td></tr>
-  </table>
-</div>
+The onboard **PDM (Pulse Density Modulation) digital microphone** is connected to the nRF52840's PDM peripheral via **D0 (PDM_CLK)** and **D1 (MIC_DATA)** as shown in the pin table above.
 
 The Arduino **PDM library** handles the low-level PDM-to-PCM conversion in hardware. The sketch configures the PDM peripheral at **16 kHz mono** with a gain of **30**, then registers an interrupt-driven callback (`onPDMdata`) that fires whenever a 256-sample buffer is ready.
 
@@ -309,7 +313,7 @@ The Arduino **PDM library** handles the low-level PDM-to-PCM conversion in hardw
 
 The bar uses **differential rendering**: only segments whose state changed since the last frame are redrawn. Unchanged segments are left as-is, minimizing SPI traffic and preventing flicker.
 
-### Running the Demo
+#### Running the Demo
 
 **Step 1.** Open `xiao_nrf52840_147_mic_canvas.ino` in Arduino IDE.
 
@@ -323,11 +327,126 @@ The bar uses **differential rendering**: only segments whose state changed since
 
 **Step 4.** Speak into the PDM microphone (located near the bottom-left corner of the display board) or blow on it. The bar fills from green to yellow to red, and the percentage updates above it.
 
-### Expected Result
+#### Expected Result
 
 <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_nRF52840Plus_function_mic_bar.gif" style={{width:500, height:'auto'}}/></div>
 
 The bar responds in real time. In a quiet room the bar stays empty. Speaking at a normal volume from ~20 cm away lights up the green segments. Blowing directly into the mic pushes into the yellow or red range.
+
+---
+
+### Demo 2: Record to SD
+
+This demo records **5 seconds** of audio from the onboard PDM microphone into RAM, saves it to a MicroSD card as a WAV file, then plays it back through an external I2S amplifier. Press one button to record, another to play.
+
+**Code location:** `code/Function/147_nRF52840/xiao_nrf52840_147_sd_unline_record/`
+
+<div class="github_container" style={{textAlign: 'center'}}>
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets" target="_blank" rel="noopener noreferrer">
+    <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
+    <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
+    </a>
+</div><br />
+
+#### Hardware Setup
+
+Playback requires an external **I2S audio amplifier and speaker**. The demo is written for a **MAX98357A** breakout connected to the board's I2S output pads:
+
+<div class="table-center">
+  <table align="center">
+    <tr><th>I2S Pad</th><th>XIAO Pin</th><th>MAX98357A</th></tr>
+    <tr><td>3V3</td><td>3V3</td><td>VIN</td></tr>
+    <tr><td>GND</td><td>GND</td><td>GND</td></tr>
+    <tr><td>I2S_SD</td><td>D11</td><td>DIN</td></tr>
+    <tr><td>I2S_SCK</td><td>D12</td><td>BCLK</td></tr>
+    <tr><td>I2S_WS</td><td>D13</td><td>LRC</td></tr>
+  </table>
+</div>
+
+The I2S pads (3V3, GND, D11, D12, D13) are exposed on the bottom expansion pad group of the display board.
+
+#### How It Works
+
+**Recording.** The onboard PDM microphone is captured at **16 kHz mono, 16-bit** through the nRF52840's PDM peripheral, using the same **D0 (PDM_CLK)** / **D1 (MIC_DATA)** pins as Demo 1. When you press **USR1**, the sketch samples 5 seconds of audio directly into a static RAM buffer, then writes it to the SD card as a WAV file (`/REC_001_RAW.WAV`) using SdFat.
+
+The recording is buffered in RAM because the nRF52840 has only **256 KB of RAM**. At 16 kHz × 16-bit mono, 5 seconds needs 160,000 bytes — which fits. 10 seconds would need 320,000 bytes and would not fit, so the demo is fixed at 5 seconds.
+
+**Playback.** Pressing **USR2** reads the WAV back from the SD card (skipping the 44-byte WAV header) and streams it out through the nRF52840's I2S peripheral in Philips stereo mode on **D11/D12/D13**. The mono samples are duplicated to both channels with a `0.75×` gain applied to avoid clipping. The amplifier drives a small speaker so you can hear the recording.
+
+**State machine.** The recorder runs through a deterministic sequence of states, printing each transition to the serial monitor:
+
+```
+IDLE → PREPARE_SYSTEM → QUIET_RADIO → PREPARE_PERIPHERALS → START_HFCLK → START_PDM
+     → DISCARD_WARMUP → CAPTURE_RAM → STOP_PDM → SAVE_RAW → DONE
+```
+
+- **QUIET_RADIO** disables the RADIO peripheral (this sketch never initializes BLE) to keep the timing-sensitive capture section stable.
+- **START_HFCLK** switches the high-frequency clock to the external 32 MHz crystal, which the PDM peripheral needs for accurate sampling.
+- **DISCARD_WARMUP** drops the first 300 ms of PDM output while the microphone settles.
+- **CAPTURE_RAM** fills the buffer until 80,000 samples (5 s) are collected, drawing a live progress bar on screen.
+
+**On-screen states:**
+
+<div class="table-center">
+  <table align="center">
+    <tr><th>State</th><th>Description</th></tr>
+    <tr><td><strong>Ready</strong></td><td>"RAM Recorder" title with "USR1: record" and "USR2: play last"</td></tr>
+    <tr><td><strong>Recording</strong></td><td>"Recording" label, an elapsed timer ("2.3s / 5s"), and a red progress bar</td></tr>
+    <tr><td><strong>Done</strong></td><td>"Done" title with the saved filename and "Saved raw WAV", plus "USR1: record" / "USR2: play raw"</td></tr>
+    <tr><td><strong>Playback</strong></td><td>"Playback" title showing "Loading RAW audio..." then "Playing RAW audio", ending on "Finished"</td></tr>
+  </table>
+</div>
+
+#### Running the Demo
+
+**Step 1.** Format a MicroSD card as **FAT32** and insert it into the MicroSD slot on the display board.
+
+**Step 2.** Connect a MAX98357A amplifier and speaker to the I2S pads as described above.
+
+**Step 3.** Open `xiao_nrf52840_147_sd_unline_record.ino` in Arduino IDE, select the board and port, and click **Upload**.
+
+**Step 4.** Open **Tools > Serial Monitor** (115200 baud). On boot you should see:
+
+```
+=== XIAO nRF52840 Plus RAM PDM recorder ===
+[RAM] record buffer bytes=160000
+[RADIO] BLE is not initialized by this sketch
+[PDM] library uses EasyDMA double buffering
+[STATE] IDLE
+```
+
+**Step 5.** Press **USR1 (D19)** to record 5 seconds of audio from the onboard microphone. The progress bar fills as it records, and the state machine prints each transition:
+
+```
+[STATE] PREPARE_SYSTEM
+[STATE] QUIET_RADIO
+[STATE] PREPARE_PERIPHERALS
+[STATE] START_HFCLK
+[STATE] START_PDM
+[STATE] DISCARD_WARMUP
+[STATE] CAPTURE_RAM
+[STATE] STOP_PDM
+[STATE] SAVE_RAW
+[STATE] DONE
+[SAVE] /REC_001_RAW.WAV
+```
+
+**Step 6.** Press **USR2 (D15)** to play the recording back through the speaker:
+
+```
+[PLAY] latest RAW audio
+[PLAY] finished
+```
+
+:::note
+Each new recording is saved as a numbered WAV file (`REC_001_RAW.WAV`, `REC_002_RAW.WAV`, …), so previous recordings are kept. The "Done" screen shows the filename of the most recent recording.
+:::
+
+#### Expected Result
+
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_nRF52840Plus_function_record.gif" style={{width:500, height:'auto'}}/></div>
+
+Press USR1 and the screen shows a recording progress bar. After 5 seconds it confirms the WAV was saved to the SD card. Press USR2 and the audio plays through the connected speaker while the screen shows the playback status.
 
 ---
 
