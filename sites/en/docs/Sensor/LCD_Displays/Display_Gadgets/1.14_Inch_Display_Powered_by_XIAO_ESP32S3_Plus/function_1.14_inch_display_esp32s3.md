@@ -51,7 +51,7 @@ libraries/Seeed_GFX/
 **Step 3.** Restart the Arduino IDE so the new library is detected.
 
 :::tip
-- **Seeed_GFX** is Seeed Studio's fork of TFT_eSPI with pre-configured XIAO board presets. Each sketch's `driver.h` selects `BOARD_SCREEN_COMBO 75` with `USE_XIAO_TFT_DISPLAY_BOARD`, which maps to the correct 135×240 pin layout. This library is different from **GFX Library for Arduino** (by Moon On Our Nation) used in the Dashboard.
+- **Seeed_GFX** is Seeed Studio's fork of TFT_eSPI with pre-configured XIAO board presets. Each sketch's `driver.h` selects `BOARD_SCREEN_COMBO 75` with `USE_XIAO_TFT_DISPLAY_BOARD`, which provides the ST7789 driver and pin mapping — the 135×240 resolution is set by the `TFT_eSPI tft(135, 240)` constructor in each sketch. This library is different from **GFX Library for Arduino** (by Moon On Our Nation) used in the Dashboard.
 - The **IMU** is read directly over I2C (`Wire`) in these demos — no external IMU library is needed. The **PDM microphone** and **I2S output** use the ESP-IDF 5 drivers (`driver/i2s_pdm.h`, `driver/i2s_std.h`) and `LittleFS`, all included with the esp32 board package.
 - The 1.14 Display has **no touch controller, no SD card slot**, so no touch or SD libraries are needed.
 :::
@@ -88,7 +88,7 @@ The ST7789 IPS panel on this board requires `invertDisplay(true)` for correct co
 
 **Step 1.** Open `xiao_esp32s3_114_graphictest.ino` in Arduino IDE.
 
-**Step 2.** Select **Tools > Board > esp32 > XIAO_ESP32S3_Plus** and the correct **Port**.
+**Step 2.** Select **Tools > Board > esp32 > XIAO_ESP32S3_PLUS** and the correct **Port**.
 
 **Step 3.** Click **Upload**.
 
@@ -184,7 +184,7 @@ The golden sand particles flow smoothly as you tilt the board. When held flat, t
 
 ### Demo 2: Raise to Wake
 
-This demo implements a **screen sleep/wake system** driven by the IMU's built-in wake-up interrupt on **D14**. The screen automatically turns off (backlight off + ESP32 deep sleep) after 8 seconds of inactivity, and wakes instantly when you pick up or move the device.
+This demo implements a **screen sleep/wake system** driven by the IMU's built-in wake-up interrupt on **D14**. The screen automatically turns off (backlight off + ESP32 light sleep) after 8 seconds of inactivity, and wakes instantly when you pick up or move the device.
 
 **Code location:** `code/Function/114_ESP32/xiao_esp32s3_114_wakeup/`
 
@@ -217,8 +217,8 @@ The demo uses the LSM6-compatible IMU's **embedded wake-up event detector** — 
 **Sleep/wake flow:**
 
 1. **Active state** — screen is on, backlight at PWM 160. IMU data and battery voltage refresh periodically. A countdown timer shows seconds remaining until auto-sleep.
-2. **Auto-sleep** — after 8 seconds of no activity, the sketch turns off the backlight, displays a "Sleeping... Pick up device to wake" message, configures D14 as an external wake-up source via `esp_sleep_enable_ext0_wakeup()`, and enters ESP32 deep sleep.
-3. **Wake-up** — when the user picks up the board, the IMU detects motion and asserts D14 HIGH. The ESP32 wakes from deep sleep, re-initializes the LCD and IMU, and the UI is fully redrawn.
+2. **Auto-sleep** — after 8 seconds of no activity, the sketch turns off the backlight, displays a "Sleeping... Pick up device to wake" message, configures D14 as a wake-up source via `esp_sleep_enable_gpio_wakeup()`, and enters ESP32 light sleep.
+3. **Wake-up** — when the user picks up the board, the IMU detects motion and asserts D14 HIGH. The ESP32 wakes from light sleep and redraws the UI.
 
 **Manual test buttons:**
 
@@ -249,7 +249,7 @@ The demo uses the LSM6-compatible IMU's **embedded wake-up event detector** — 
 
 <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_function_wakeup.gif" style={{width:500, height:'auto'}}/></div>
 
-The screen displays real-time motion data while awake. After 8 seconds of stillness, the screen goes dark and the ESP32-S3 enters deep sleep. Pick up the device and the screen restores within a fraction of a second, with the wake counter incremented.
+The screen displays real-time motion data while awake. After 8 seconds of stillness, the screen goes dark and the ESP32-S3 enters light sleep. Pick up the device and the screen restores within a fraction of a second, with the wake counter incremented.
 
 ---
 
@@ -310,7 +310,7 @@ The screen is divided into three zones:
 
 **Step 1.** Open `xiao_esp32s3_114_voice_bar.ino` in Arduino IDE.
 
-**Step 2.** Select **Tools > Board > esp32 > XIAO_ESP32S3_Plus** and the correct **Port**.
+**Step 2.** Select **Tools > Board > esp32 > XIAO_ESP32S3_PLUS** and the correct **Port**.
 
 **Step 3.** Click **Upload**.
 
@@ -384,7 +384,11 @@ The I2S pads (3V3, GND, D11, D12, D13) are exposed on the bottom expansion pad g
 
 **Step 1.** Connect a MAX98357A amplifier and speaker to the I2S pads as described above.
 
-**Step 2.** Open `xiao_esp32s3_114_flash_record.ino` in Arduino IDE, select the board and port, and click **Upload**.
+**Step 2.** Select **Tools > Partition Scheme > "Default with spiffs (3MB APP/1.5MB SPIFFS)"**, then open `xiao_esp32s3_114_flash_record.ino`, select the board and port, and click **Upload**.
+
+:::caution
+The recorder stores the WAV file in `LittleFS`, which uses the **SPIFFS** partition. The board's default partition scheme (`16M Flash (2MB APP/12.5MB FATFS)`) contains no SPIFFS partition, so `LittleFS.begin()` returns `false` and the screen shows "Flash write failed / Check partition". You **must** select the SPIFFS partition scheme above, or recording will not work.
+:::
 
 **Step 3.** Press **USR1 (D6)** to record 5 seconds of audio from the onboard microphone. The progress bar fills as it records.
 
@@ -478,7 +482,7 @@ Although the connector is labeled "I2C," this demo reads the keycap button throu
 
 **Step 1.** Open `xiao_esp32s3_114_counter.ino` in Arduino IDE.
 
-**Step 2.** Select **Tools > Board > esp32 > XIAO_ESP32S3_Plus** and the correct **Port**.
+**Step 2.** Select **Tools > Board > esp32 > XIAO_ESP32S3_PLUS** and the correct **Port**.
 
 **Step 3.** Click **Upload**.
 
@@ -529,7 +533,7 @@ The 1.14 Inch Display has **three physical push buttons** connected to the XIAO 
 
 ### Reading a Button
 
-The buttons use the XIAO's internal pull-up resistors. A simple non-blocking read looks like this:
+The three buttons have external 1 KΩ pull-up resistors on the board, and the demo code additionally enables the XIAO's internal pull-ups (`INPUT_PULLUP`). A simple non-blocking read looks like this:
 
 ```cpp
 const int USR1 = D6;
@@ -648,31 +652,27 @@ The ESP32-S3's 12-bit ADC reads the voltage at the ADC node (after the voltage d
 
 ```cpp
 const int BAT_ADC_PIN = D16;
-const float DIVIDER_RATIO = (316.0 + 160.0) / 160.0; // ≈ 2.975
-const float ADC_FULL_SCALE = 3.3;   // ESP32-S3 ADC reference
-const int ADC_MAX = 4095;            // 12-bit ADC
+const float DIVIDER_RATIO = (316.0f + 160.0f) / 160.0f; // ≈ 2.975
 
 void setup() {
   analogReadResolution(12);
+  analogSetPinAttenuation(BAT_ADC_PIN, ADC_11db);
   Serial.begin(115200);
 }
 
 void readBattery() {
-  // Discard first few samples for accuracy
-  for (int i = 0; i < 8; i++) { analogRead(BAT_ADC_PIN); delay(2); }
-
+  // Average 32 samples for a stable reading
   uint32_t sum = 0;
   for (int i = 0; i < 32; i++) {
-    sum += analogRead(BAT_ADC_PIN);
+    sum += analogReadMilliVolts(BAT_ADC_PIN);
     delay(2);
   }
 
-  uint16_t raw = sum / 32;
-  float vadc = (raw * ADC_FULL_SCALE) / ADC_MAX;
-  float vbat = vadc * DIVIDER_RATIO;
+  uint32_t adcMv = sum / 32;                            // ADC node voltage in mV
+  uint32_t batMv = (uint32_t)(adcMv * DIVIDER_RATIO);   // battery voltage in mV
 
-  Serial.print("D16: "); Serial.print(vadc);
-  Serial.print("V, Battery: "); Serial.print(vbat);
+  Serial.print("D16: "); Serial.print(adcMv / 1000.0f);
+  Serial.print("V, Battery: "); Serial.print(batMv / 1000.0f);
   Serial.println("V");
 }
 ```

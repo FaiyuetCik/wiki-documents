@@ -101,12 +101,16 @@ The 0.96 Inch Display breaks out all XIAO nRF52840 Plus pins. The table below li
   </table>
 </div>
 
+:::note
+The linked schematic PDF (v1.0) routes the IMU interrupt to **D9**, which reflects an older board revision. The current hardware and the 0715 firmware use **D14** for `IMU_INT`, as listed above. If you have a v1.0 board, the D14 wake-up feature may not work.
+:::
+
 <!-- TODO: Add annotated pinout image -->
 <!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_nRF52840Plus_display_pinout.png" style={{width:1000, height:'auto'}}/></div> -->
 
 ## Getting Started — Dashboard
 
-The product ships with a **Factory Dashboard** firmware preloaded, which demonstrates all onboard peripherals: screen display, IMU data, microphone, I2C scan, and battery monitoring. The steps below walk you through setting up the development environment and re-flashing this firmware — useful if you want to restore the factory demo after experimenting with your own code, or use it as a starting point for your own projects.
+The product ships with a **Factory Dashboard** firmware preloaded, which demonstrates all onboard peripherals: screen display, IMU data, microphone, and battery monitoring. The steps below walk you through setting up the development environment and re-flashing this firmware — useful if you want to restore the factory demo after experimenting with your own code, or use it as a starting point for your own projects.
 
 ### Software Preparation
 
@@ -121,7 +125,7 @@ You will need the following tools and libraries:
 - **Seeed nRF52 Boards (1.1.13)** — add the following URL to **File > Preferences > Additional Boards Manager URLs**:
 
 ```
-https://files.seeedstudio.com/arduino/package_seeed_nRF52_boards_index.json
+https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
 ```
 
 Then go to **Tools > Board > Boards Manager**, search for **Seeed nRF52** and install version **1.1.13**.

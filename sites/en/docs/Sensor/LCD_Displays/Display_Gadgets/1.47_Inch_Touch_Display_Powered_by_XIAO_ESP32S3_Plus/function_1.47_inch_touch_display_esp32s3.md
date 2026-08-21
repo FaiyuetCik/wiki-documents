@@ -95,7 +95,7 @@ The panel requires a specific MADCTL value (`0x48`) for correct color orientatio
 
 **Step 1.** Open `xiao_esp32s3_147_graphictest.ino` in Arduino IDE.
 
-**Step 2.** Select **Tools > Board > esp32 > XIAO_ESP32S3_Plus** and the correct **Port**.
+**Step 2.** Select **Tools > Board > esp32 > XIAO_ESP32S3_PLUS** and the correct **Port**.
 
 **Step 3.** Click **Upload**.
 
@@ -418,7 +418,7 @@ The sweep multiplies the frequency by `1.08` every 120 ms, wrapping from 4 kHz b
 
 **Step 2.** Open `xiao_esp32s3plus_i2s_speaker_test_v1_1_correct_pins.ino` in Arduino IDE.
 
-**Step 3.** Select **Tools > Board > esp32 > XIAO_ESP32S3_Plus** and the correct **Port**, then click **Upload**.
+**Step 3.** Select **Tools > Board > esp32 > XIAO_ESP32S3_PLUS** and the correct **Port**, then click **Upload**.
 
 **Step 4.** Open **Tools > Serial Monitor** (115200 baud). On boot you should see:
 
@@ -523,7 +523,7 @@ The golden sand particles flow smoothly as you tilt the board. When held flat, t
 
 ### Demo 2: Raise to Wake
 
-This demo implements a **screen sleep/wake system** driven by the IMU's built-in wake-up interrupt on **D14**. The screen automatically turns off (backlight off + ESP32 deep sleep) after 8 seconds of inactivity, and wakes instantly when you pick up or move the device.
+This demo implements a **screen sleep/wake system** driven by the IMU's built-in wake-up interrupt on **D14**. The screen automatically turns off (backlight off + ESP32 light sleep) after 8 seconds of inactivity, and wakes instantly when you pick up or move the device.
 
 **Code location:** `code/Function/147_ESP32/xiao_esp32s3_147_wakeup/`
 
@@ -556,8 +556,8 @@ The IMU is detected automatically (LSM6DS3 first, then QMI8658). Wake-up interru
 **Sleep/wake flow:**
 
 1. **Active state** — screen is on, backlight at PWM 160. IMU data and battery voltage refresh every 250 ms / 1000 ms respectively. A countdown timer shows seconds remaining until auto-sleep.
-2. **Auto-sleep** — after 8 seconds of no activity, the sketch turns off the backlight, displays a "Sleeping... Pick up device to wake" message, configures D14 as an external wake-up source via `esp_sleep_enable_ext0_wakeup()`, and enters ESP32 deep sleep.
-3. **Wake-up** — when the user picks up the board, the IMU detects motion and asserts D14 HIGH. The ESP32 wakes from deep sleep, re-initializes the LCD and IMU, and the UI is fully redrawn.
+2. **Auto-sleep** — after 8 seconds of no activity, the sketch turns off the backlight, displays a "Sleeping... Pick up device to wake" message, configures D14 as a wake-up source via `esp_sleep_enable_gpio_wakeup()`, and enters ESP32 light sleep.
+3. **Wake-up** — when the user picks up the board, the IMU detects motion and asserts D14 HIGH. The ESP32 wakes from light sleep and redraws the UI.
 
 **Manual test buttons:**
 
@@ -593,7 +593,7 @@ Each motion wake prints a new `[WAKE] IMU_D14  count=N` line with an incremented
 
 <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_function_wakeup.gif" style={{width:500, height:'auto'}}/></div>
 
-The screen displays real-time accelerometer and gyroscope data while awake. After 8 seconds of stillness, the screen goes dark and the ESP32-S3 enters deep sleep. Pick up the device and the screen restores within a fraction of a second, with the wake counter incremented.
+The screen displays real-time accelerometer and gyroscope data while awake. After 8 seconds of stillness, the screen goes dark and the ESP32-S3 enters light sleep. Pick up the device and the screen restores within a fraction of a second, with the wake counter incremented.
 
 ---
 
@@ -710,31 +710,27 @@ The ESP32-S3's 12-bit ADC reads the voltage at the ADC node (after the voltage d
 
 ```cpp
 const int BAT_ADC_PIN = D16;
-const float DIVIDER_RATIO = (316.0 + 160.0) / 160.0; // ≈ 2.975
-const float ADC_FULL_SCALE = 3.3;   // ESP32-S3 ADC reference
-const int ADC_MAX = 4095;            // 12-bit ADC
+const float DIVIDER_RATIO = (316.0f + 160.0f) / 160.0f; // ≈ 2.975
 
 void setup() {
   analogReadResolution(12);
+  analogSetPinAttenuation(BAT_ADC_PIN, ADC_11db);
   Serial.begin(115200);
 }
 
 void readBattery() {
-  // Discard first few samples for accuracy
-  for (int i = 0; i < 8; i++) { analogRead(BAT_ADC_PIN); delay(2); }
-
+  // Average 32 samples for a stable reading
   uint32_t sum = 0;
   for (int i = 0; i < 32; i++) {
-    sum += analogRead(BAT_ADC_PIN);
+    sum += analogReadMilliVolts(BAT_ADC_PIN);
     delay(2);
   }
 
-  uint16_t raw = sum / 32;
-  float vadc = (raw * ADC_FULL_SCALE) / ADC_MAX;
-  float vbat = vadc * DIVIDER_RATIO;
+  uint32_t adcMv = sum / 32;                            // ADC node voltage in mV
+  uint32_t batMv = (uint32_t)(adcMv * DIVIDER_RATIO);   // battery voltage in mV
 
-  Serial.print("D16: "); Serial.print(vadc);
-  Serial.print("V, Battery: "); Serial.print(vbat);
+  Serial.print("D16: "); Serial.print(adcMv / 1000.0f);
+  Serial.print("V, Battery: "); Serial.print(batMv / 1000.0f);
   Serial.println("V");
 }
 ```

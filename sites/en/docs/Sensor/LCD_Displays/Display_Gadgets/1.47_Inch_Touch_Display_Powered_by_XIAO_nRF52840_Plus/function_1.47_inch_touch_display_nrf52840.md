@@ -31,7 +31,7 @@ All demos in this page require **Seeed nRF52 Boards (1.1.13)** as described in [
   <table align="center">
     <tr><th>Library</th><th>Search Keyword</th><th>Author</th><th>Required by</th></tr>
     <tr><td><strong>SdFat</strong></td><td><code>SdFat</code></td><td>Bill Greiman</td><td>SD demos (Image Reader, Record to SD)</td></tr>
-    <tr><td><strong>SparkFun LSM6DS3</strong></td><td><code>SparkFun LSM6DS3</code></td><td>SparkFun</td><td>IMU demos</td></tr>
+    <tr><td><strong>Seeed Arduino LSM6DS3</strong></td><td><code>Seeed Arduino LSM6DS3</code></td><td>Seeed Studio</td><td>IMU demos</td></tr>
   </table>
 </div>
 
@@ -689,7 +689,7 @@ The nRF52840 Plus uses a dedicated battery measurement circuit:
 The pin assignments in the table above are sourced from the official [XIAO nRF52840 Plus Pin Multiplexing](https://wiki.seeedstudio.com/XIAO-BLE-Sense-Pin-Multiplexing/) documentation.
 :::
 
-**Voltage divider ratio:** R1 = 1000 kΩ, R2 = 510 kΩ → **Divider ratio = (1000 + 510) / 510 ≈ 2.96**
+**Voltage divider ratio:** R1 = 1000 kΩ, R2 = 510 kΩ (nominal) → **Divider ratio = (1000 + 510) / 510 ≈ 2.96** (the factory firmware uses 499 kΩ for R2, giving ≈ 3.004)
 
 ### Reading Battery Voltage
 
@@ -698,7 +698,7 @@ The pin assignments in the table above are sourced from the official [XIAO nRF52
 
 const int READ_BAT_PIN = 14;  // P0.14
 const int CHG_PIN = 17;       // P0.17
-const float DIVIDER_RATIO = (1000.0 + 510.0) / 510.0;
+const float DIVIDER_RATIO = (1000.0 + 510.0) / 510.0; // ≈ 2.96 (nominal; factory firmware uses 499 kΩ → ≈ 3.004)
 const float ADC_FULL_SCALE = 3.6;  // nRF52840 ADC reference voltage
 const int ADC_MAX = 4095;          // 12-bit ADC
 

@@ -44,7 +44,7 @@ This combination makes it an ideal platform for wearable devices, compact sensor
     <tr><th>Item</th><th>Detail</th></tr>
     <tr><td>Screen</td><td>1.14 inch, ST7789, 135×240, IPS</td></tr>
     <tr><td>Microphone</td><td>PDM digital microphone (D0 CLK / D1 DATA)</td></tr>
-    <tr><td>IMU</td><td>LSM6DS3-compatible (QMI8658 fallback), 3-axis accelerometer + 3-axis gyroscope, I2C (D4/D5), interrupt D14</td></tr>
+    <tr><td>IMU</td><td>LSM6DS3, 3-axis accelerometer + 3-axis gyroscope, I2C (D4/D5), interrupt D14</td></tr>
     <tr><td>Buttons</td><td>USR1 = D6 / USR2 = D7 / USR3 = D19 (3 buttons, active-low)</td></tr>
     <tr><td>Grove I2C</td><td>D4/D5 breakout (shared with onboard IMU; standard Grove I2C connector)</td></tr>
     <tr><td>Battery</td><td>LiPo battery connector, voltage measurement with percentage display and charging status detection</td></tr>
@@ -121,7 +121,7 @@ You will need the following tools and libraries:
 - **Seeed nRF52 Boards (1.1.13)** — add the following URL to **File > Preferences > Additional Boards Manager URLs**:
 
 ```
-https://files.seeedstudio.com/arduino/package_seeed_nRF52_boards_index.json
+https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
 ```
 
 Then go to **Tools > Board > Boards Manager**, search for **Seeed nRF52** and install version **1.1.13**.

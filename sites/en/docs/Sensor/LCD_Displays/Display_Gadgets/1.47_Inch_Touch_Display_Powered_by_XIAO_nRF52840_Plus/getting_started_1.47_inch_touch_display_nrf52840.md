@@ -117,7 +117,7 @@ You will need the following tools and libraries:
 - **Seeed nRF52 Boards (1.1.13)** — add the following URL to **File > Preferences > Additional Boards Manager URLs**:
 
 ```
-https://files.seeedstudio.com/arduino/package_seeed_nRF52_boards_index.json
+https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
 ```
 
 Then go to **Tools > Board > Boards Manager**, search for **Seeed nRF52** and install version **1.1.13**.
@@ -134,7 +134,7 @@ Then go to **Tools > Board > Boards Manager**, search for **Seeed nRF52** and in
 </div>
 
 :::note
-**GFX Library for Arduino** above is only required for the factory Dashboard firmware. If you are working with the standalone function demos in the [Function](/function_1.47_inch_touch_display_nrf52840) page, install **Seeed_GFX** (by Bodmer) instead — the two libraries are different and not interchangeable.
+**GFX Library for Arduino** above is only required for the factory Dashboard firmware. If you are working with the standalone function demos in the [Function](/function_1.47_inch_touch_display_nrf52840) page, install **Seeed_GFX** (Seeed Studio's fork of Bodmer's TFT_eSPI) instead — the two libraries are different and not interchangeable.
 :::
 
 :::tip
