@@ -1,0 +1,528 @@
+---
+description: Standalone function-level demos for each onboard peripheral of the 0.96 Inch Display Powered by XIAO ESP32-S3 Plus. Covers screen, IMU, PDM microphone and I2S audio (flash recorder), buttons, and battery voltage detection.
+title: Onboard Peripheral Usage
+keywords:
+  - XIAO
+  - ESP32-S3
+  - Display
+  - LCD
+  - Function
+  - 0.96
+image: https://files.seeedstudio.com/wiki/seeed_logo/logo_2023.png
+slug: /function_0.96_inch_display_esp32s3
+sku: 100037468
+sidebar_label: Function
+sidebar_position: 2
+last_update:
+  date: 08/21/2026
+  author: FaiyuetCik
+---
+
+# Onboard Peripheral Usage
+
+This page collects standalone function-level demos for each onboard peripheral of the 0.96 Inch Display. Each section is self-contained — you can pick the one that matches your use case without reading through the others.
+
+:::note
+All demos in this page require **esp32 Boards by Espressif (3.3.11)** as described in [Getting Started](/getting_started_0.96_inch_display_esp32s3). Additionally, install the following library.
+:::
+
+- **Seeed_GFX (Manual Installation)** — this library is not available in Library Manager and must be installed manually:
+
+<div class="github_container" style={{textAlign: 'center'}}>
+    <a class="github_item" href="https://github.com/Seeed-Studio/Seeed_GFX" target="_blank" rel="noopener noreferrer">
+    <strong><span><font color={'FFFFFF'} size={"4"}> Download Seeed_GFX</font></span></strong>
+    <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
+    </a>
+</div><br />
+
+**Step 1.** Click the button above to download the `Seeed_GFX` library as a ZIP file. Alternatively, clone the repository from [Seeed-Studio/Seeed_GFX](https://github.com/Seeed-Studio/Seeed_GFX).
+
+**Step 2.** Place the downloaded folder into your Arduino libraries folder (typically `Documents/Arduino/libraries/` on Windows). The resulting folder structure should be:
+
+```
+libraries/Seeed_GFX/
+├── library.properties
+├── TFT_eSPI.h
+├── TFT_eSPI.cpp
+├── User_Setup_Select.h
+└── ...
+```
+
+**Step 3.** Restart the Arduino IDE so the new library is detected.
+
+:::tip
+- **Seeed_GFX** is Seeed Studio's fork of TFT_eSPI with pre-configured XIAO board presets. Each sketch's `driver.h` selects `BOARD_SCREEN_COMBO 75` with `USE_XIAO_TFT_DISPLAY_BOARD`, which maps to the correct 80×160 pin layout. This library is different from **GFX Library for Arduino** (by Moon On Our Nation) used in the Dashboard.
+- The **IMU** is read directly over I2C (`Wire`) in these demos — no external IMU library is needed. The **PDM microphone** and **I2S output** use the ESP-IDF 5 drivers (`driver/i2s_pdm.h`, `driver/i2s_std.h`) and `LittleFS`, all included with the esp32 board package.
+- The 0.96 Display has **no touch controller, no SD card slot, and no Grove connector** — it only has a back-side 4-pin I2C test pad — so no touch, SD, or Grove libraries are needed.
+:::
+
+## Screen Display — GraphicTest
+
+This demo runs a full graphics benchmark on the 0.96-inch ST7789 IPS panel (80×160), covering color bars, lines, rectangles, circles, triangles, rounded rectangles, text, and a pixel gradient. Use it to verify that the screen is wired correctly and that all draw calls work as expected.
+
+**Code location:** `code/Function/096_ESP32/xiao_esp32s3_096_graphictest/`
+
+<div class="github_container" style={{textAlign: 'center'}}>
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/096_ESP32/xiao_esp32s3_096_graphictest" target="_blank" rel="noopener noreferrer">
+    <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
+    <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
+    </a>
+</div><br />
+
+### How It Works
+
+The sketch initializes the ST7789 IPS panel via TFT_eSPI, then runs through ten graphics primitives in sequence, measuring the execution time of each one via `micros()` and printing the result to the serial monitor.
+
+The key LCD configuration is abstracted in `driver.h`:
+
+- **Chip select:** D2
+- **Data/command:** D3
+- **SPI clock:** D8
+- **SPI data (MOSI):** D10
+- **Reset:** D17
+- **Backlight:** D18 (PWM-capable)
+
+The ST7789 IPS panel on this board requires `invertDisplay(true)` for correct colors. No MADCTL fix or JD9853A-specific register tweaks are needed.
+
+### Running the Demo
+
+**Step 1.** Open `xiao_esp32s3_096_graphictest.ino` in Arduino IDE.
+
+**Step 2.** Select **Tools > Board > esp32 > XIAO_ESP32S3_Plus** and the correct **Port**.
+
+**Step 3.** Click **Upload**.
+
+**Step 4.** Open **Tools > Serial Monitor** (115200 baud). You should see the panel size followed by timing output for each test:
+
+```
+=== XIAO ESP32-S3 Plus 0.96 graphic test ===
+LCD width: 80
+LCD height: 160
+Color bars: ... ms
+Lines: ... ms
+Fast lines: ... ms
+Rectangles: ... ms
+Filled rects: ... ms
+Circles: ... ms
+Triangles: ... ms
+Round rects: ... ms
+Text: ... ms
+Pixel gradient: ... ms
+Graphic test finished.
+```
+
+The timing values vary depending on compiler optimisation — capture your own board's output from the Serial Monitor for the exact numbers.
+
+On the screen, you will see each test pattern displayed for about one second before the next one starts. When all tests complete, a "Done! All tests OK" screen appears.
+
+### Expected Result
+
+<!-- TODO: Add graphictest GIF -->
+<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_function_graphictest.gif" style={{width:500, height:'auto'}}/></div> -->
+
+After the sketch runs through all patterns, the screen shows a "Done!" message. Reset the board to run the test again.
+
+---
+
+## IMU
+
+The 0.96 Inch Display features an onboard **LSM6DS3** 6-axis IMU (3-axis accelerometer + 3-axis gyroscope) connected via I2C on D4/D5 at address **0x6A**. The motion interrupt line on **D14** supports hardware wake-up and gesture detection.
+
+:::note
+The onboard IMU is the **LSM6DS3** (I2C address `0x6A`). The demo sketches additionally probe for a QMI8658-compatible sensor as a defensive fallback in case of BOM variants, but the shipped 0.96 Inch Display uses the LSM6DS3.
+:::
+
+The demos below read the IMU directly over I2C (`Wire`) — no external IMU library is required.
+
+<a id="imu-quicksand"></a>
+
+### Demo 1: Electronic Quicksand
+
+This demo turns the screen into an interactive fluid simulation — golden sand particles that flow and settle according to gravity, as measured by the onboard 6-axis IMU. Tilt the board and the sand shifts direction in real time.
+
+**Code location:** `code/Function/096_ESP32/xiao_esp32s3_096_electronic_quicksand/`
+
+<div class="github_container" style={{textAlign: 'center'}}>
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/096_ESP32/xiao_esp32s3_096_electronic_quicksand" target="_blank" rel="noopener noreferrer">
+    <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
+    <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
+    </a>
+</div><br />
+
+### How It Works
+
+The simulation uses a **13×26 occupancy grid** overlaid on the 80×160 screen, where each cell is 6×6 pixels. Around **65 particles** are placed in the grid, each with a position, velocity, and a golden color gradient.
+
+The IMU is read via I2C (D4/D5). The sketch probes for an IMU at both known addresses — QMI8658 first, then LSM6DS3 — and uses whichever one responds. Raw acceleration values are low-pass filtered and used to derive a gravity vector. When you tilt the board:
+
+1. **Gravity vector updates** — accelerometer data is smoothed with an exponential moving average to avoid jitter.
+2. **Particle velocity** — each particle accelerates in the direction of the gravity vector, with damping and a per-particle mobility factor based on its depth in the flow.
+3. **Cell occupancy** — particles deeper in the flow (closer to the "bottom" relative to gravity) have reduced mobility, creating a realistic packing effect.
+4. **Differential rendering** — only cells where particles moved into or out of are redrawn, minimizing SPI traffic and keeping the animation smooth on the small panel.
+
+Particles near the surface flow freely (higher mobility); particles buried deeper pack tightly (lower mobility) — mimicking how real sand behaves.
+
+### Running the Demo
+
+**Step 1.** Open `xiao_esp32s3_096_electronic_quicksand.ino` in Arduino IDE.
+
+**Step 2.** Select the board and port, then click **Upload**.
+
+**Step 3.** Once uploaded, the screen fills with golden particles at the bottom. Tilt the board in different directions — the sand flows as if pulled by gravity.
+
+**Step 4.** Open **Tools > Serial Monitor** (115200 baud) to confirm initialization:
+
+```
+=== Electronic Quicksand 0.96 ===
+[IMU] LSM6-compatible at 0x6A, WHO=0x6A
+```
+
+### Expected Result
+
+<!-- TODO: Add quicksand GIF -->
+<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_function_quicksand.gif" style={{width:500, height:'auto'}}/></div> -->
+
+The golden sand particles flow smoothly as you tilt the board. When held flat, the sand settles at the bottom of the screen. Rotate the board 90 degrees and the sand flows to the new "bottom" within a second.
+
+---
+
+### Demo 2: Raise to Wake
+
+This demo implements a **screen sleep/wake system** driven by the IMU's built-in wake-up interrupt on **D14**. The screen automatically turns off (backlight off + ESP32 light sleep) after 8 seconds of inactivity, and wakes instantly when you pick up or move the device.
+
+**Code location:** `code/Function/096_ESP32/xiao_esp32s3_096_wakeup/`
+
+<div class="github_container" style={{textAlign: 'center'}}>
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/096_ESP32/xiao_esp32s3_096_wakeup" target="_blank" rel="noopener noreferrer">
+    <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
+    <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
+    </a>
+</div><br />
+
+### How It Works
+
+The demo uses the LSM6-compatible IMU's **embedded wake-up event detector** — a hardware feature that monitors accelerometer data internally and asserts the INT1 pin (routed to D14 on this board) when motion exceeds a configurable threshold. This means the MCU does not need to poll the accelerometer continuously.
+
+**IMU configuration (LSM6-compatible):**
+
+<div class="table-center">
+  <table align="center">
+    <tr><th>Register</th><th>Value</th><th>Purpose</th></tr>
+    <tr><td><code>CTRL3_C</code></td><td><code>0x44</code></td><td>Enable BDU + auto-increment for block reads</td></tr>
+    <tr><td><code>CTRL1_XL</code></td><td><code>0x40</code></td><td>Accelerometer @ 104 Hz, ±2g</td></tr>
+    <tr><td><code>CTRL2_G</code></td><td><code>0x40</code></td><td>Gyroscope @ 104 Hz</td></tr>
+    <tr><td><code>TAP_CFG</code></td><td><code>0x80</code></td><td>Enable embedded interrupts</td></tr>
+    <tr><td><code>WAKE_UP_THS</code></td><td><code>0x05</code></td><td>Wake-up threshold (medium-low sensitivity)</td></tr>
+    <tr><td><code>WAKE_UP_DUR</code></td><td><code>0x00</code></td><td>No duration filter (responsive wake)</td></tr>
+    <tr><td><code>MD1_CFG</code></td><td><code>0x20</code></td><td>Route wake-up to INT1</td></tr>
+  </table>
+</div>
+
+**Sleep/wake flow:**
+
+1. **Active state** — screen is on with the backlight lit. IMU data and battery voltage (D16) refresh periodically, and a countdown shows seconds remaining until auto-sleep.
+2. **Auto-sleep** — after 8 seconds of no activity, the sketch turns off the backlight, displays a "Sleep — Move to wake" message, and enters **ESP32 light sleep**. It configures D14 (IMU interrupt, HIGH level) and D7 (USR2, LOW level) as GPIO wake-up sources, plus a 250 ms timer wake-up.
+3. **Wake-up** — when the user picks up the board, the IMU detects motion and asserts D14 HIGH. The ESP32-S3 exits light sleep, re-initializes the LCD and IMU, and the UI is fully redrawn.
+
+**Manual test buttons:**
+
+<div class="table-center">
+  <table align="center">
+    <tr><th>Button</th><th>Pin</th><th>Action</th></tr>
+    <tr><td>USR1</td><td>D6</td><td>Force sleep</td></tr>
+    <tr><td>USR2</td><td>D7</td><td>Force wake</td></tr>
+  </table>
+</div>
+
+### Running the Demo
+
+**Step 1.** Open `xiao_esp32s3_096_wakeup.ino` in Arduino IDE, select the board and port, and click **Upload**.
+
+**Step 2.** The screen shows a compact dashboard with power state, battery voltage/percentage, motion data, interrupt count, and a sleep countdown. Let the board sit still — it will automatically enter sleep after 8 seconds.
+
+**Step 3.** Pick up the board or shake it gently — the screen wakes immediately.
+
+**Step 4.** Open **Tools > Serial Monitor** (115200 baud) to observe the boot and wake transitions:
+
+```
+=== XIAO ESP32-S3 Plus 0.96 IMU Wake Demo ===
+[IMU] LSM6-compatible at 0x6A, WHO=0x6A
+[WAKE] IMU_D14  count=1
+```
+
+The `count` field increments on each wake.
+
+### Expected Result
+
+<!-- TODO: Add wakeup GIF -->
+<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_function_wakeup.gif" style={{width:500, height:'auto'}}/></div> -->
+
+The screen displays real-time motion and battery data while awake. After 8 seconds of stillness, the screen goes dark and the ESP32-S3 enters light sleep. Pick up the device and the screen restores instantly, with the wake counter incremented.
+
+---
+
+## Microphone & Audio — Flash Recorder
+
+This demo turns the 0.96 Inch Display into a small voice recorder. Press USR1 to capture a 5-second clip from the onboard PDM microphone into onboard Flash, then press USR2 to play it back through an external I2S amplifier.
+
+The 0.96 Display's PDM microphone connects to the same pins as the other XIAO display boards:
+
+<div class="table-center">
+  <table align="center">
+    <tr><th>Pin</th><th>Signal</th><th>Function</th></tr>
+    <tr><td>D0</td><td>PDM_CLK</td><td>PDM clock output to microphone</td></tr>
+    <tr><td>D1</td><td>PDM_DATA</td><td>PDM data input from microphone</td></tr>
+  </table>
+</div>
+
+**Code location:** `code/Function/096_ESP32/xiao_esp32s3_096_flash_record/`
+
+<div class="github_container" style={{textAlign: 'center'}}>
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/096_ESP32/xiao_esp32s3_096_flash_record" target="_blank" rel="noopener noreferrer">
+    <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
+    <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
+    </a>
+</div><br />
+
+### Hardware Setup
+
+Playback requires an external **I2S audio amplifier and speaker**. The demo is written for a **MAX98357A** breakout connected to the board's I2S output pads:
+
+<div class="table-center">
+  <table align="center">
+    <tr><th>I2S Pad</th><th>XIAO Pin</th><th>MAX98357A</th></tr>
+    <tr><td>3V3</td><td>3V3</td><td>VIN</td></tr>
+    <tr><td>GND</td><td>GND</td><td>GND</td></tr>
+    <tr><td>I2S_SD</td><td>D11</td><td>DIN</td></tr>
+    <tr><td>I2S_SCK</td><td>D12</td><td>BCLK</td></tr>
+    <tr><td>I2S_WS</td><td>D13</td><td>LRC</td></tr>
+  </table>
+</div>
+
+The I2S pads (3V3, GND, D11, D12, D13) are exposed on the bottom expansion pad group of the display board.
+
+### How It Works
+
+**Recording (USR1)** — the onboard **PDM (Pulse Density Modulation) digital microphone** is sampled through the ESP32-S3's I2S peripheral configured in PDM RX mode. On ESP-IDF v5 (Arduino core 3.x), this uses the new driver API (`driver/i2s_pdm.h`). The microphone is captured at **16 kHz mono** with 4 DMA descriptors of 256 frames each. When you press USR1, the sketch samples **5 seconds** of audio into a RAM buffer, then writes it to onboard Flash as a WAV file (`/REC_RAW.WAV`) using `LittleFS`.
+
+**Playback (USR2)** — pressing USR2 reads the WAV back from Flash and streams it out through the I2S peripheral in standard (Philips) stereo mode on D11/D12/D13 (`driver/i2s_std.h`). The mono samples are duplicated to both channels with a `0.75×` gain applied to avoid clipping. The amplifier drives a small speaker so you can hear the recording.
+
+:::note
+The ESP-IDF v5 API (`i2s_new_channel()` / `i2s_channel_read()` / `i2s_channel_write()`) is different from the nRF52840 version of this demo, which uses the nRF52 `PDM` library and the `NRF_I2S` peripheral directly. If you are porting the nRF52840 code, you must replace the audio setup entirely.
+:::
+
+**On-screen states:**
+
+<div class="table-center">
+  <table align="center">
+    <tr><th>State</th><th>Description</th></tr>
+    <tr><td><strong>Ready</strong></td><td>"Recorder" title with "USR1: record" and "USR2: play" (or "No recording")</td></tr>
+    <tr><td><strong>Recording</strong></td><td>Red "REC" label, a percentage and elapsed/total time (e.g. "45%  2/5s"), and a red progress bar</td></tr>
+    <tr><td><strong>Saved</strong></td><td>"Done — Saved WAV" confirmation, then returns to Ready</td></tr>
+    <tr><td><strong>Playback</strong></td><td>"Playing..." while streaming, then "Finished"</td></tr>
+  </table>
+</div>
+
+### Running the Demo
+
+**Step 1.** Connect a MAX98357A amplifier and speaker to the I2S pads as described above.
+
+**Step 2.** Open `xiao_esp32s3_096_flash_record.ino` in Arduino IDE, select the board and port, and click **Upload**.
+
+**Step 3.** Press **USR1 (D6)** to record 5 seconds of audio from the onboard microphone. The progress bar fills as it records.
+
+**Step 4.** Press **USR2 (D7)** to play the recording back through the speaker.
+
+:::note
+The recording is stored in onboard Flash (`LittleFS`), so it survives a power cycle — you can record once and play it back later. Recording again overwrites the previous file.
+:::
+
+### Expected Result
+
+<!-- TODO: Add flash recorder GIF -->
+<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_function_flash_record.gif" style={{width:500, height:'auto'}}/></div> -->
+
+Press USR1 and the screen shows a recording progress bar. After 5 seconds it confirms the WAV was saved. Press USR2 and the audio plays through the connected speaker while the screen shows the playback status.
+
+---
+
+## User Buttons
+
+The 0.96 Inch Display has **two physical push buttons** connected to the XIAO ESP32-S3 Plus:
+
+<div class="table-center">
+  <table align="center">
+    <tr><th>Button</th><th>Pin</th><th>Logic</th><th>Silkscreen Label</th></tr>
+    <tr><td><strong>USR1</strong></td><td>D6</td><td>Active-low (pressed = LOW)</td><td>USR1</td></tr>
+    <tr><td><strong>USR2</strong></td><td>D7</td><td>Active-low (pressed = LOW)</td><td>USR2</td></tr>
+  </table>
+</div>
+
+:::note
+Unlike the 1.14 Inch Display, the 0.96 Display has **no third button** (no USR3 on D19). It also has no dedicated button breakout pads.
+:::
+
+### Reading Buttons
+
+The buttons use the XIAO's internal pull-up resistors. A simple read looks like this:
+
+```cpp
+const int USR1 = D6;
+const int USR2 = D7;
+
+void setup() {
+  pinMode(USR1, INPUT_PULLUP);
+  pinMode(USR2, INPUT_PULLUP);
+  Serial.begin(115200);
+}
+
+void loop() {
+  if (digitalRead(USR1) == LOW) {
+    Serial.println("USR1 (D6) pressed");
+    delay(200); // simple debounce
+  }
+  if (digitalRead(USR2) == LOW) {
+    Serial.println("USR2 (D7) pressed");
+    delay(200);
+  }
+}
+```
+
+### Debounce with Interrupts
+
+For responsive, debounced button handling without blocking the main loop, you can use pin-change interrupts:
+
+```cpp
+volatile bool btn1Flag = false;
+volatile bool btn2Flag = false;
+
+void btn1Isr() { btn1Flag = true; }
+void btn2Isr() { btn2Flag = true; }
+
+void setup() {
+  pinMode(D6, INPUT_PULLUP);
+  pinMode(D7, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(D6), btn1Isr, FALLING);
+  attachInterrupt(digitalPinToInterrupt(D7), btn2Isr, FALLING);
+}
+
+void loop() {
+  if (btn1Flag) {
+    btn1Flag = false;
+    delay(30); // debounce settling time
+    if (digitalRead(D6) == LOW) {
+      // handle USR1 press
+    }
+  }
+  if (btn2Flag) {
+    btn2Flag = false;
+    delay(30);
+    if (digitalRead(D7) == LOW) {
+      // handle USR2 press
+    }
+  }
+}
+```
+
+### Default Behavior in the Factory Dashboard
+
+In the preloaded factory firmware, the buttons are mapped as follows (you can override these in your own code):
+
+<div class="table-center">
+  <table align="center">
+    <tr><th>Button</th><th>Pin</th><th>Action</th></tr>
+    <tr><td><strong>USR1</strong></td><td>D6</td><td>Cycle screen brightness (100% → 75% → 50% → 25% → 100%)</td></tr>
+    <tr><td><strong>USR2</strong></td><td>D7</td><td>Toggle screen backlight ON/OFF</td></tr>
+  </table>
+</div>
+
+When the screen is off (toggled via USR2), pressing USR2 again restores it to the previous non-zero level.
+
+---
+
+## Battery Voltage Detection
+
+The 0.96 Inch Display includes an onboard battery voltage measurement circuit. The ESP32-S3 Plus reads the LiPo battery voltage through a voltage divider on D16.
+
+### ESP32-S3 Plus Battery Measurement
+
+<div class="table-center">
+  <table align="center">
+    <tr><th>Signal</th><th>ESP32-S3 Pin</th><th>Function</th></tr>
+    <tr><td><code>BAT_ADC</code></td><td><strong>D16</strong></td><td>Analog input reading the divided battery voltage. Internally connected to a 316 kΩ / 160 kΩ voltage divider. <strong>Do not use this pin externally.</strong></td></tr>
+  </table>
+</div>
+
+**Voltage divider ratio:** 316 kΩ / 160 kΩ → **Divider ratio = (316 + 160) / 160 ≈ 2.975**
+
+:::note
+Unlike the nRF52840 Plus version which can detect charging status and calculate battery percentage, the ESP32-S3 Plus version reads the raw D16 ADC voltage and the calculated battery voltage. It does not provide a charging-state indicator. The divider `VBAT → 316 kΩ → D16 ADC node → 160 kΩ → GND` provides a continuous live-sense reading.
+:::
+
+### Reading Battery Voltage
+
+The ESP32-S3's 12-bit ADC reads the voltage at the ADC node (after the voltage divider). Multiply by the divider ratio to get the actual battery voltage. The onboard demos use `analogReadMilliVolts()` with 11 dB attenuation for a more accurate reading:
+
+```cpp
+const int BAT_ADC_PIN = D16;
+const float DIVIDER_RATIO = (316.0f + 160.0f) / 160.0f; // ≈ 2.975
+
+void setup() {
+  analogReadResolution(12);
+  analogSetPinAttenuation(BAT_ADC_PIN, ADC_11db);
+  Serial.begin(115200);
+}
+
+void readBattery() {
+  // Average 16 samples for a stable reading
+  uint32_t sum = 0;
+  for (int i = 0; i < 16; i++) {
+    sum += analogReadMilliVolts(BAT_ADC_PIN);
+    delay(2);
+  }
+
+  uint32_t adcMv = sum / 16;                    // ADC node voltage in mV
+  uint32_t batMv = (uint32_t)(adcMv * DIVIDER_RATIO); // battery voltage in mV
+
+  Serial.print("D16: "); Serial.print(adcMv / 1000.0f);
+  Serial.print("V, Battery: "); Serial.print(batMv / 1000.0f);
+  Serial.println("V");
+}
+```
+
+### Estimating Battery Percentage
+
+If you want an approximate battery percentage (as shown in the wake demo's on-screen UI), you can map the battery voltage linearly between 3.30 V (0%) and 4.20 V (100%):
+
+```cpp
+int voltageToPercent(float v) {
+  if (v >= 4.20f) return 100;
+  if (v <= 3.30f) return 0;
+  return constrain((int)((v - 3.30f) * 100.0f / 0.90f + 0.5f), 0, 100);
+}
+```
+
+This is an estimate only — the ESP32-S3 Plus version does not have the nRF52840 Plus's charging-detection circuit.
+
+---
+
+## Resources
+
+- **[GitHub]** [XIAO Display Board Demo Code](https://github.com/Seeed-Projects/Display-Gadgets) — all Function demos are in the `code/Function/096_ESP32/` directory
+- **[PDF]** [Schematic — 0.96 Inch Display (XIAO ESP32-S3 Plus)](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/schematics/0.96_Inch_Display_Powered_by_XIAO_ESP32-S3_Plus/Schematic)
+
+## Tech Support & Product Discussion
+
+Thank you for choosing our products! We are here to provide you with different support to ensure that your experience with our products is as smooth as possible. We offer several communication channels to cater to different preferences and needs.
+
+<div class="table-center">
+  <div class="button_tech_support_container">
+  <a href="https://forum.seeedstudio.com/" class="button_forum"></a>
+  <a href="https://www.seeedstudio.com/contacts" class="button_email"></a>
+  </div>
+
+  <div class="button_tech_support_container">
+  <a href="https://discord.gg/eWkprNDMU7" class="button_discord"></a>
+  <a href="https://github.com/Seeed-Studio/wiki-documents/discussions/69" class="button_discussion"></a>
+  </div>
+</div>
