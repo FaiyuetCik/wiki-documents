@@ -250,10 +250,6 @@ When the screen is off (toggled via USR2), pressing USR2 again restores it to th
 
 Double-click the reset button on the XIAO nRF52840 Plus. The USR LED will breathe in red and a drive named **NRF52BOOT** will appear on your computer. Drag the compiled `.uf2` file onto the **NRF52BOOT** drive. The board will program itself and reset automatically.
 
-### What Grove sensors can I connect?
-
-The Grove I2C connector on the 1.14 Inch Display provides 3.3V power, GND, SDA (D4), and SCL (D5). Any 3.3V-compatible Grove I2C sensor can be connected — for example, the [Grove — Temperature & Humidity Sensor (SHT40)](https://www.seeedstudio.com/Grove-Temperature-Humidity-Sensor-SHT40-p-4798.html). The factory Dashboard's I2C scan line updates every few seconds to show detected devices.
-
 ### Can I hot-plug I2C devices while the dashboard is running?
 
 No — we strongly recommend **against hot-plugging** devices on the I2C interface while the dashboard is running. Always power off the board before connecting or disconnecting anything on the Grove I2C connector or the SDA/SCL breakout pads. Hot-plugging can hang the I2C bus.

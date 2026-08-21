@@ -40,6 +40,10 @@ The four demos on this page use **two different graphics libraries**, so install
 
 - **Seeed_GFX (Manual Installation)** — only the **Flash Recorder** demo uses this library. It is not available in Library Manager and must be installed manually:
 
+:::note
+Seeed_GFX's nRF52840 processor includes `Seeed_Arduino_FS.h` when `SMOOTH_FONT` is enabled (the default). Install **Seeed Arduino FS** from the Library Manager (search "Seeed Arduino FS") or from [Seeed-Studio/Seeed_Arduino_FS](https://github.com/Seeed-Studio/Seeed_Arduino_FS) — otherwise the Flash Recorder demo fails to compile with `Seeed_Arduino_FS.h: No such file or directory`.
+:::
+
 <div class="github_container" style={{textAlign: 'center'}}>
     <a class="github_item" href="https://github.com/Seeed-Studio/Seeed_GFX" target="_blank" rel="noopener noreferrer">
     <strong><span><font color={'FFFFFF'} size={"4"}> Download Seeed_GFX</font></span></strong>
