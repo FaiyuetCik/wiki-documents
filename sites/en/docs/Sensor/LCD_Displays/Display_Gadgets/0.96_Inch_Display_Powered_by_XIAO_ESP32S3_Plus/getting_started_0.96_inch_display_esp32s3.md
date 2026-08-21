@@ -168,7 +168,7 @@ Navigate to `code/example/096_ESP32/0715_DashBoard_096_ESP32/` and open `0715_Da
 
 **Step 1.** Connect the XIAO ESP32-S3 Plus to your computer through USB-C.
 
-**Step 2.** Select **Tools > Board > esp32 > XIAO_ESP32S3_Plus**.
+**Step 2.** Select **Tools > Board > esp32 > XIAO_ESP32S3_PLUS**.
 
 **Step 3.** Select the correct **Port** under **Tools > Port**.
 
@@ -259,7 +259,7 @@ The **MIC** section contains a segmented audio-level meter and a raw peak value.
    ```
 
 2. Open **Tools > Board > Boards Manager**, search for **esp32**, and install version **3.3.11**.
-3. Select **Tools > Board > esp32 > XIAO_ESP32S3_Plus**.
+3. Select **Tools > Board > esp32 > XIAO_ESP32S3_PLUS**.
 
 Restart Arduino IDE if the board entry still does not appear.
 

@@ -88,7 +88,7 @@ The ST7789 IPS panel on this board requires `invertDisplay(true)` for correct co
 
 **Step 1.** Open `xiao_esp32s3_096_graphictest.ino` in Arduino IDE.
 
-**Step 2.** Select **Tools > Board > esp32 > XIAO_ESP32S3_Plus** and the correct **Port**.
+**Step 2.** Select **Tools > Board > esp32 > XIAO_ESP32S3_PLUS** and the correct **Port**.
 
 **Step 3.** Click **Upload**.
 
@@ -327,7 +327,11 @@ The ESP-IDF v5 API (`i2s_new_channel()` / `i2s_channel_read()` / `i2s_channel_wr
 
 **Step 1.** Connect a MAX98357A amplifier and speaker to the I2S pads as described above.
 
-**Step 2.** Open `xiao_esp32s3_096_flash_record.ino` in Arduino IDE, select the board and port, and click **Upload**.
+**Step 2.** Select **Tools > Partition Scheme > "Default with spiffs (3MB APP/1.5MB SPIFFS)"**, then open `xiao_esp32s3_096_flash_record.ino`, select the board and port, and click **Upload**.
+
+:::caution
+The recorder stores the WAV file in `LittleFS`, which uses the **SPIFFS** partition. The board's default partition scheme (`16M Flash (2MB APP/12.5MB FATFS)`) contains no SPIFFS partition, so `LittleFS.begin()` returns `false` and the screen shows "Flash write failed / Check partition". You **must** select the SPIFFS partition scheme above, or recording will not work.
+:::
 
 **Step 3.** Press **USR1 (D6)** to record 5 seconds of audio from the onboard microphone. The progress bar fills as it records.
 

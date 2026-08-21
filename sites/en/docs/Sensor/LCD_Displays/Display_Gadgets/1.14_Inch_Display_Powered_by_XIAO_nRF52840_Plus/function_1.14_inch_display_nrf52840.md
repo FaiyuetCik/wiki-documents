@@ -31,7 +31,7 @@ All demos in this page require **Seeed nRF52 Boards (1.1.13)** as described in [
 <div class="table-center">
   <table align="center">
     <tr><th>Library</th><th>Search Keyword</th><th>Author</th><th>Required by</th></tr>
-    <tr><td><strong>SparkFun LSM6DS3</strong></td><td><code>SparkFun LSM6DS3</code></td><td>SparkFun</td><td>IMU demos</td></tr>
+    <tr><td><strong>Seeed Arduino LSM6DS3</strong></td><td><code>Seeed Arduino LSM6DS3</code></td><td>Seeed Studio</td><td>IMU demos</td></tr>
   </table>
 </div>
 
@@ -60,7 +60,7 @@ libraries/Seeed_GFX/
 **Step 3.** Restart the Arduino IDE so the new library is detected.
 
 :::tip
-- **Seeed_GFX** is Seeed Studio's fork of TFT_eSPI with pre-configured XIAO board presets. Each sketch's `driver.h` selects `BOARD_SCREEN_COMBO 75` with `USE_XIAO_TFT_DISPLAY_BOARD`, which maps to the correct 135×240 pin layout. This library is different from **GFX Library for Arduino** (by Moon On Our Nation) used in the Dashboard.
+- **Seeed_GFX** is Seeed Studio's fork of TFT_eSPI with pre-configured XIAO board presets. Each sketch's `driver.h` selects `BOARD_SCREEN_COMBO 75` with `USE_XIAO_TFT_DISPLAY_BOARD`, which provides the ST7789 driver and pin mapping — the 135×240 resolution is set by the `TFT_eSPI tft(135, 240)` constructor in each sketch. This library is different from **GFX Library for Arduino** (by Moon On Our Nation) used in the Dashboard.
 - The 1.14 Display has **no touch controller, no SD card slot**, so no touch or SD libraries are needed.
 :::
 
@@ -130,9 +130,9 @@ After the sketch runs through all patterns, the screen shows a "Finished" messag
 
 ## IMU
 
-The 1.14 Inch Display features an onboard 6-axis IMU (LSM6DS3 primary, with QMI8658-compatible fallback) connected via I2C on D4/D5. The motion interrupt line on **D14** supports hardware wake-up and gesture detection.
+The 1.14 Inch Display features an onboard 6-axis IMU (LSM6DS3) connected via I2C on D4/D5. The motion interrupt line on **D14** supports hardware wake-up and gesture detection.
 
-Both demos below use the LSM6DS3 at I2C address **0x6A**. If your board has a QMI8658 variant, the demos will work with automatic fallback detection.
+Both demos below use the LSM6DS3 at I2C address **0x6A**.
 
 <a id="imu-quicksand"></a>
 
@@ -153,7 +153,7 @@ This demo turns the screen into an interactive fluid simulation — golden sand 
 
 The simulation uses a **22×40 occupancy grid** overlaid on the 135×240 screen, where each cell is 6×6 pixels. Around **150 particles** are placed in the grid, each with a position, velocity, and a golden color gradient.
 
-The IMU is read via I2C (D4/D5) using the SparkFun LSM6DS3 library at address `0x6A`. Raw acceleration values are low-pass filtered and used to derive a gravity vector. When you tilt the board:
+The IMU is read via I2C (D4/D5) using the Seeed Arduino LSM6DS3 library at address `0x6A`. Raw acceleration values are low-pass filtered and used to derive a gravity vector. When you tilt the board:
 
 1. **Gravity vector updates** — accelerometer data is smoothed with an exponential moving average to avoid jitter.
 2. **Particle velocity** — each particle accelerates in the direction of the gravity vector, with damping and a per-particle mobility factor based on its depth in the flow.
@@ -577,7 +577,7 @@ This three-pin design gives the nRF52840 Plus several advantages over the ESP32-
 ```cpp
 const int READ_BAT_PIN = 14;   // P0.14, active-low divider enable
 const int CHG_PIN      = 17;   // P0.17, active-low charging status
-const float DIVIDER_RATIO = (1000.0f + 510.0f) / 510.0f; // ≈ 2.96
+const float DIVIDER_RATIO = (1000.0f + 510.0f) / 510.0f; // ≈ 2.96 (nominal; factory firmware uses 499 kΩ → ≈ 3.004)
 const float ADC_FULL_SCALE = 3.6f;  // nRF52840 ADC reference
 const int ADC_MAX = 4095;           // 12-bit ADC
 
@@ -612,7 +612,7 @@ void readBattery() {
 ```
 
 :::note
-The nRF52840 Plus uses an **internal** 1 MΩ / 510 kΩ voltage divider (ratio ≈ 2.96) connected to `PIN_VBAT` (P0.31). This is built into the XIAO nRF52840 Plus module itself, not the display board. The P0.14 enable pin is **active-low**: drive it LOW to enable the divider, then release it to high-impedance (INPUT) to minimize quiescent current drain when the battery is not being measured.
+The nRF52840 Plus uses an **internal** 1 MΩ / 510 kΩ voltage divider (nominal ratio ≈ 2.96) connected to `PIN_VBAT` (P0.31). The factory firmware calibrates the low-side resistor to 499 kΩ (ratio ≈ 3.004) for a more accurate reading. This is built into the XIAO nRF52840 Plus module itself, not the display board. The P0.14 enable pin is **active-low**: drive it LOW to enable the divider, then release it to high-impedance (INPUT) to minimize quiescent current drain when the battery is not being measured.
 :::
 
 ### Battery Percentage Calculation

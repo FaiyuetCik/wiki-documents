@@ -159,7 +159,7 @@ libraries/esp_lcd_touch_axs5106l/
 **Step 3.** Restart the Arduino IDE so the new library is detected.
 
 :::note
-**GFX Library for Arduino** above is only required for the factory Dashboard firmware. If you are working with the standalone function demos in the [Function](/function_1.47_inch_touch_display_esp32s3) page, install **Seeed_GFX** (by Bodmer) instead — the two libraries are different and not interchangeable.
+**GFX Library for Arduino** above is only required for the factory Dashboard firmware. If you are working with the standalone function demos in the [Function](/function_1.47_inch_touch_display_esp32s3) page, install **Seeed_GFX** (Seeed Studio's fork of Bodmer's TFT_eSPI) instead — the two libraries are different and not interchangeable.
 :::
 
 :::tip
@@ -183,7 +183,7 @@ Navigate to `code/example/147_ESP32/0703_DashBoard_147_ESP32/` and open `0703_Da
 
 **Step 1.** Connect the XIAO ESP32-S3 Plus to your computer via the USB-C port.
 
-**Step 2.** In Arduino IDE, select the board: **Tools > Board > esp32 > XIAO_ESP32S3_Plus**.
+**Step 2.** In Arduino IDE, select the board: **Tools > Board > esp32 > XIAO_ESP32S3_PLUS**.
 
 **Step 3.** Select the correct **Port** under **Tools > Port**.
 
@@ -192,7 +192,7 @@ Navigate to `code/example/147_ESP32/0703_DashBoard_147_ESP32/` and open `0703_Da
 <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_esp32s3Plus_touch_display_dashboard_uploadpage.png" style={{width:1000, height:'auto'}}/></div>
 
 :::tip
-If you can't find the board, follow these steps: **Tools > Board > esp32 > XIAO_ESP32S3_Plus**.
+If you can't find the board, follow these steps: **Tools > Board > esp32 > XIAO_ESP32S3_PLUS**.
 
 <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_esp32s3Plus_touch_display_way_to_find_the_correct_board.png" style={{width:1000, height:'auto'}}/></div>
 :::
@@ -298,7 +298,7 @@ Make sure you have added the ESP32 board package to Arduino IDE:
    https://espressif.github.io/arduino-esp32/package_esp32_index.json
    ```
 2. Go to **Tools > Board > Boards Manager**, search for **esp32**, and install version **3.3.11**.
-3. After installation, **Tools > Board > esp32 > XIAO_ESP32S3_Plus** should appear in the menu.
+3. After installation, **Tools > Board > esp32 > XIAO_ESP32S3_PLUS** should appear in the menu.
 
 If the board still doesn't show up, restart Arduino IDE and try again.
 

@@ -164,7 +164,7 @@ Navigate to `code/example/114_ESP32/0715_DashBoard_114_ESP32/` and open `0715_Da
 
 **Step 1.** Connect the XIAO ESP32-S3 Plus to your computer via the USB-C port.
 
-**Step 2.** In Arduino IDE, select the board: **Tools > Board > esp32 > XIAO_ESP32S3_Plus**.
+**Step 2.** In Arduino IDE, select the board: **Tools > Board > esp32 > XIAO_ESP32S3_PLUS**.
 
 **Step 3.** Select the correct **Port** under **Tools > Port**.
 
@@ -173,7 +173,7 @@ Navigate to `code/example/114_ESP32/0715_DashBoard_114_ESP32/` and open `0715_Da
 <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_uploadpage.png" style={{width:1000, height:'auto'}}/></div>
 
 :::tip
-If you can't find the board, follow these steps: **Tools > Board > esp32 > XIAO_ESP32S3_Plus**.
+If you can't find the board, follow these steps: **Tools > Board > esp32 > XIAO_ESP32S3_PLUS**.
 :::
 
 ### Dashboard Overview
@@ -269,7 +269,7 @@ Make sure you have added the ESP32 board package to Arduino IDE:
    https://espressif.github.io/arduino-esp32/package_esp32_index.json
    ```
 2. Go to **Tools > Board > Boards Manager**, search for **esp32**, and install version **3.3.11**.
-3. After installation, **Tools > Board > esp32 > XIAO_ESP32S3_Plus** should appear in the menu.
+3. After installation, **Tools > Board > esp32 > XIAO_ESP32S3_PLUS** should appear in the menu.
 
 If the board still doesn't show up, restart Arduino IDE and try again.
 
