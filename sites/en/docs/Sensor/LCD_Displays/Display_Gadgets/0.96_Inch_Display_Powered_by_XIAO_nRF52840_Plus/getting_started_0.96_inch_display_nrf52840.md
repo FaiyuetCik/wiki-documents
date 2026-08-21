@@ -137,7 +137,7 @@ Then go to **Tools > Board > Boards Manager**, search for **Seeed nRF52** and in
 </div>
 
 :::note
-**GFX Library for Arduino** above is only required for the factory Dashboard firmware. If you are working with the standalone function demos in the [Function](/function_0.96_inch_display_nrf52840) page, install **Seeed_GFX** (from [Seeed-Studio/Seeed_GFX](https://github.com/Seeed-Studio/Seeed_GFX)) instead — the two libraries are different and not interchangeable.
+**GFX Library for Arduino** above is required for the factory Dashboard firmware and for most standalone function demos. The [Function](/function_0.96_inch_display_nrf52840) page's demos use **two different graphics libraries**: three demos (GraphicTest, Quicksand, Wake) use **GFX Library for Arduino**, while the Flash Recorder demo uses **Seeed_GFX** (from [Seeed-Studio/Seeed_GFX](https://github.com/Seeed-Studio/Seeed_GFX)) — the two libraries are different and not interchangeable.
 :::
 
 ### Download the Dashboard Code
