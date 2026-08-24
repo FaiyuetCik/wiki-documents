@@ -107,27 +107,24 @@ The ST7789 IPS panel on this board requires `invertDisplay(true)` for correct co
 === XIAO ESP32-S3 Plus 0.96 graphic test ===
 LCD width: 80
 LCD height: 160
-Color bars: ... ms
-Lines: ... ms
-Fast lines: ... ms
-Rectangles: ... ms
-Filled rects: ... ms
-Circles: ... ms
-Triangles: ... ms
-Round rects: ... ms
-Text: ... ms
-Pixel gradient: ... ms
+Color bars: 5.59 ms
+Lines: 58.13 ms
+Fast lines: 8.29 ms
+Rectangles: 6.97 ms
+Filled rects: 17.30 ms
+Circles: 12.11 ms
+Triangles: 12.92 ms
+Round rects: 8.82 ms
+Text: 9.90 ms
+Pixel gradient: 161.09 ms
 Graphic test finished.
 ```
-
-The timing values vary depending on compiler optimisation — capture your own board's output from the Serial Monitor for the exact numbers.
 
 On the screen, you will see each test pattern displayed for about one second before the next one starts. When all tests complete, a "Done! All tests OK" screen appears.
 
 ### Expected Result
 
-<!-- TODO: Add graphictest GIF -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_function_graphictest.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_function_graphictest.gif" style={{width:500, height:'auto'}}/></div>
 
 After the sketch runs through all patterns, the screen shows a "Done!" message. Reset the board to run the test again.
 
@@ -188,8 +185,7 @@ Particles near the surface flow freely (higher mobility); particles buried deepe
 
 ### Expected Result
 
-<!-- TODO: Add quicksand GIF -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_function_quicksand.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_function_quicksand.gif" style={{width:500, height:'auto'}}/></div>
 
 The golden sand particles flow smoothly as you tilt the board. When held flat, the sand settles at the bottom of the screen. Rotate the board 90 degrees and the sand flows to the new "bottom" within a second.
 
@@ -256,15 +252,24 @@ The demo uses the LSM6-compatible IMU's **embedded wake-up event detector** — 
 ```
 === XIAO ESP32-S3 Plus 0.96 IMU Wake Demo ===
 [IMU] LSM6-compatible at 0x6A, WHO=0x6A
+[READY] awake; USR1=sleep, USR2=manual wake, motion=IMU wake
+[READY] auto sleep in 8 seconds
+[READY] sleep mode: display only (USB CDC stays connected)
 [WAKE] IMU_D14  count=1
+[WAKE] IMU_D14  count=2
+[SLEEP] USR1
+[WAKE] IMU_D14  count=3
+[WAKE] IMU_D14  count=4
+[SLEEP] USR1
+[WAKE] IMU_D14  count=5
+[SLEEP] AUTO_TIMEOUT
 ```
 
-The `count` field increments on each wake.
+After boot, three `[READY]` lines describe the controls: USR1 puts the board to sleep, USR2 wakes it manually, and motion triggers an IMU wake. Each transition is logged — `[WAKE] IMU_D14 count=N` for motion wake-ups (the count increments each time), `[SLEEP] USR1` when you press USR1, and `[SLEEP] AUTO_TIMEOUT` when it auto-sleeps after 8 seconds of no motion.
 
 ### Expected Result
 
-<!-- TODO: Add wakeup GIF -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_function_wakeup.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_function_wakeup.gif" style={{width:500, height:'auto'}}/></div>
 
 The screen displays real-time motion and battery data while awake. After 8 seconds of stillness, the screen goes dark and the ESP32-S3 enters light sleep. Pick up the device and the screen restores instantly, with the wake counter incremented.
 
