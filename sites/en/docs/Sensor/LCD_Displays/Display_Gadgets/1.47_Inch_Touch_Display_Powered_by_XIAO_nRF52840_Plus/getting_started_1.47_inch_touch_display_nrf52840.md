@@ -15,6 +15,9 @@ type: gettingstarted
 last_update:
   date: 07/30/2026
   author: FaiyuetCik
+createdAt: '2026-08-11'
+updatedAt: '2026-08-21'
+url: https://wiki.seeedstudio.com/getting_started_1.47_inch_touch_display_nrf52840/
 ---
 
 # Getting Started with 1.47 Inch Touch Display Powered by XIAO nRF52840 Plus
