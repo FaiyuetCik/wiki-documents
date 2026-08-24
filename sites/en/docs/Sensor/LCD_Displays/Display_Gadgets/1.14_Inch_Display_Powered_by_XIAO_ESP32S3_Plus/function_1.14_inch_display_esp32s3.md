@@ -29,24 +29,15 @@ All demos in this page require **esp32 Boards by Espressif (3.3.11)** as describ
 - **Seeed_GFX (Manual Installation)** — this library is not available in Library Manager and must be installed manually:
 
 <div class="github_container" style={{textAlign: 'center'}}>
-    <a class="github_item" href="https://github.com/Seeed-Studio/Seeed_GFX" target="_blank" rel="noopener noreferrer">
+    <a class="github_item" href="https://github.com/Seeed-Studio/Seeed_GFX/archive/a2de1abca0597c202193f22d01e9fa35d1ff613b.zip" target="_blank" rel="noopener noreferrer">
     <strong><span><font color={'FFFFFF'} size={"4"}> Download Seeed_GFX</font></span></strong>
     <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
     </a>
 </div><br />
 
-**Step 1.** Click the button above to download the `Seeed_GFX` library as a ZIP file. Alternatively, clone the repository from [Seeed-Studio/Seeed_GFX](https://github.com/Seeed-Studio/Seeed_GFX).
+**Step 1.** Click the button above to download `Seeed_GFX` as a ZIP file (pinned to a fixed commit so the tutorial stays reproducible). Alternatively, clone the repository from [Seeed-Studio/Seeed_GFX](https://github.com/Seeed-Studio/Seeed_GFX).
 
-**Step 2.** Place the downloaded folder into your Arduino libraries folder (typically `Documents/Arduino/libraries/` on Windows). The resulting folder structure should be:
-
-```
-libraries/Seeed_GFX/
-├── library.properties
-├── TFT_eSPI.h
-├── TFT_eSPI.cpp
-├── User_Setup_Select.h
-└── ...
-```
+**Step 2.** In the Arduino IDE, go to **Sketch > Include Library > Add .ZIP Library...** and select the downloaded ZIP. The IDE reads `library.properties` and installs it into the correct `Seeed_GFX` folder automatically — you do not need to rename the extracted folder. (To install manually instead, unzip the archive and rename the extracted folder to `Seeed_GFX` before placing it in `Documents/Arduino/libraries/`.)
 
 **Step 3.** Restart the Arduino IDE so the new library is detected.
 
@@ -55,6 +46,24 @@ libraries/Seeed_GFX/
 - The **IMU** is read directly over I2C (`Wire`) in these demos — no external IMU library is needed. The **PDM microphone** and **I2S output** use the ESP-IDF 5 drivers (`driver/i2s_pdm.h`, `driver/i2s_std.h`) and `LittleFS`, all included with the esp32 board package.
 - The 1.14 Display has **no touch controller, no SD card slot**, so no touch or SD libraries are needed.
 :::
+
+## Getting the Demo Code
+
+Every demo on this page lives in the [Display-Gadgets](https://github.com/Seeed-Projects/Display-Gadgets) repository. Each demo is a folder that contains the `.ino` sketch **together with a `driver.h` configuration file** — both are required to compile, so always grab the whole folder rather than copying the `.ino` source from the GitHub web view.
+
+**Option A — Download the repository as a ZIP (recommended):**
+
+1. Open [github.com/Seeed-Projects/Display-Gadgets](https://github.com/Seeed-Projects/Display-Gadgets) and click **Code > Download ZIP**, then extract the archive anywhere convenient.
+2. Navigate into `code/Function/` and open the folder shown in each demo's **Code location** line. For example, the GraphicTest demo for this board lives in `code/Function/114_ESP32/xiao_esp32s3_114_graphictest/`.
+3. **Double-click the `.ino` file** to open it in the Arduino IDE. Keep the `.ino` and `driver.h` together in the same folder — the IDE relies on them being side-by-side.
+
+**Option B — git clone:**
+
+```sh
+git clone https://github.com/Seeed-Projects/Display-Gadgets.git
+```
+
+Then open the demo's `.ino` file from the cloned `code/Function/...` folder.
 
 ## Screen Display — GraphicTest
 
@@ -643,7 +652,7 @@ The 1.14 Inch Display includes an onboard battery voltage measurement circuit. T
 **Voltage divider ratio:** R13 = 316 kΩ, R14 = 160 kΩ → **Divider ratio = (316 + 160) / 160 ≈ 2.975**
 
 :::note
-Unlike the nRF52840 Plus version which can detect charging status and calculate battery percentage, the ESP32-S3 Plus version displays live voltage readings rather than percentage or charging state.
+Unlike the nRF52840 Plus version, the ESP32-S3 Plus version cannot detect charging status (no `~CHG` pin is wired to a GPIO). It can still calculate a battery percentage from the measured voltage via a LiPo discharge lookup table — the Raise to Wake demo does exactly this.
 :::
 
 ### Reading Battery Voltage

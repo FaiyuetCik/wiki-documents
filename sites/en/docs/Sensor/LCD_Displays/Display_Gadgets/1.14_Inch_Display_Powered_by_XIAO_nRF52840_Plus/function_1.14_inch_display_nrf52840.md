@@ -42,24 +42,15 @@ Seeed_GFX's nRF52840 processor includes `Seeed_Arduino_FS.h` when `SMOOTH_FONT` 
 :::
 
 <div class="github_container" style={{textAlign: 'center'}}>
-    <a class="github_item" href="https://github.com/Seeed-Studio/Seeed_GFX" target="_blank" rel="noopener noreferrer">
+    <a class="github_item" href="https://github.com/Seeed-Studio/Seeed_GFX/archive/a2de1abca0597c202193f22d01e9fa35d1ff613b.zip" target="_blank" rel="noopener noreferrer">
     <strong><span><font color={'FFFFFF'} size={"4"}> Download Seeed_GFX</font></span></strong>
     <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
     </a>
 </div><br />
 
-**Step 1.** Click the button above to download the `Seeed_GFX` library as a ZIP file. Alternatively, clone the repository from [Seeed-Studio/Seeed_GFX](https://github.com/Seeed-Studio/Seeed_GFX).
+**Step 1.** Click the button above to download `Seeed_GFX` as a ZIP file (pinned to a fixed commit so the tutorial stays reproducible). Alternatively, clone the repository from [Seeed-Studio/Seeed_GFX](https://github.com/Seeed-Studio/Seeed_GFX).
 
-**Step 2.** Place the downloaded folder into your Arduino libraries folder (typically `Documents/Arduino/libraries/` on Windows). The resulting folder structure should be:
-
-```
-libraries/Seeed_GFX/
-├── library.properties
-├── TFT_eSPI.h
-├── TFT_eSPI.cpp
-├── User_Setup_Select.h
-└── ...
-```
+**Step 2.** In the Arduino IDE, go to **Sketch > Include Library > Add .ZIP Library...** and select the downloaded ZIP. The IDE reads `library.properties` and installs it into the correct `Seeed_GFX` folder automatically — you do not need to rename the extracted folder. (To install manually instead, unzip the archive and rename the extracted folder to `Seeed_GFX` before placing it in `Documents/Arduino/libraries/`.)
 
 **Step 3.** Restart the Arduino IDE so the new library is detected.
 
@@ -67,6 +58,24 @@ libraries/Seeed_GFX/
 - **Seeed_GFX** is Seeed Studio's fork of TFT_eSPI with pre-configured XIAO board presets. Each sketch's `driver.h` selects `BOARD_SCREEN_COMBO 75` with `USE_XIAO_TFT_DISPLAY_BOARD`, which provides the ST7789 driver and pin mapping — the 135×240 resolution is set by the `TFT_eSPI tft(135, 240)` constructor in each sketch. This library is different from **GFX Library for Arduino** (by Moon On Our Nation) used in the Dashboard.
 - The 1.14 Display has **no touch controller, no SD card slot**, so no touch or SD libraries are needed.
 :::
+
+## Getting the Demo Code
+
+Every demo on this page lives in the [Display-Gadgets](https://github.com/Seeed-Projects/Display-Gadgets) repository. Each demo is a folder that contains the `.ino` sketch **together with a `driver.h` configuration file** — both are required to compile, so always grab the whole folder rather than copying the `.ino` source from the GitHub web view.
+
+**Option A — Download the repository as a ZIP (recommended):**
+
+1. Open [github.com/Seeed-Projects/Display-Gadgets](https://github.com/Seeed-Projects/Display-Gadgets) and click **Code > Download ZIP**, then extract the archive anywhere convenient.
+2. Navigate into `code/Function/` and open the folder shown in each demo's **Code location** line. For example, the GraphicTest demo for this board lives in `code/Function/114_nRF52840/xiao_nrf52840_114_graphictest/`.
+3. **Double-click the `.ino` file** to open it in the Arduino IDE. Keep the `.ino` and `driver.h` together in the same folder — the IDE relies on them being side-by-side.
+
+**Option B — git clone:**
+
+```sh
+git clone https://github.com/Seeed-Projects/Display-Gadgets.git
+```
+
+Then open the demo's `.ino` file from the cloned `code/Function/...` folder.
 
 ## Screen Display — GraphicTest
 
@@ -223,7 +232,7 @@ The demo uses the LSM6DS3's **embedded wake-up event detector** — a hardware f
 
 1. **Active state** — screen is on, backlight at full brightness, UI refreshes every 250 ms with real-time IMU data. A countdown timer shows seconds remaining until auto-sleep.
 2. **Auto-sleep** — after the idle timeout, the sketch turns off the backlight, displays a "Sleeping... Pick up device to wake" message, and enters nRF52 System ON sleep (low-power mode with RAM retention). The IMU wake interrupt on D14 was already configured at startup, so motion detection remains active during sleep.
-3. **Wake-up** — when the user picks up the board, the IMU detects motion and asserts D14 HIGH. The nRF52840 exits sleep, re-initializes the LCD and IMU, and the UI is fully redrawn.
+3. **Wake-up** — when the user picks up the board, the IMU detects motion and asserts D14 HIGH. The nRF52840 exits System ON sleep, restores the backlight, and redraws the UI. The LCD and IMU are **not** re-initialized — System ON sleep retains RAM and peripheral configuration, so both keep the settings applied at startup.
 
 **Manual test buttons:**
 
@@ -579,6 +588,8 @@ This three-pin design gives the nRF52840 Plus several advantages over the ESP32-
 ### Reading Battery Voltage
 
 ```cpp
+#include <nrf.h>
+
 const int READ_BAT_PIN = 14;   // P0.14, active-low divider enable
 const int CHG_PIN      = 17;   // P0.17, active-low charging status
 const float DIVIDER_RATIO = (1000.0f + 510.0f) / 510.0f; // ≈ 2.96 (nominal; factory firmware uses 499 kΩ → ≈ 3.004)
@@ -587,14 +598,20 @@ const int ADC_MAX = 4095;           // 12-bit ADC
 
 void setup() {
   analogReadResolution(12);
-  pinMode(CHG_PIN, INPUT_PULLUP);   // CHG is active-low open-drain
+
+  // Configure CHG as an input with internal pull-up (active-low open-drain).
+  nrf_gpio_cfg_input(CHG_PIN, NRF_GPIO_PIN_PULLUP);
+
+  // Release the divider enable pin to high-impedance when not measuring.
+  NRF_P0->DIRCLR = (1UL << READ_BAT_PIN);
+
   Serial.begin(115200);
 }
 
 void readBattery() {
-  // Enable divider (active-low): drive P0.14 LOW
-  pinMode(READ_BAT_PIN, OUTPUT);
-  digitalWrite(READ_BAT_PIN, LOW);
+  // Enable the divider (active-low): drive P0.14 LOW.
+  NRF_P0->OUTCLR = (1UL << READ_BAT_PIN);
+  NRF_P0->DIRSET = (1UL << READ_BAT_PIN);
   delay(30); // let the divider settle
 
   // Read ADC (discard first samples for accuracy)
@@ -602,18 +619,22 @@ void readBattery() {
   uint32_t sum = 0;
   for (int i = 0; i < 16; i++) { sum += analogRead(PIN_VBAT); delay(2); }
 
-  // Disable divider: release P0.14 to high-impedance (INPUT)
-  pinMode(READ_BAT_PIN, INPUT);
+  // Disable divider: release P0.14 to high-impedance.
+  NRF_P0->DIRCLR = (1UL << READ_BAT_PIN);
 
   uint16_t raw = sum / 16;
   float vadc = (raw * ADC_FULL_SCALE) / ADC_MAX;
   float vbat = vadc * DIVIDER_RATIO;
-  bool charging = (digitalRead(CHG_PIN) == LOW); // LOW = charging
+  bool charging = (NRF_P0->IN & (1UL << CHG_PIN)) == 0; // LOW = charging
 
   Serial.print("VBAT: "); Serial.print(vbat);
   Serial.print("V, Charging: "); Serial.println(charging ? "Yes" : "No");
 }
 ```
+
+:::note
+The `~CHG` pin is read through the nRF52840's **raw GPIO registers** (`nrf_gpio_cfg_input()` and `NRF_P0->IN`) instead of `digitalRead()`. In the Arduino API, pin numbers follow the board package's mapping, where `digitalRead(17)` actually reads **P0.07** (the 6D IMU's I2C data line) rather than P0.17. The constants `14` and `17` here are **raw Nordic P0.x pin numbers** (P0.14 and P0.17), which is exactly what the register calls expect.
+:::
 
 :::note
 The nRF52840 Plus uses an **internal** 1 MΩ / 510 kΩ voltage divider (nominal ratio ≈ 2.96) connected to `PIN_VBAT` (P0.31). The factory firmware calibrates the low-side resistor to 499 kΩ (ratio ≈ 3.004) for a more accurate reading. This is built into the XIAO nRF52840 Plus module itself, not the display board. The P0.14 enable pin is **active-low**: drive it LOW to enable the divider, then release it to high-impedance (INPUT) to minimize quiescent current drain when the battery is not being measured.
