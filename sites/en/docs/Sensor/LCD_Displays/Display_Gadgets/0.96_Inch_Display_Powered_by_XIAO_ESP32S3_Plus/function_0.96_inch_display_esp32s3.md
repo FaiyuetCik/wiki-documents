@@ -26,36 +26,34 @@ This page collects standalone function-level demos for each onboard peripheral o
 All demos in this page require **esp32 Boards by Espressif (3.3.11)** as described in [Getting Started](/getting_started_0.96_inch_display_esp32s3). Additionally, install the following library.
 :::
 
-- **Seeed_GFX (Manual Installation)** — this library is not available in Library Manager and must be installed manually:
+All four demos use **GFX Library for Arduino** (Arduino_GFX). Install it from the Arduino Library Manager:
 
-<div class="github_container" style={{textAlign: 'center'}}>
-    <a class="github_item" href="https://github.com/Seeed-Studio/Seeed_GFX/archive/a2de1abca0597c202193f22d01e9fa35d1ff613b.zip" target="_blank" rel="noopener noreferrer">
-    <strong><span><font color={'FFFFFF'} size={"4"}> Download Seeed_GFX</font></span></strong>
-    <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
-    </a>
-</div><br />
+<div class="table-center">
+  <table align="center">
+    <tr><th>Library</th><th>Search Keyword</th><th>Author</th><th>Required by</th></tr>
+    <tr><td><strong>GFX Library for Arduino</strong></td><td><code>GFX Library for Arduino</code></td><td>Moon On Our Nation</td><td>All four demos</td></tr>
+  </table>
+</div>
 
-**Step 1.** Click the button above to download `Seeed_GFX` as a ZIP file (pinned to a fixed commit so the tutorial stays reproducible). Alternatively, clone the repository from [Seeed-Studio/Seeed_GFX](https://github.com/Seeed-Studio/Seeed_GFX).
+**Step 1.** In the Arduino IDE, go to **Sketch > Include Library > Manage Libraries...**.
 
-**Step 2.** In the Arduino IDE, go to **Sketch > Include Library > Add .ZIP Library...** and select the downloaded ZIP. The IDE reads `library.properties` and installs it into the correct `Seeed_GFX` folder automatically — you do not need to rename the extracted folder. (To install manually instead, unzip the archive and rename the extracted folder to `Seeed_GFX` before placing it in `Documents/Arduino/libraries/`.)
-
-**Step 3.** Restart the Arduino IDE so the new library is detected.
+**Step 2.** Search for **"GFX Library for Arduino"** (author *Moon On Our Nation*) and click **Install**.
 
 :::tip
-- **Seeed_GFX** is Seeed Studio's fork of TFT_eSPI with pre-configured XIAO board presets. Each sketch's `driver.h` selects `BOARD_SCREEN_COMBO 75` with `USE_XIAO_TFT_DISPLAY_BOARD`, which maps to the correct 80×160 pin layout. This library is different from **GFX Library for Arduino** (by Moon On Our Nation) used in the Dashboard.
+- **GFX Library for Arduino** (Arduino_GFX) is the graphics library used by all four demos. Each sketch constructs an `Arduino_ST7789` panel directly in the `.ino` file — an 80×160 IPS display at `rotation = 2` with a 24-pixel column offset — so no separate `driver.h` or board-preset file is needed.
 - The **IMU** is read directly over I2C (`Wire`) in these demos — no external IMU library is needed. The **PDM microphone** and **I2S output** use the ESP-IDF 5 drivers (`driver/i2s_pdm.h`, `driver/i2s_std.h`) and `LittleFS`, all included with the esp32 board package.
 - The 0.96 Display has **no touch controller, no SD card slot, and no Grove connector** — it only has a back-side 4-pin I2C test pad — so no touch, SD, or Grove libraries are needed.
 :::
 
 ## Getting the Demo Code
 
-Every demo on this page lives in the [Display-Gadgets](https://github.com/Seeed-Projects/Display-Gadgets) repository. Each demo is a folder that contains the `.ino` sketch **together with a `driver.h` configuration file** — both are required to compile, so always grab the whole folder rather than copying the `.ino` source from the GitHub web view.
+Every demo on this page lives in the [Display-Gadgets](https://github.com/Seeed-Projects/Display-Gadgets) repository. Each demo is a self-contained `.ino` sketch — the display is configured directly in the sketch via Arduino_GFX, so grab the `.ino` file (or the whole folder) and it compiles as-is.
 
 **Option A — Download the repository as a ZIP (recommended):**
 
 1. Open [github.com/Seeed-Projects/Display-Gadgets](https://github.com/Seeed-Projects/Display-Gadgets) and click **Code > Download ZIP**, then extract the archive anywhere convenient.
 2. Navigate into `code/Function/` and open the folder shown in each demo's **Code location** line. For example, the GraphicTest demo for this board lives in `code/Function/096_ESP32/xiao_esp32s3_096_graphictest/`.
-3. **Double-click the `.ino` file** to open it in the Arduino IDE. Keep the `.ino` and `driver.h` together in the same folder — the IDE relies on them being side-by-side.
+3. **Double-click the `.ino` file** to open it in the Arduino IDE.
 
 **Option B — git clone:**
 
@@ -80,9 +78,9 @@ This demo runs a full graphics benchmark on the 0.96-inch ST7789 IPS panel (80×
 
 ### How It Works
 
-The sketch initializes the ST7789 IPS panel via TFT_eSPI, then runs through ten graphics primitives in sequence, measuring the execution time of each one via `micros()` and printing the result to the serial monitor.
+The sketch initializes the ST7789 IPS panel via Arduino_GFX, then runs through ten graphics primitives in sequence, measuring the execution time of each one via `micros()` and printing the result to the serial monitor.
 
-The key LCD configuration is abstracted in `driver.h`:
+The key LCD configuration is declared directly in the sketch:
 
 - **Chip select:** D2
 - **Data/command:** D3
@@ -91,7 +89,7 @@ The key LCD configuration is abstracted in `driver.h`:
 - **Reset:** D17
 - **Backlight:** D18 (PWM-capable)
 
-The ST7789 IPS panel on this board requires `invertDisplay(true)` for correct colors. No MADCTL fix or JD9853A-specific register tweaks are needed.
+The panel is constructed as an 80×160 ST7789 at `rotation = 2` with a 24-pixel column offset, and requires `invertDisplay(true)` for correct colors. No MADCTL fix or JD9853A-specific register tweaks are needed.
 
 ### Running the Demo
 
@@ -193,7 +191,7 @@ The golden sand particles flow smoothly as you tilt the board. When held flat, t
 
 ### Demo 2: Raise to Wake
 
-This demo implements a **screen sleep/wake system** driven by the IMU's built-in wake-up interrupt on **D14**. The screen automatically turns off (backlight off + ESP32 light sleep) after 8 seconds of inactivity, and wakes instantly when you pick up or move the device.
+This demo implements a **screen sleep/wake system** driven by the IMU's built-in wake-up interrupt on **D14**. The screen automatically turns off (backlight off) after 8 seconds of inactivity, and wakes instantly when you pick up or move the device.
 
 **Code location:** `code/Function/096_ESP32/xiao_esp32s3_096_wakeup/`
 
@@ -226,8 +224,8 @@ The demo uses the LSM6-compatible IMU's **embedded wake-up event detector** — 
 **Sleep/wake flow:**
 
 1. **Active state** — screen is on with the backlight lit. IMU data and battery voltage (D16) refresh periodically, and a countdown shows seconds remaining until auto-sleep.
-2. **Auto-sleep** — after 8 seconds of no activity, the sketch turns off the backlight, displays a "Sleep — Move to wake" message, and enters **ESP32 light sleep**. It configures D14 (IMU interrupt, HIGH level) and D7 (USR2, LOW level) as GPIO wake-up sources, plus a 250 ms timer wake-up.
-3. **Wake-up** — when the user picks up the board, the IMU detects motion and asserts D14 HIGH. The ESP32-S3 exits light sleep, re-initializes the LCD and IMU, and the UI is fully redrawn.
+2. **Auto-sleep** — after 8 seconds of no activity, the sketch turns off the backlight and displays a "Sleep — Move to wake" message. By default the demo uses a **display-only sleep**: the ESP32-S3 keeps running (so the USB CDC serial port stays connected) and simply turns the panel off. The IMU wake interrupt on D14 stays armed, so motion detection remains active. (Set `ENABLE_LIGHT_SLEEP` to `true` in the sketch to use real ESP32 light sleep with GPIO wake-up — note that USB CDC can drop while the chip sleeps.)
+3. **Wake-up** — when the user picks up the board, the IMU detects motion and asserts D14 HIGH. The sketch turns the backlight back on and redraws the UI — the LCD and IMU are not re-initialized.
 
 **Manual test buttons:**
 
@@ -271,7 +269,7 @@ After boot, three `[READY]` lines describe the controls: USR1 puts the board to 
 
 <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_function_wakeup.gif" style={{width:500, height:'auto'}}/></div>
 
-The screen displays real-time motion and battery data while awake. After 8 seconds of stillness, the screen goes dark and the ESP32-S3 enters light sleep. Pick up the device and the screen restores instantly, with the wake counter incremented.
+The screen displays real-time motion and battery data while awake. After 8 seconds of stillness, the screen goes dark. Pick up the device and the screen restores instantly, with the wake counter incremented.
 
 ---
 

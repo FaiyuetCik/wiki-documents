@@ -242,7 +242,7 @@ The demo uses the LSM6DS3's **embedded wake-up event detector** — a hardware f
 
 1. **Active state** — screen is on, backlight at full brightness, UI refreshes every 250 ms with real-time IMU data.
 2. **Auto-sleep** — after 8 seconds of inactivity, the sketch turns off the backlight, displays a "Sleep — Move to wake" message, and enters nRF52 System ON sleep (low-power mode with RAM retention). The IMU wake interrupt on D14 was already configured at startup, so motion detection remains active during sleep.
-3. **Wake-up** — when the user picks up the board, the IMU detects motion and asserts D14 HIGH. The nRF52840 exits sleep, re-initializes the LCD and IMU, and the UI is fully redrawn.
+3. **Wake-up** — when the user picks up the board, the IMU detects motion and asserts D14 HIGH. The nRF52840 exits System ON sleep, turns the backlight back on, and redraws the UI — the LCD and IMU keep their state because System ON sleep retains RAM.
 
 **Manual test buttons:**
 
