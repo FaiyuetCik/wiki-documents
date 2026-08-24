@@ -89,7 +89,7 @@ The key LCD configuration is declared directly in the sketch:
 - **Reset:** D17
 - **Backlight:** D18 (PWM-capable)
 
-The panel is constructed as an 80×160 ST7789 at `rotation = 2` with a 24-pixel column offset, and requires `invertDisplay(true)` for correct colors. No MADCTL fix or JD9853A-specific register tweaks are needed.
+The panel is constructed as an 80×160 ST7789 at `rotation = 2` with a 24-pixel column offset. The sketch calls `invertDisplay(true)` because this IPS panel drives colors inverted by default — `invertDisplay()` only flips the polarity and does not affect the panel's RGB/BGR channel order. No MADCTL fix or JD9853A-specific register tweaks are needed.
 
 ### Running the Demo
 
