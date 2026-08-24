@@ -16,6 +16,9 @@ type: gettingstarted
 last_update:
   date: 08/20/2026
   author: FaiyuetCik
+createdAt: '2026-08-11'
+updatedAt: '2026-08-21'
+url: https://wiki.seeedstudio.com/getting_started_1.14_inch_display_nrf52840/
 ---
 
 # Getting Started with 1.14 Inch Display Powered by XIAO nRF52840 Plus

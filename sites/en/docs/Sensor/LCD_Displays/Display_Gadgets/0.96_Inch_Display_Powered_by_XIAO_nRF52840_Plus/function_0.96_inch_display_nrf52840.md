@@ -16,6 +16,9 @@ sidebar_position: 2
 last_update:
   date: 08/21/2026
   author: FaiyuetCik
+createdAt: '2026-08-13'
+updatedAt: '2026-08-24'
+url: https://wiki.seeedstudio.com/function_0.96_inch_display_nrf52840/
 ---
 
 # Onboard Peripheral Usage
