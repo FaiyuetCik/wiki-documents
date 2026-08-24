@@ -88,7 +88,7 @@ The ST7789 IPS panel on this board requires `invertDisplay(true)` for correct co
 
 **Step 1.** Open `xiao_esp32s3_096_graphictest.ino` in Arduino IDE.
 
-**Step 2.** Select **Tools > Board > esp32 > XIAO_ESP32S3_PLUS** and the correct **Port**.
+**Step 2.** Select **Tools > Board > esp32 > XIAO_ESP32S3_Plus** and the correct **Port**.
 
 **Step 3.** Click **Upload**.
 
