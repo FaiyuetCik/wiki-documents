@@ -1,5 +1,5 @@
 ---
-description: Standalone function-level demos for each onboard peripheral of the 1.14 Inch Display Powered by XIAO nRF52840 Plus. Covers screen, IMU, PDM microphone, buttons, battery, and Grove I2C.
+description: Standalone function-level demos for each onboard peripheral of the 1.14 Inch Display Powered by XIAO nRF52840 Plus. Covers screen, IMU, PDM microphone, internal Flash recording and I2S audio playback, buttons, battery, and Grove I2C.
 title: Onboard Peripheral Usage
 keywords:
   - XIAO
@@ -8,6 +8,8 @@ keywords:
   - LCD
   - Function
   - 1.14
+  - I2S
+  - Audio
 image: https://files.seeedstudio.com/wiki/seeed_logo/logo_2023.png
 slug: /function_1.14_inch_display_nrf52840
 sku: 100069374
@@ -60,6 +62,12 @@ Seeed_GFX's nRF52840 processor includes `Seeed_Arduino_FS.h` when `SMOOTH_FONT` 
 :::tip
 - **Seeed_GFX** is Seeed Studio's fork of TFT_eSPI with pre-configured XIAO board presets. Each sketch's `driver.h` selects `BOARD_SCREEN_COMBO 75` with `USE_XIAO_TFT_DISPLAY_BOARD`, which provides the ST7789 driver and pin mapping — the 135×240 resolution is set by the `TFT_eSPI tft(135, 240)` constructor in each sketch. This library is different from **GFX Library for Arduino** (by Moon On Our Nation) used in the Dashboard.
 - The 1.14 Display has **no touch controller, no SD card slot**, so no touch or SD libraries are needed.
+:::
+
+:::note
+The **PDM**, **Adafruit TinyUSB**, **Adafruit LittleFS**, and **InternalFileSystem** libraries used by the **Flash Recorder** tutorial are bundled with **Seeed nRF52 Boards 1.1.13** — do not install separate versions from the Library Manager.
+
+The recording is stored in the nRF52840's **internal Flash filesystem**. This display has no SD card slot, and the tutorial does not use SdFat.
 :::
 
 ## Getting the Demo Code
@@ -288,7 +296,7 @@ The 1.14 Inch Display features the same PDM digital microphone as the 1.47" vers
   </table>
 </div>
 
-### Demo: Voice Bar
+### Demo 1: Voice Bar
 
 This demo visualizes the PDM microphone's real-time audio input as a dynamic equalizer-style waveform and a segmented volume bar. Speak, clap, or blow into the onboard microphone and watch the bars react instantly.
 
@@ -344,6 +352,88 @@ The screen is divided into three zones:
 <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_nRF52840Plus_function_voice_bar.gif" style={{width:500, height:'auto'}}/></div>
 
 When silent, the waveform is flat and the volume bar is empty (0%). Speak into the microphone and the equalizer bars animate while the volume bar fills up from green through yellow to red. The percentage label updates in real time.
+
+### Demo 2: Flash Recorder with I2S Playback
+
+This demo records a short audio clip from the onboard PDM microphone into the nRF52840's **internal Flash filesystem**, then plays it back through an external I2S amplifier and speaker:
+
+- **USR1** records from the onboard PDM microphone.
+- The recording is **16 kHz, 16-bit, mono**.
+- Each clip is about **0.7 seconds** — 11,200 samples (22,400 bytes of PCM).
+- The clip is saved as **`/REC_RAW.WAV`** in the internal Flash filesystem.
+- **USR2** plays the recording back through an external **MAX98357A** and speaker.
+- This demo has been compiled, flashed, and hardware-verified on the XIAO nRF52840 Plus with **Seeed nRF52 Boards 1.1.13**.
+
+**Code location:** `code/Function/114_nRF52840/xiao_nrf52840_114_flash_record/`
+
+<div class="github_container" style={{textAlign: 'center'}}>
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/114_nRF52840/xiao_nrf52840_114_flash_record" target="_blank" rel="noopener noreferrer">
+    <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
+    <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
+    </a>
+</div><br />
+
+#### Hardware Setup
+
+Playback requires an external **I2S audio amplifier and speaker**. The demo is written for a **MAX98357A** breakout connected to the board's I2S output pads:
+
+<div class="table-center">
+  <table align="center">
+    <tr><th>Display Board</th><th>MAX98357A</th></tr>
+    <tr><td>3V3</td><td>VIN</td></tr>
+    <tr><td>GND</td><td>GND</td></tr>
+    <tr><td>D11 / I2S_SD</td><td>DIN</td></tr>
+    <tr><td>D12 / I2S_SCK</td><td>BCLK</td></tr>
+    <tr><td>D13 / I2S_WS</td><td>LRC / WS</td></tr>
+  </table>
+</div>
+
+Connect the speaker to the **SPK+** and **SPK-** terminals of the MAX98357A. Do **not** connect one speaker wire to GND — the MAX98357A is a bridge-tied-load (BTL) amplifier, so both speaker terminals must go to the SPK outputs.
+
+:::caution
+Disconnect the USB power before wiring the amplifier and speaker.
+:::
+
+#### How It Works
+
+- The PDM microphone uses **D0 (CLK)** and **D1 (DATA)**.
+- The `PDM` library captures the microphone at **16 kHz mono**.
+- The WAV file consists of a **44-byte header** plus **22,400 bytes of PCM** data.
+- The internal Flash filesystem (InternalFS) is only about **28 KB**, which limits each recording to roughly **0.7 seconds**.
+- Playback uses the nRF52840's **I2S hardware peripheral** in Philips I2S format, **16-bit, stereo** output.
+- The mono samples are duplicated to both the left and right channels.
+- The I2S pins are **D11**, **D12**, and **D13**.
+
+#### Running the Tutorial
+
+**Step 1.** Disconnect the USB power and wire the MAX98357A and speaker as shown above.
+
+**Step 2.** Open `xiao_nrf52840_114_flash_record.ino` in the Arduino IDE.
+
+**Step 3.** Select **Tools > Board > Seeed nRF52 Boards > Seeed XIAO nRF52840 Plus** and the correct **Port**.
+
+**Step 4.** Compile and upload the sketch.
+
+**Step 5.** Press **USR1** and immediately speak into the onboard microphone for about **0.7 seconds**.
+
+:::tip
+Recording starts the moment you press **USR1** — do not wait for the red progress bar to appear. The 0.7-second window is counted from the moment **USR1** is pressed, so speak immediately or you will miss the beginning of your clip.
+:::
+
+**Step 6.** Wait for the screen to show **Saved WAV**.
+
+**Step 7.** Press **USR2** and the speaker plays back your recording.
+
+#### Expected Result
+
+- On startup the screen shows **Flash Recorder**.
+- When no recording exists, the screen shows **No recording**.
+- While recording, the screen shows a progress readout.
+- When saving completes, the screen shows **Saved WAV**.
+- Press **USR2** and you hear the recording through the speaker.
+
+<!-- TODO: Add effect image -->
+<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_nRF52840Plus_function_flash_record_i2s.gif" style={{width:500, height:'auto'}}/></div> -->
 
 ---
 

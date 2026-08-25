@@ -33,10 +33,13 @@ All demos in this page require **Seeed nRF52 Boards (1.1.13)** as described in [
 <div class="table-center">
   <table align="center">
     <tr><th>Library</th><th>Search Keyword</th><th>Author</th><th>Required by</th></tr>
-    <tr><td><strong>SdFat</strong></td><td><code>SdFat</code></td><td>Bill Greiman</td><td>SD demos (Image Reader, Record to SD)</td></tr>
     <tr><td><strong>Seeed Arduino LSM6DS3</strong></td><td><code>Seeed Arduino LSM6DS3</code></td><td>Seeed Studio</td><td>IMU demos</td></tr>
   </table>
 </div>
+
+:::note
+**SdFat** is bundled with the **Seeed nRF52 Boards (1.1.13)** board package, so the **SD Image Reader** and **Record to SD** demos need no separate SdFat install. Do not install SdFat from the Library Manager, as it may override the bundled version and cause library or API conflicts.
+:::
 
 - **Seeed_GFX (Manual Installation)** — this library is not available in Library Manager and must be installed manually:
 
@@ -383,7 +386,7 @@ The I2S pads (3V3, GND, D11, D12, D13) are exposed on the bottom expansion pad g
 
 #### How It Works
 
-**Recording.** The onboard PDM microphone is captured at **16 kHz mono, 16-bit** through the nRF52840's PDM peripheral, using the same **D0 (PDM_CLK)** / **D1 (MIC_DATA)** pins as Demo 1. When you press **USR1**, the sketch samples 5 seconds of audio directly into a static RAM buffer, then writes it to the SD card as a WAV file (`/REC_001_RAW.WAV`) using SdFat.
+**Recording.** The onboard PDM microphone is captured at **16 kHz mono, 16-bit** through the nRF52840's PDM peripheral, using the same **D0 (PDM_CLK)** / **D1 (MIC_DATA)** pins as Demo 1. When you press **USR1**, the sketch samples 5 seconds of audio directly into a static RAM buffer, then writes it to the SD card as a WAV file (`/REC_001_RAW.WAV`) using the SdFat library bundled with Seeed nRF52 Boards 1.1.13.
 
 The recording is buffered in RAM because the nRF52840 has only **256 KB of RAM**. At 16 kHz × 16-bit mono, 5 seconds needs 160,000 bytes — which fits. 10 seconds would need 320,000 bytes and would not fit, so the demo is fixed at 5 seconds.
 

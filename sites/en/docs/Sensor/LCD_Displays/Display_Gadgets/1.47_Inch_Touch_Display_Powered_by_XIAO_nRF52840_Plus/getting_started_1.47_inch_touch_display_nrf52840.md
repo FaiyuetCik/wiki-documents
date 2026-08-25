@@ -131,10 +131,13 @@ Then go to **Tools > Board > Boards Manager**, search for **Seeed nRF52** and in
   <table align="center">
     <tr><th>Library</th><th>Search Keyword</th><th>Author</th></tr>
     <tr><td><strong>GFX Library for Arduino</strong></td><td><code>GFX Library for Arduino</code></td><td>Moon On Our Nation</td></tr>
-    <tr><td><strong>SdFat</strong></td><td><code>SdFat</code></td><td>Bill Greiman</td></tr>
     <tr><td><strong>SparkFun LSM6DS3</strong></td><td><code>SparkFun LSM6DS3</code></td><td>SparkFun</td></tr>
   </table>
 </div>
+
+:::note
+**SdFat** is bundled with the **Seeed nRF52 Boards (1.1.13)** board package, so no separate installation is needed. The Dashboard firmware — and the **SD Image Reader** / **Record to SD** demos on the [Function](/function_1.47_inch_touch_display_nrf52840) page — all use this bundled copy. Do not install SdFat from the Library Manager, as it may override the bundled version and cause library or API conflicts.
+:::
 
 :::note
 **GFX Library for Arduino** above is only required for the factory Dashboard firmware. If you are working with the standalone function demos in the [Function](/function_1.47_inch_touch_display_nrf52840) page, install **Seeed_GFX** (Seeed Studio's fork of Bodmer's TFT_eSPI) instead — the two libraries are different and not interchangeable.
