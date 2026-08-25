@@ -14,10 +14,10 @@ sidebar_label: Getting Started
 sidebar_position: 1
 type: gettingstarted
 last_update:
-  date: 08/20/2026
+  date: 08/25/2026
   author: FaiyuetCik
 createdAt: '2026-08-11'
-updatedAt: '2026-08-21'
+updatedAt: '2026-08-25'
 url: https://wiki.seeedstudio.com/getting_started_1.14_inch_display_esp32s3/
 ---
 
@@ -147,7 +147,7 @@ Then go to **Tools > Board > Boards Manager**, search for **esp32** and install 
 :::
 
 :::tip
-The **Wire**, **SPI**, and **WiFi** libraries are included with the esp32 board package and do not need separate installation.
+The **Wire**, **SPI**, and **WiFi** libraries are included with the esp32 board package and do not need separate installation. **LittleFS** and the ESP-IDF 5 **I2S** drivers are included with esp32 Boards 3.3.11 and do not need to be installed separately.
 :::
 
 ### Download the Dashboard Code

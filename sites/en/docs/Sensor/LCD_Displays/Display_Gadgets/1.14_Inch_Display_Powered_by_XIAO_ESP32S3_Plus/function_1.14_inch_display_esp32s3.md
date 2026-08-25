@@ -14,10 +14,10 @@ sku: 100086099
 sidebar_label: Function
 sidebar_position: 2
 last_update:
-  date: 08/14/2026
+  date: 08/25/2026
   author: FaiyuetCik
 createdAt: '2026-08-13'
-updatedAt: '2026-08-24'
+updatedAt: '2026-08-25'
 url: https://wiki.seeedstudio.com/function_1.14_inch_display_esp32s3/
 ---
 
@@ -378,6 +378,10 @@ The I2S pads (3V3, GND, D11, D12, D13) are exposed on the bottom expansion pad g
 
 **Recording** — the onboard **PDM (Pulse Density Modulation) digital microphone** is sampled through the ESP32-S3's I2S peripheral configured in PDM RX mode. On ESP-IDF v5 (Arduino core 3.3.11), this uses the new driver API (`driver/i2s_pdm.h`). The microphone is captured at **16 kHz mono** with 4 DMA descriptors of 256 frames each. When you press **USR1**, the sketch samples 5 seconds of audio into a RAM buffer, then writes it to onboard Flash as a WAV file (`/REC_RAW.WAV`) using `LittleFS`.
 
+After the PDM microphone starts, the sketch discards the first **300 ms** of captured data as warm-up data to reduce the startup transient at the beginning of the recording.
+
+If the sketch cannot capture all samples within **7 seconds**, it stops recording and displays **"Mic capture timeout"** instead of remaining blocked in the recording loop.
+
 **Playback** — pressing **USR2** reads the WAV back from Flash and streams it out through the I2S peripheral in standard (Philips) stereo mode on D11/D12/D13. The mono samples are duplicated to both channels with a `0.75×` gain applied to avoid clipping. The amplifier drives a small speaker so you can hear the recording.
 
 **On-screen states:**
@@ -386,7 +390,9 @@ The I2S pads (3V3, GND, D11, D12, D13) are exposed on the bottom expansion pad g
   <table align="center">
     <tr><th>State</th><th>Description</th></tr>
     <tr><td><strong>Ready</strong></td><td>"Flash Recorder" title with "USR1: record" and "USR2: play Flash WAV" (or "No saved recording")</td></tr>
+    <tr><td><strong>Warm-up</strong></td><td>"Warming up mic..." with "Please wait" before capture begins</td></tr>
     <tr><td><strong>Recording</strong></td><td>"Recording" label, a percentage (e.g. "45%  2/5s"), and a red progress bar</td></tr>
+    <tr><td><strong>Error</strong></td><td>"Mic capture timeout" with "Try recording again" when capture exceeds 7 seconds</td></tr>
     <tr><td><strong>Saved</strong></td><td>"Done — Saved Flash WAV" confirmation, then returns to Ready</td></tr>
     <tr><td><strong>Playback</strong></td><td>"Playing raw audio" while streaming, then "Finished"</td></tr>
   </table>
@@ -396,15 +402,21 @@ The I2S pads (3V3, GND, D11, D12, D13) are exposed on the bottom expansion pad g
 
 **Step 1.** Connect a MAX98357A amplifier and speaker to the I2S pads as described above.
 
-**Step 2.** Select **Tools > Partition Scheme > "Default with spiffs (3MB APP/1.5MB SPIFFS)"**, then open `xiao_esp32s3_114_flash_record.ino`, select the board and port, and click **Upload**.
+**Step 2.** Open `xiao_esp32s3_114_flash_record.ino` in Arduino IDE.
+
+**Step 3.** Select the board: **Tools > Board > esp32 > XIAO_ESP32S3_PLUS** (using esp32 Boards **3.3.11**).
+
+**Step 4.** Select **Tools > Partition Scheme > "Default with spiffs (3MB APP/1.5MB SPIFFS)"**.
+
+**Step 5.** Select the correct **Port**, then click **Upload**.
 
 :::caution
 The recorder stores the WAV file in `LittleFS`, which uses the **SPIFFS** partition. The board's default partition scheme (`16M Flash (2MB APP/12.5MB FATFS)`) contains no SPIFFS partition, so `LittleFS.begin()` returns `false` and the screen shows "Flash write failed / Check partition". You **must** select the SPIFFS partition scheme above, or recording will not work.
 :::
 
-**Step 3.** Press **USR1 (D6)** to record 5 seconds of audio from the onboard microphone. The progress bar fills as it records.
+**Step 6.** Press **USR1 (D6)** to record 5 seconds of audio from the onboard microphone. The progress bar fills as it records.
 
-**Step 4.** Press **USR2 (D7)** to play the recording back through the speaker.
+**Step 7.** Press **USR2 (D7)** to play the recording back through the speaker.
 
 :::note
 The recording is stored in onboard Flash (`LittleFS`), so it survives a power cycle — you can record once and play it back later. Recording again overwrites the previous file.
