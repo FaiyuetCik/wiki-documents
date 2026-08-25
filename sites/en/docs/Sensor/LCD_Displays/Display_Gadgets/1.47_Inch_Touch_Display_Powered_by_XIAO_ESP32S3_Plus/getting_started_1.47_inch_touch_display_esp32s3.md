@@ -162,11 +162,15 @@ libraries/esp_lcd_touch_axs5106l/
 **Step 3.** Restart the Arduino IDE so the new library is detected.
 
 :::note
-**GFX Library for Arduino** above is only required for the factory Dashboard firmware. If you are working with the standalone function demos in the [Function](/function_1.47_inch_touch_display_esp32s3) page, install **Seeed_GFX** (Seeed Studio's fork of Bodmer's TFT_eSPI) instead — the two libraries are different and not interchangeable.
+**GFX Library for Arduino** above is required for the factory Dashboard firmware and for the **SD BMP Reader** and **SD Recorder** examples on the [Function](/function_1.47_inch_touch_display_esp32s3) page. Most other Function examples use **Seeed_GFX** (Seeed Studio's fork of Bodmer's TFT_eSPI) instead — the two graphics libraries serve different purposes and are not interchangeable, so install whichever the specific tutorial asks for.
 :::
 
 :::tip
-The **SD**, **Wire**, **SPI**, and **WiFi** libraries are included with the esp32 board package and do not need separate installation.
+The **SD**, **Wire**, **SPI**, and **WiFi** libraries are included with the esp32 board package (version 3.3.11) and do not need separate installation:
+
+- **`SD.h`** and **`SPI.h`** are provided by the ESP32 3.3.11 board package.
+- The **SD Recorder** example does not require installing `SD` or `SdFat` separately.
+- **Do not install SdFat** for the SD Recorder example — it uses the built-in `SD.h` instead.
 :::
 
 ### Download the Dashboard Code

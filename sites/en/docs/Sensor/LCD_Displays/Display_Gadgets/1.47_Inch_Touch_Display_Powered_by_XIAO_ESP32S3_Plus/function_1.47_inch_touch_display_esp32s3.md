@@ -1,5 +1,5 @@
 ---
-description: Standalone function-level demos for each onboard peripheral of the 1.47 Inch Touch Display Powered by XIAO ESP32-S3 Plus. Covers screen, SD card, IMU, touch, PDM microphone, I2S audio output, buttons, and battery voltage detection.
+description: Standalone function-level demos for each onboard peripheral of the 1.47 Inch Touch Display Powered by XIAO ESP32-S3 Plus. Covers screen, SD card, IMU, touch, PDM microphone, SD audio recording and playback, buttons, and battery voltage detection.
 title: Onboard Peripheral Usage
 keywords:
   - XIAO
@@ -33,7 +33,7 @@ All demos in this page require **esp32 Boards by Espressif (3.3.11)** as describ
 <div class="table-center">
   <table align="center">
     <tr><th>Library</th><th>Search Keyword</th><th>Author</th><th>Required by</th></tr>
-    <tr><td><strong>GFX Library for Arduino</strong></td><td><code>GFX Library for Arduino</code></td><td>Moon On Our Nation</td><td>SD BMP Reader only</td></tr>
+    <tr><td><strong>GFX Library for Arduino</strong></td><td><code>GFX Library for Arduino</code></td><td>Moon On Our Nation</td><td>SD BMP Reader and SD Recorder</td></tr>
   </table>
 </div>
 
@@ -53,19 +53,20 @@ All demos in this page require **esp32 Boards by Espressif (3.3.11)** as describ
 **Step 3.** Restart the Arduino IDE so the new library is detected.
 
 :::tip
-- **Seeed_GFX** is Seeed Studio's fork of TFT_eSPI with pre-configured XIAO board presets. Each sketch's `driver.h` selects `BOARD_SCREEN_COMBO 75`, which maps to the correct 172×320 pin layout. This library is different from **GFX Library for Arduino** (by Moon On Our Nation) used in the Dashboard.
+- **Seeed_GFX** is Seeed Studio's fork of TFT_eSPI with pre-configured XIAO board presets. Only the examples that use Seeed_GFX need `driver.h` — its `BOARD_SCREEN_COMBO 75` maps to the correct 172×320 pin layout. This library is different from **GFX Library for Arduino** (by Moon On Our Nation).
+- The **SD BMP Reader** and **SD Recorder** examples use **GFX Library for Arduino** (`Arduino_GFX_Library.h`) and do **not** use `driver.h`.
 - The **touch driver** (`axs5106l_device.h`) and **IMU init code** are included in the sketch folders — no extra library installation is needed for these peripherals.
 :::
 
 ## Getting the Demo Code
 
-Every demo on this page lives in the [Display-Gadgets](https://github.com/Seeed-Projects/Display-Gadgets) repository. Each demo is a folder that contains the `.ino` sketch **together with a `driver.h` configuration file** — both are required to compile, so always grab the whole folder rather than copying the `.ino` source from the GitHub web view.
+Every demo on this page lives in the [Display-Gadgets](https://github.com/Seeed-Projects/Display-Gadgets) repository. Each demo is a folder containing the `.ino` sketch. **Always download the complete folder** rather than copying the `.ino` source from the GitHub web view. Not all examples use `driver.h` — if a `driver.h` file is present in the folder and the code references it, keep it alongside the `.ino` (the IDE relies on them being side-by-side).
 
 **Option A — Download the repository as a ZIP (recommended):**
 
 1. Open [github.com/Seeed-Projects/Display-Gadgets](https://github.com/Seeed-Projects/Display-Gadgets) and click **Code > Download ZIP**, then extract the archive anywhere convenient.
 2. Navigate into `code/Function/` and open the folder shown in each demo's **Code location** line. For example, the GraphicTest demo for this board lives in `code/Function/147_ESP32/xiao_esp32s3_147_graphictest/`.
-3. **Double-click the `.ino` file** to open it in the Arduino IDE. Keep the `.ino` and `driver.h` together in the same folder — the IDE relies on them being side-by-side.
+3. **Double-click the `.ino` file** to open it in the Arduino IDE. If the folder contains a `driver.h`, keep it together with the `.ino` — the IDE relies on them being side-by-side.
 
 **Option B — git clone:**
 
@@ -360,115 +361,89 @@ The bar responds in real time. In a quiet room the bar stays empty. Speaking at 
 
 ---
 
-## Audio Output — I2S Speaker Test
+## Audio Recording and Playback — SD Recorder
 
-This demo drives an external **I2S amplifier** (such as the MAX98357A or NS4168) through the board's I2S breakout pads to play test tones and a frequency sweep, verifying the audio output path end to end. On boot it automatically plays a 1 kHz tone; you can then switch tones, run a sweep, test each channel, or mute via simple serial commands.
+This demo turns the board into a simple voice recorder. Press **USR1** to record 5 seconds of audio from the onboard PDM microphone, save it to the MicroSD card as a WAV file, then press **USR2** to play the recording back through an external **MAX98357A** I2S amplifier and speaker.
 
-**Code location:** `code/Function/147_ESP32/xiao_esp32s3plus_i2s_speaker_test_v1_1_correct_pins/`
+**Code location:** `code/Function/147_ESP32/xiao_esp32s3_147_sd_record/`
 
 <div class="github_container" style={{textAlign: 'center'}}>
-    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/147_ESP32/xiao_esp32s3plus_i2s_speaker_test_v1_1_correct_pins" target="_blank" rel="noopener noreferrer">
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/147_ESP32/xiao_esp32s3_147_sd_record" target="_blank" rel="noopener noreferrer">
     <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
     <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
     </a>
 </div><br />
 
 :::note
-This demo uses only the built-in esp32 core I2S driver — **no extra library is required** (Seeed_GFX and GFX Library for Arduino are not needed, since it does not touch the LCD).
+This demo uses **GFX Library for Arduino** (`Arduino_GFX_Library.h`) for the on-screen status display, and the **built-in `SD.h`** from the esp32 board package for file access. **No SdFat and no Seeed_GFX** are required.
 :::
 
 ### Hardware Setup
 
-Connect an I2S amplifier module to the bottom I2S breakout pads:
+**MicroSD card.** Insert a FAT32-formatted MicroSD card into the card slot on the display board **before** flashing the sketch or powering on. The onboard PDM microphone needs no external wiring.
+
+**Speaker output.** Connect a MAX98357A I2S amplifier module to the bottom I2S breakout pads:
 
 <div class="table-center">
   <table align="center">
-    <tr><th>I2S Pad</th><th>XIAO Pin</th><th>GPIO</th><th>I2S Amp</th></tr>
-    <tr><td>I2S_SD</td><td>D11</td><td>GPIO38</td><td>DIN / SDIN</td></tr>
-    <tr><td>I2S_SCK</td><td>D12</td><td>GPIO39</td><td>BCLK / SCK</td></tr>
-    <tr><td>I2S_WS</td><td>D13</td><td>GPIO40</td><td>LRCLK / WS</td></tr>
-    <tr><td>3V3</td><td>3V3</td><td>—</td><td>VIN (or 5V, per module)</td></tr>
+    <tr><th>I2S Pad</th><th>XIAO Pin</th><th>GPIO</th><th>MAX98357A</th></tr>
+    <tr><td>I2S_SD</td><td>D11</td><td>GPIO38</td><td>DIN</td></tr>
+    <tr><td>I2S_SCK</td><td>D12</td><td>GPIO39</td><td>BCLK</td></tr>
+    <tr><td>I2S_WS</td><td>D13</td><td>GPIO40</td><td>LRC / WS</td></tr>
+    <tr><td>3V3</td><td>3V3</td><td>—</td><td>VIN</td></tr>
     <tr><td>GND</td><td>GND</td><td>—</td><td>GND</td></tr>
   </table>
 </div>
 
+Connect the speaker to the **SPK+** and **SPK-** terminals of the MAX98357A.
+
 ### How It Works
 
-The sketch configures the ESP32-S3's I2S peripheral in **master / transmit** mode at **16 kHz, 16-bit, Philips (standard) stereo**, using 6 DMA descriptors of 256 frames each. A sine wave is generated in software and streamed continuously through the I2S output.
+The demo runs through four stages, using four different peripherals in sequence:
 
-**Cross-version driver support.** The sketch compiles on both Arduino core generations:
+**PDM microphone (recording).** The onboard PDM microphone is sampled through the I2S peripheral in PDM RX mode on **D0 (PDM_CLK)** and **D1 (MIC_DATA)** at 16 kHz mono. The first **300 ms** of captured data is discarded as warm-up data to avoid a click at the start of the recording.
 
-- **core 3.x (ESP-IDF v5)** — uses the new driver API (`driver/i2s_std.h`): `i2s_new_channel()` → `i2s_channel_init_std_mode()` → `i2s_channel_enable()` → `i2s_channel_write()`.
-- **core 2.x (ESP-IDF v4)** — falls back to the legacy API (`driver/i2s.h`): `i2s_driver_install()` → `i2s_set_pin()` → `i2s_write()`.
+**RAM buffer.** A 5-second recording at 16 kHz, 16-bit mono occupies **160,000 bytes** (`5 s × 16,000 samples/s × 2 bytes`). The samples are held in a RAM buffer before being written to the SD card.
 
-**Phase-continuous sine.** The tone frequency is tracked as a continuously-accumulating phase (`g_phase`), so changing the frequency (e.g. during the sweep) never causes an audible click or discontinuity.
+**SD card (storage).** The recording is written to `/REC_RAW.WAV` on the MicroSD card using the ESP32 board package's built-in `SD.h`. The sketch mounts the card at several SPI frequencies — trying **8 MHz → 4 MHz → 1 MHz → 0.4 MHz** — until one succeeds. Each new recording overwrites the previous file.
 
-**Gain.** The default gain is `0.28` (`DEFAULT_GAIN`) — intentionally conservative to avoid clipping and keep the test tone at a comfortable volume.
+**I2S playback.** Playback uses the I2S peripheral in master / transmit mode at **16 kHz, 16-bit, Philips stereo**. The mono samples are duplicated into both the left and right I2S channels, allowing playback regardless of the MAX98357A channel selection.
 
-**Optional amplifier enable.** If your amplifier has an enable/shutdown pin, define `AMP_EN_PIN` (default `-1` = disabled) and the sketch drives it HIGH on init.
+**Shared LCD/SD bus.** The LCD and SD card share the **D8** (SCK) and **D10** (MOSI) pins. The demo keeps them from colliding by giving each its own SPI bus:
 
-**Serial commands:**
+- The **LCD** uses **Arduino_GFX software SPI**.
+- The **SD card** uses the **ESP32 hardware SPI**.
+- The code switches between the two buses when accessing the SD card versus refreshing the screen.
 
-<div class="table-center">
-  <table align="center">
-    <tr><th>Command</th><th>Action</th></tr>
-    <tr><td><code>h</code></td><td>Print help</td></tr>
-    <tr><td><code>t</code></td><td>Play a 1 kHz tone (both channels)</td></tr>
-    <tr><td><code>s</code></td><td>Frequency sweep 200 Hz → 4 kHz</td></tr>
-    <tr><td><code>l</code></td><td>Left channel only</td></tr>
-    <tr><td><code>r</code></td><td>Right channel only</td></tr>
-    <tr><td><code>b</code></td><td>Both channels</td></tr>
-    <tr><td><code>m</code></td><td>Mute</td></tr>
-  </table>
-</div>
-
-The sweep multiplies the frequency by `1.08` every 120 ms, wrapping from 4 kHz back to 200 Hz in a loop.
+This separation avoids SPI transaction conflicts between LCD refreshes and SD card access.
 
 ### Running the Demo
 
-**Step 1.** Connect an I2S amplifier and speaker to the I2S breakout pads as described above.
+**Step 1.** Insert a **FAT32** MicroSD card into the card slot on the display board.
 
-**Step 2.** Open `xiao_esp32s3plus_i2s_speaker_test_v1_1_correct_pins.ino` in Arduino IDE.
+**Step 2.** Connect the **MAX98357A** amplifier and speaker to the I2S breakout pads as described above.
 
-**Step 3.** Select **Tools > Board > esp32 > XIAO_ESP32S3_PLUS** and the correct **Port**, then click **Upload**.
+**Step 3.** Open `xiao_esp32s3_147_sd_record.ino` in Arduino IDE.
 
-**Step 4.** Open **Tools > Serial Monitor** (115200 baud). On boot you should see:
+**Step 4.** Select **Tools > Board > esp32 > XIAO_ESP32S3_PLUS** (with esp32 board package **3.3.11**) and the correct **Port**, then click **Upload**.
 
-```
-=== XIAO ESP32-S3 Plus I2S Speaker Test v1.1 ===
-[I2S] init OK
-[PIN] BCLK=39 LRCLK=40 DOUT=38 AMP_EN=-1
-[AUDIO] sampleRate=16000Hz block=256 frames
+**Step 5.** Once uploaded, the screen shows **"SD Recorder"**.
 
-Commands:
-  h : help
-  t : 1 kHz tone
-  s : sweep 200 Hz -> 4 kHz
-  l : left channel only
-  r : right channel only
-  b : both channels
-  m : mute
+**Step 6.** Press **USR1** and speak into the onboard PDM microphone for 5 seconds.
 
-[BOOT] playing 1 kHz tone
-```
+**Step 7.** Wait for the screen to show **"Saved SD WAV"** — the recording has been written to the SD card.
 
-The speaker immediately plays a 1 kHz tone. Type a single character into the serial monitor and press Enter to change behavior — for example, `s` starts the sweep and prints the current frequency:
-
-```
-[CMD] sweep mode
-[SWEEP] freq=216.0
-[SWEEP] freq=233.3
-[SWEEP] freq=252.0
-```
-
-Type `m` to mute, `t` to return to the 1 kHz tone, or `l` / `r` / `b` to test the left, right, or both channels.
+**Step 8.** Press **USR2** to play the recording back through the speaker.
 
 ### Expected Result
 
-<!-- TODO: Add I2S speaker test GIF -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_function_i2s_speaker.gif" style={{width:500, height:'auto'}}/></div> -->
+<!-- TODO: Add SD recorder GIF -->
+<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_function_sd_record_i2s.gif" style={{width:500, height:'auto'}}/></div> -->
 
-The speaker plays a clean 1 kHz tone on boot. Switch to sweep mode (`s`) and the pitch glides smoothly from 200 Hz up to 4 kHz and back. The `l` / `r` commands let you confirm each channel independently, and `m` silences the output.
+- The screen shows the recording progress while capturing.
+- After recording finishes, the screen shows **"Saved SD WAV"**.
+- A `/REC_RAW.WAV` file is created on the SD card.
+- Pressing **USR2** plays back the audio you just recorded through the speaker.
 
 ---
 
