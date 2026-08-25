@@ -51,7 +51,7 @@ This combination makes it an ideal platform for ultra-compact wearables, keychai
     <tr><td>Buttons</td><td>USR1 = D6 / USR2 = D7 (2 buttons, active-low)</td></tr>
     <tr><td>I2C breakout</td><td>D4/D5 back-side 4-pin test pad (shared with onboard IMU)</td></tr>
     <tr><td>Battery</td><td>LiPo battery connector; voltage measured through the module's internal PIN_VBAT (P0.31) with charging status detection</td></tr>
-    <tr><td>Expansion</td><td>I2C test pad (GND, 3V3, SDA, SCL); I2S breakout (D11, D12, D13)</td></tr>
+    <tr><td>Expansion</td><td>I2C test pad (GND, 3V3, SDA, SCL); I2S breakout (3V3, GND, D11, D12, D13)</td></tr>
     <tr><td>Compatibility</td><td>XIAO nRF52840 Plus</td></tr>
   </table>
 </div>
@@ -104,10 +104,6 @@ The 0.96 Inch Display breaks out all XIAO nRF52840 Plus pins. The table below li
   </table>
 </div>
 
-:::note
-The linked schematic PDF (v1.0) routes the IMU interrupt to **D9**, which reflects an older board revision. The current hardware and the 0715 firmware use **D14** for `IMU_INT`, as listed above. If you have a v1.0 board, the D14 wake-up feature may not work.
-:::
-
 <!-- TODO: Add annotated pinout image -->
 <!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_nRF52840Plus_display_pinout.png" style={{width:1000, height:'auto'}}/></div> -->
 
@@ -144,7 +140,7 @@ Then go to **Tools > Board > Boards Manager**, search for **Seeed nRF52** and in
 </div>
 
 :::note
-**GFX Library for Arduino** above is required for the factory Dashboard firmware and for most standalone function demos. The [Function](/function_0.96_inch_display_nrf52840) page's demos use **two different graphics libraries**: three demos (GraphicTest, Quicksand, Wake) use **GFX Library for Arduino**, while the Flash Recorder demo uses **Seeed_GFX** (from [Seeed-Studio/Seeed_GFX](https://github.com/Seeed-Studio/Seeed_GFX)) — the two libraries are different and not interchangeable.
+**GFX Library for Arduino** above is required for the factory Dashboard firmware and for **all** standalone function demos on the [Function](/function_0.96_inch_display_nrf52840) page. The 0.96-inch nRF52840 screen uses **Arduino_GFX** with **software SPI** (the nRF52840 hardware SPI is not compatible with this ST7789 panel).
 :::
 
 ### Download the Dashboard Code
