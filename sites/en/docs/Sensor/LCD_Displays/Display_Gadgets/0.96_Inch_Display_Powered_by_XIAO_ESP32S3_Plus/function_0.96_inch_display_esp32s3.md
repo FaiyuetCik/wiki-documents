@@ -318,11 +318,15 @@ The I2S pads (3V3, GND, D11, D12, D13) are exposed on the bottom expansion pad g
 
 ### How It Works
 
-**Recording (USR1)** — the onboard **PDM (Pulse Density Modulation) digital microphone** is sampled through the ESP32-S3's I2S peripheral configured in PDM RX mode. On ESP-IDF v5 (Arduino core 3.x), this uses the new driver API (`driver/i2s_pdm.h`). The microphone is captured at **16 kHz mono** with 4 DMA descriptors of 256 frames each. When you press USR1, the sketch samples **5 seconds** of audio into a RAM buffer, then writes it to onboard Flash as a WAV file (`/REC_RAW.WAV`) using `LittleFS`.
+**Recording (USR1)** — the onboard **PDM (Pulse Density Modulation) digital microphone** is sampled through the ESP32-S3's I2S peripheral configured in PDM RX mode. On ESP-IDF v5 (Arduino core 3.3.11), this uses the new driver API (`driver/i2s_pdm.h`). The microphone is captured at **16 kHz mono** with 4 DMA descriptors of 256 frames each. When you press USR1, the sketch samples **5 seconds** of audio into a RAM buffer, then writes it to onboard Flash as a WAV file (`/REC_RAW.WAV`) using `LittleFS`.
 
 After the PDM microphone starts, the sketch discards the first **300 ms** of captured data as warm-up data to reduce the startup transient at the beginning of the recording.
 
 If the sketch cannot capture all samples within **7 seconds**, it stops recording and displays **"Mic timeout"** instead of remaining blocked in the recording loop.
+
+:::note
+On this board the microphone's channel-select pin is tied to GND by `R8` (a 0 Ω resistor), while `R6` — the alternative 3V3 strap — is not populated. The onboard microphone therefore drives the **left** PDM slot, which is why the sketch sets `slot_cfg.slot_mask = I2S_PDM_SLOT_LEFT`. Keep this in mind if you adapt the code for a different microphone wiring.
+:::
 
 **Playback (USR2)** — pressing USR2 reads the WAV back from Flash and streams it out through the I2S peripheral in standard (Philips) stereo mode on D11/D12/D13 (`driver/i2s_std.h`). The mono samples are duplicated to both channels with a `0.75×` gain applied to avoid clipping. The amplifier drives a small speaker so you can hear the recording.
 
@@ -348,15 +352,21 @@ The ESP-IDF v5 API (`i2s_new_channel()` / `i2s_channel_read()` / `i2s_channel_wr
 
 **Step 1.** Connect a MAX98357A amplifier and speaker to the I2S pads as described above.
 
-**Step 2.** Select **Tools > Partition Scheme > "Default with spiffs (3MB APP/1.5MB SPIFFS)"**, then open `xiao_esp32s3_096_flash_record.ino`, select the board and port, and click **Upload**.
+**Step 2.** Open `xiao_esp32s3_096_flash_record.ino` in Arduino IDE.
+
+**Step 3.** Select the board: **Tools > Board > esp32 > XIAO_ESP32S3_PLUS** (using esp32 Boards **3.3.11**).
+
+**Step 4.** Select **Tools > Partition Scheme > "Default with spiffs (3MB APP/1.5MB SPIFFS)"**.
+
+**Step 5.** Select the correct **Port**, then click **Upload**.
 
 :::caution
 The recorder stores the WAV file in `LittleFS`, which uses the **SPIFFS** partition. The board's default partition scheme (`16M Flash (2MB APP/12.5MB FATFS)`) contains no SPIFFS partition, so `LittleFS.begin()` returns `false`, the WAV file cannot be written, and the screen shows "Write failed / Check flash". You **must** select the SPIFFS partition scheme above, or recording will not work.
 :::
 
-**Step 3.** Press **USR1 (D6)** to record 5 seconds of audio from the onboard microphone. The progress bar fills as it records.
+**Step 6.** Press **USR1 (D6)** to record 5 seconds of audio from the onboard microphone. The progress bar fills as it records.
 
-**Step 4.** Press **USR2 (D7)** to play the recording back through the speaker.
+**Step 7.** Press **USR2 (D7)** to play the recording back through the speaker.
 
 :::note
 The recording is stored in onboard Flash (`LittleFS`), so it survives a power cycle — you can record once and play it back later. Recording again overwrites the previous file.
