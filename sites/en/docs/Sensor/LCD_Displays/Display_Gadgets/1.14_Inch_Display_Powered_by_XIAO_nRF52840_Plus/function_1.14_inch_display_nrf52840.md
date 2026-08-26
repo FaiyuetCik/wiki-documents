@@ -432,8 +432,7 @@ Recording starts the moment you press **USR1** — do not wait for the red progr
 - When saving completes, the screen shows **Saved WAV**.
 - Press **USR2** and you hear the recording through the speaker.
 
-<!-- TODO: Add effect image -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_nRF52840Plus_function_flash_record_i2s.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_nRF52840Plus_function_flash_record_i2s.gif" style={{width:500, height:'auto'}}/></div>
 
 ---
 

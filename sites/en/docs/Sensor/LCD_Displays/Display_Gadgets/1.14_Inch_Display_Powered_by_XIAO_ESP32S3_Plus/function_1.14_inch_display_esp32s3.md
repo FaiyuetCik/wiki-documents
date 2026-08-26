@@ -424,8 +424,7 @@ The recording is stored in onboard Flash (`LittleFS`), so it survives a power cy
 
 ### Expected Result
 
-<!-- TODO: Add flash recorder GIF -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_function_flash_record.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_function_flash_record.gif" style={{width:500, height:'auto'}}/></div>
 
 Press USR1 and the screen shows a recording progress bar. After 5 seconds it confirms the WAV was saved. Press USR2 and the audio plays through the connected speaker while the screen shows the playback status.
 
