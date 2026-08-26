@@ -13,10 +13,10 @@ sku: 100069905
 sidebar_label: Function
 sidebar_position: 2
 last_update:
-  date: 08/20/2026
+  date: 08/26/2026
   author: FaiyuetCik
 createdAt: '2026-08-11'
-updatedAt: '2026-08-24'
+updatedAt: '2026-08-26'
 url: https://wiki.seeedstudio.com/function_1.47_inch_touch_display_esp32s3/
 ---
 
@@ -194,14 +194,20 @@ Tap screen to draw white circles.
 Tap CLEAR bar at bottom to erase.
 ```
 
-**Step 4.** Tap the screen — each tap prints the raw and mapped coordinates:
+**Step 4.** Tap the screen — each tap prints the raw and mapped coordinates, and tapping the CLEAR bar prints an erase message:
 
 ```
-Touch: raw=(55,151) -> screen=(116,151)
-Touch: raw=(103,154) -> screen=(68,154)
+Touch: raw=(95,163) -> screen=(76,163)
+Touch: raw=(107,226) -> screen=(64,226)
+Touch: raw=(139,80) -> screen=(32,80)
+Touch: raw=(53,100) -> screen=(118,100)
+Touch: raw=(134,311) -> screen=(37,311)
+Clear zone tapped — erasing all circles.
+Touch: raw=(99,143) -> screen=(72,143)
+Touch: raw=(37,61) -> screen=(134,61)
+Touch: raw=(110,293) -> screen=(61,293)
+Clear zone tapped — erasing all circles.
 ```
-
-Tap the CLEAR bar at the bottom to erase all circles.
 
 ### Expected Result
 
@@ -347,7 +353,9 @@ The bar uses **differential rendering**: only segments whose state changed since
 **Step 3.** Open **Tools > Serial Monitor** (115200 baud). You should see:
 
 ```
-[MIC] ready
+=== Big Volume Bar (ESP32-S3) ===
+[MIC] PDM RX ready (IDF v5)
+[MIC] ready — speak or blow into the mic
 ```
 
 **Step 4.** Speak into the PDM microphone (located near the bottom-left corner of the display board) or blow on it. The bar fills from green to yellow to red, and the percentage updates above it.
