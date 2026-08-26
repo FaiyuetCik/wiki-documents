@@ -373,8 +373,7 @@ The **PDM**, **Adafruit TinyUSB**, **Adafruit LittleFS**, and **InternalFileSyst
 
 ### Expected Result
 
-<!-- TODO: Add flash_record GIF -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_nRF52840Plus_function_flash_record.gif" style={{width:500, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_nRF52840Plus_function_flash_record.gif" style={{width:500, height:'auto'}}/></div>
 
 After pressing USR1, the red progress bar fills to 100% and the clip is saved. Pressing USR2 plays the recording back through the MAX98357A. The WAV file is stored in InternalFS and remains available after a reset or power cycle. Recording again with USR1 overwrites the previous file.
 
