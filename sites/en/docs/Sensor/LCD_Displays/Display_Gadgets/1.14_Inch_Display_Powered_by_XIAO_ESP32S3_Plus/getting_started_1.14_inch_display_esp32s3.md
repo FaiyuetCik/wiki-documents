@@ -70,12 +70,12 @@ Before we start, refer to the following images to understand the physical layout
 
 ### Front View
 
-<!-- TODO: Add front view image -->
+<!-- TODO: Add front view image (114_ESP32S3Plus_display_hardware_front.jpg) -->
 <!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_hardware_front.jpg" style={{width:600, height:'auto'}}/></div> -->
 
 ### Back View
 
-<!-- TODO: Add back view image -->
+<!-- TODO: Add back view image (114_ESP32S3Plus_display_hardware_back.jpg) -->
 <!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_hardware_back.jpg" style={{width:600, height:'auto'}}/></div> -->
 
 ### Pin Map
@@ -108,7 +108,7 @@ The 1.14 Inch Display breaks out all XIAO ESP32-S3 Plus pins. The table below li
   </table>
 </div>
 
-<!-- TODO: Add annotated pinout image -->
+<!-- TODO: Add annotated pinout image (114_ESP32S3Plus_display_pinout.png) -->
 <!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_pinout.png" style={{width:1000, height:'auto'}}/></div> -->
 
 ## Getting Started — Dashboard
