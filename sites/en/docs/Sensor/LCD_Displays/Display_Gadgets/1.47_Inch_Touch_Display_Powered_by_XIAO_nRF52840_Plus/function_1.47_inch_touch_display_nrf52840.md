@@ -119,16 +119,16 @@ The **Board** template owns the pin map — CS=D2, DC=D3, SCK=D8, MOSI=D10 — a
 ```
 LCD width: 172
 LCD height: 320
-Color bars: ... ms
-Lines: ... ms
-Fast lines: ... ms
-Rectangles: ... ms
-Filled rectangles: ... ms
-Circles: ... ms
-Triangles: ... ms
-Round rectangles: ... ms
-Text: ... ms
-Pixel gradient: ... ms
+Color bars: 57.62 ms
+Lines: 4859.38 ms
+Fast lines: 95.70 ms
+Rectangles: 74.22 ms
+Filled rectangles: 236.33 ms
+Circles: 588.87 ms
+Triangles: 413.09 ms
+Round rectangles: 125.98 ms
+Text: 1961.91 ms
+Pixel gradient: 8716.80 ms
 Graphic test finished.
 ```
 
