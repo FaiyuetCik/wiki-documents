@@ -109,16 +109,16 @@ The **Board** template owns the pin map — CS=D2, DC=D3, SCK=D8, MOSI=D10 — a
 === XIAO ESP32-S3 Plus 0.96 graphic test ===
 LCD width: 80
 LCD height: 160
-Color bars: ... ms
-Lines: ... ms
-Fast lines: ... ms
-Rectangles: ... ms
-Filled rects: ... ms
-Circles: ... ms
-Triangles: ... ms
-Round rects: ... ms
-Text: ... ms
-Pixel gradient: ... ms
+Color bars: 56.67 ms
+Lines: 1819.10 ms
+Fast lines: 85.03 ms
+Rectangles: 73.34 ms
+Filled rects: 177.53 ms
+Circles: 262.63 ms
+Triangles: 235.64 ms
+Round rects: 100.58 ms
+Text: 635.61 ms
+Pixel gradient: 1960.36 ms
 Graphic test finished.
 ```
 
