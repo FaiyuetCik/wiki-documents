@@ -121,16 +121,16 @@ The **Board** template owns the pin map — CS=D2, DC=D3, SCK=D8, MOSI=D10 — a
 ```
 === XIAO nRF52840 Plus 0.96 graphic test ===
 LCD: 80x160
-Color bars: 284.18 ms
-Lines: 1220.70 ms
-Fast lines: 331.05 ms
-Rectangles: 263.67 ms
-Filled rects: 834.96 ms
-Circles: 356.45 ms
-Triangles: 440.43 ms
-Round rects: 302.73 ms
-Text: 297.85 ms
-Pixel gradient: 1388.67 ms
+Color bars: 13.67 ms
+Lines: 1712.89 ms
+Fast lines: 25.39 ms
+Rectangles: 23.44 ms
+Filled rects: 47.85 ms
+Circles: 207.03 ms
+Triangles: 166.99 ms
+Round rects: 48.83 ms
+Text: 539.06 ms
+Pixel gradient: 1907.23 ms
 Graphic test finished.
 ```
 
