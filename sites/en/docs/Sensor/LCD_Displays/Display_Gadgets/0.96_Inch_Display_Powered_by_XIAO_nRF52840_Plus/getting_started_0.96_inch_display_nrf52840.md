@@ -140,7 +140,7 @@ Then go to **Tools > Board > Boards Manager**, search for **Seeed nRF52** and in
 </div>
 
 :::note
-**GFX Library for Arduino** above is required for the factory Dashboard firmware and for **all** standalone function demos on the [Function](/function_0.96_inch_display_nrf52840) page. The 0.96-inch nRF52840 screen uses **Arduino_GFX** with **software SPI** (the nRF52840 hardware SPI is not compatible with this ST7789 panel).
+**GFX Library for Arduino** above is required for the factory Dashboard firmware. The standalone function demos on the [Function](/function_0.96_inch_display_nrf52840) page instead use **Seeed_GFX2** (installed manually as described on that page) — the two libraries are different and not interchangeable.
 :::
 
 ### Download the Dashboard Code

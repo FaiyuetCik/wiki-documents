@@ -25,7 +25,7 @@ url: https://wiki.seeedstudio.com/function_1.47_inch_touch_display_nrf52840/
 This page collects standalone function-level demos for each onboard peripheral of the 1.47 Inch Touch Display. Each section is self-contained — you can pick the one that matches your use case without reading through the others.
 
 :::note
-All demos in this page require **Seeed nRF52 Boards (1.1.13)** as described in [Getting Started](/getting_started_1.47_inch_touch_display_nrf52840). Additionally, install the following libraries.
+All demos in this page require **Seeed nRF52 Boards (1.1.13)** as described in [Getting Started](/getting_started_1.47_inch_touch_display_nrf52840), plus the **Seeed_GFX2** library installed manually as described below.
 :::
 
 - **Library Manager** — go to **Sketch > Include Library > Manage Libraries...**, search for and install:
@@ -41,39 +41,36 @@ All demos in this page require **Seeed nRF52 Boards (1.1.13)** as described in [
 **SdFat** is bundled with the **Seeed nRF52 Boards (1.1.13)** board package, so the **SD Image Reader** and **Record to SD** demos need no separate SdFat install. Do not install SdFat from the Library Manager, as it may override the bundled version and cause library or API conflicts.
 :::
 
-- **Seeed_GFX (Manual Installation)** — this library is not available in Library Manager and must be installed manually:
-
-:::note
-Seeed_GFX's nRF52840 processor includes `Seeed_Arduino_FS.h` when `SMOOTH_FONT` is enabled (the default). Install **Seeed Arduino FS** from the Library Manager (search "Seeed Arduino FS") or from [Seeed-Studio/Seeed_Arduino_FS](https://github.com/Seeed-Studio/Seeed_Arduino_FS) — otherwise the demos fail to compile with `Seeed_Arduino_FS.h: No such file or directory`.
-:::
+- **Seeed_GFX2 (Manual Installation)** — this library is not available in Library Manager and must be installed manually:
 
 <div class="github_container" style={{textAlign: 'center'}}>
-    <a class="github_item" href="https://github.com/Seeed-Studio/Seeed_GFX/archive/a2de1abca0597c202193f22d01e9fa35d1ff613b.zip" target="_blank" rel="noopener noreferrer">
-    <strong><span><font color={'FFFFFF'} size={"4"}> Download Seeed_GFX</font></span></strong>
+    <a class="github_item" href="https://github.com/Seeed-Studio/Seeed_GFX2/archive/refs/tags/v1.0.0.zip" target="_blank" rel="noopener noreferrer">
+    <strong><span><font color={'FFFFFF'} size={"4"}> Download Seeed_GFX2</font></span></strong>
     <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
     </a>
 </div><br />
 
-**Step 1.** Click the button above to download `Seeed_GFX` as a ZIP file (pinned to a fixed commit so the tutorial stays reproducible). Alternatively, clone the repository from [Seeed-Studio/Seeed_GFX](https://github.com/Seeed-Studio/Seeed_GFX).
+**Step 1.** Click the button above to download `Seeed_GFX2` v1.0.0 as a ZIP file (pinned to a release tag so the tutorial stays reproducible). Alternatively, clone the repository from [Seeed-Studio/Seeed_GFX2](https://github.com/Seeed-Studio/Seeed_GFX2).
 
-**Step 2.** In the Arduino IDE, go to **Sketch > Include Library > Add .ZIP Library...** and select the downloaded ZIP. The IDE reads `library.properties` and installs it into the correct `Seeed_GFX` folder automatically — you do not need to rename the extracted folder. (To install manually instead, unzip the archive and rename the extracted folder to `Seeed_GFX` before placing it in `Documents/Arduino/libraries/`.)
+**Step 2.** In the Arduino IDE, go to **Sketch > Include Library > Add .ZIP Library...** and select the downloaded ZIP. The IDE reads `library.properties` and installs it into the correct `Seeed_GFX2` folder automatically — you do not need to rename the extracted folder. (To install manually instead, unzip the archive and rename the extracted folder to `Seeed_GFX2` before placing it in `Documents/Arduino/libraries/`.)
 
 **Step 3.** Restart the Arduino IDE so the new library is detected.
 
 :::tip
-- **Seeed_GFX** is Seeed Studio's fork of TFT_eSPI with pre-configured XIAO board presets. Each sketch's `driver.h` selects `BOARD_SCREEN_COMBO 75`, which maps to the correct 172×320 pin layout. This library is different from **GFX Library for Arduino** (by Moon On Our Nation) used in the Dashboard.
-- The **touch driver** (`axs5106l_device.h`) is included in the sketch folders — no extra library installation is needed.
+- **Seeed_GFX2** is Seeed Studio's graphics library built on a layered `Board` + `Panel Config` architecture. Each demo initializes the display with a single `display.begin<Board_..., Config_...>()` call — the **Board** template owns the pin map (CS/DC/SCK/MOSI/RST/BL), and the **Panel Config** bakes in the 172×320 resolution, color order (BGR), and orientation. No `driver.h` or manual pin setup is needed.
+- On this board the demos use `Board_XIAO_1inch47_Touch_Display<38, 37>` (RST=38, BL=37) with `Config_XIAO_1inch47_Touch_JD9853A` (172×320, BGR, no inversion).
+- The **touch controller** (AXS5106L) is handled by the `Seeed_GFX2` Touch layer (`Touch_AXS5106L`) — no extra library is needed. The **IMU** demos use the **Seeed Arduino LSM6DS3** library (installed above).
 :::
 
 ## Getting the Demo Code
 
-Every demo on this page lives in the [Display-Gadgets](https://github.com/Seeed-Projects/Display-Gadgets) repository. Each demo is a folder that contains the `.ino` sketch **together with a `driver.h` configuration file** — both are required to compile, so always grab the whole folder rather than copying the `.ino` source from the GitHub web view.
+Every demo on this page lives in the [Display-Gadgets](https://github.com/Seeed-Projects/Display-Gadgets) repository, under the `code_GFX2/Function/` directory. Each demo is a folder containing a single `.ino` sketch. **Always download the complete folder** rather than copying the `.ino` source from the GitHub web view.
 
 **Option A — Download the repository as a ZIP (recommended):**
 
 1. Open [github.com/Seeed-Projects/Display-Gadgets](https://github.com/Seeed-Projects/Display-Gadgets) and click **Code > Download ZIP**, then extract the archive anywhere convenient.
-2. Navigate into `code/Function/` and open the folder shown in each demo's **Code location** line. For example, the GraphicTest demo for this board lives in `code/Function/147_nRF52840/xiao_nrf52840_147_graphictest/`.
-3. **Double-click the `.ino` file** to open it in the Arduino IDE. Keep the `.ino` and `driver.h` together in the same folder — the IDE relies on them being side-by-side.
+2. Navigate into `code_GFX2/Function/` and open the folder shown in each demo's **Code location** line. For example, the GraphicTest demo for this board lives in `code_GFX2/Function/147_nRF52840/xiao_nrf52840_147_graphictest/`.
+3. **Double-click the `.ino` file** to open it in the Arduino IDE.
 
 **Option B — git clone:**
 
@@ -81,13 +78,13 @@ Every demo on this page lives in the [Display-Gadgets](https://github.com/Seeed-
 git clone https://github.com/Seeed-Projects/Display-Gadgets.git
 ```
 
-Then open the demo's `.ino` file from the cloned `code/Function/...` folder.
+Then open the demo's `.ino` file from the cloned `code_GFX2/Function/...` folder.
 
 ## Screen Display — GraphicTest
 
 This demo runs a full graphics benchmark on the 1.47-inch JD9853A panel, covering color bars, lines, rectangles, circles, triangles, rounded rectangles, text, and a pixel gradient. Use it to verify that the screen is wired correctly and that all draw calls work as expected.
 
-**Code location:** `code/Function/147_nRF52840/xiao_nrf52840_147_graphictest/`
+**Code location:** `code_GFX2/Function/147_nRF52840/xiao_nrf52840_147_graphictest/`
 
 <div class="github_container" style={{textAlign: 'center'}}>
     <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets" target="_blank" rel="noopener noreferrer">
@@ -98,18 +95,16 @@ This demo runs a full graphics benchmark on the 1.47-inch JD9853A panel, coverin
 
 ### How It Works
 
-The sketch initializes the JD9853A panel via TFT_eSPI, then runs through ten graphics primitives in sequence, measuring the execution time of each one via `micros()` and printing the result to the serial monitor.
+The sketch initializes the JD9853A panel via **Seeed_GFX2**, then runs through ten graphics primitives in sequence, measuring the execution time of each one via `micros()` and printing the result to the serial monitor.
 
-The key LCD configuration is abstracted in `driver.h`:
+The display is initialized with a single template call:
 
-- **Chip select:** D2
-- **Data/command:** D3
-- **SPI clock:** D8
-- **SPI data (MOSI):** D10
-- **Reset:** D17
-- **Backlight:** D18 (PWM-capable)
+```cpp
+display.begin<Board_XIAO_1inch47_Touch_Display<38, 37>,
+              Config_XIAO_1inch47_Touch_JD9853A>();
+```
 
-The panel requires a specific MADCTL value (`0x48`) for correct color orientation and disables inversion for normal color rendering.
+The **Board** template owns the pin map — CS=D2, DC=D3, SCK=D8, MOSI=D10 — and its `<RST, BL>` template parameters take bare GPIO numbers, so `<38, 37>` sets RST=GPIO38 and BL=GPIO37. The **Panel Config** bakes in the 172×320 resolution, BGR color order, and no inversion — no `driver.h` or manual MADCTL write is needed.
 
 ### Running the Demo
 
@@ -124,16 +119,16 @@ The panel requires a specific MADCTL value (`0x48`) for correct color orientatio
 ```
 LCD width: 172
 LCD height: 320
-Color bars: 580.08 ms
-Lines: 1803.71 ms
-Fast lines: 821.29 ms
-Rectangles: 649.41 ms
-Filled rectangles: 2290.04 ms
-Circles: 799.81 ms
-Triangles: 895.51 ms
-Round rectangles: 667.97 ms
-Text: 716.80 ms
-Pixel gradient: 2866.21 ms
+Color bars: ... ms
+Lines: ... ms
+Fast lines: ... ms
+Rectangles: ... ms
+Filled rectangles: ... ms
+Circles: ... ms
+Triangles: ... ms
+Round rectangles: ... ms
+Text: ... ms
+Pixel gradient: ... ms
 Graphic test finished.
 ```
 
@@ -151,7 +146,7 @@ After the sketch runs through all patterns, the screen shows a "Graphic Test / F
 
 This demo turns the 1.47-inch touch screen into an interactive drawing pad. Tap anywhere on the screen and a white circle appears at your fingertip. Circles stay on screen, building up as you tap. Tap the **CLEAR** bar at the bottom of the screen to erase all circles and start over.
 
-**Code location:** `code/Function/147_nRF52840/xiao_nrf52840_147_touch_circle/`
+**Code location:** `code_GFX2/Function/147_nRF52840/xiao_nrf52840_147_touch_circle/`
 
 <div class="github_container" style={{textAlign: 'center'}}>
     <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets" target="_blank" rel="noopener noreferrer">
@@ -162,7 +157,14 @@ This demo turns the 1.47-inch touch screen into an interactive drawing pad. Tap 
 
 ### How It Works
 
-The demo uses the **AXS5106L** capacitive touch controller (I2C address `0x63`) connected via I2C on D4/D5. The touch interrupt line on **D7** fires on the falling edge whenever a finger touches or releases the screen. The controller reports absolute (X, Y) coordinates in the display's pixel range.
+The demo uses the **AXS5106L** capacitive touch controller (I2C address `0x63`) connected via I2C on D4/D5. The touch interrupt line on **D7** fires on the falling edge whenever a finger touches or releases the screen. Touch is handled by the Seeed_GFX2 **Touch layer** (`Touch_AXS5106L`):
+
+```cpp
+Touch_AXS5106L touch(-1, D7, Wire, 172, 320);
+display.attachTouch(touch, display.panel().driver().bus());
+// ...
+display.getTouch(&x, &y);
+```
 
 <div class="table-center">
   <table align="center">
@@ -170,13 +172,13 @@ The demo uses the **AXS5106L** capacitive touch controller (I2C address `0x63`) 
     <tr><td>D4 (SDA)</td><td>I2C data bus — shared with IMU</td></tr>
     <tr><td>D5 (SCL)</td><td>I2C clock bus — shared with IMU</td></tr>
     <tr><td>D7</td><td>Touch interrupt (active-low, falling edge)</td></tr>
-    <tr><td>D17</td><td>Screen reset signal</td></tr>
+    <tr><td>RST</td><td>Shared with the LCD reset (GPIO38)</td></tr>
   </table>
 </div>
 
 **Edge-triggered drawing.** The sketch uses an edge-detection approach: it only adds a circle on the falling edge of a touch (finger-down), not while the finger is held. This gives crisp, intentional tap-to-draw behavior rather than continuously painting a trail as you drag.
 
-**X-axis mirroring.** The touch panel is physically mounted in a different orientation than the LCD, so the raw X coordinate is mirrored: `screenX = 172 - 1 - rawX`. The Y axis is reported directly without transformation.
+**X-axis mirroring.** The touch panel is physically mounted in a different orientation than the LCD, so the raw X coordinate must be mirrored. `display.getTouch()` already applies this mirroring internally and returns screen coordinates, so no manual `screenX = 172 - 1 - rawX` transform is needed.
 
 **Circle buffer.** Up to 120 circles are stored in a circular buffer. When the buffer is full, the oldest circle is removed and the screen is redrawn to keep the display clean.
 
@@ -199,14 +201,14 @@ Tap screen to draw white circles.
 Tap CLEAR bar at bottom to erase.
 ```
 
-**Step 4.** Tap the screen — each tap prints the raw and mapped coordinates:
+**Step 4.** Tap the screen — each tap prints the mapped screen coordinates:
 
 ```
-Touch: raw=(27,124) -> screen=(144,124)
-Touch: raw=(5,210) -> screen=(166,210)
-Touch: raw=(50,250) -> screen=(121,250)
-Touch: raw=(134,231) -> screen=(37,231)
-Touch: raw=(49,44) -> screen=(122,44)
+Touch: screen=(144,124)
+Touch: screen=(166,210)
+Touch: screen=(121,250)
+Touch: screen=(37,231)
+Touch: screen=(122,44)
 ```
 
 Tap the CLEAR bar at the bottom to erase all circles.
@@ -223,7 +225,7 @@ Each tap leaves a white circle at your fingertip. The screen title bar shows the
 
 This demo reads `.bmp` image files from a MicroSD card and displays them on the screen. It supports 24-bit uncompressed BMP images and center-crops them to fit the 172×320 display.
 
-**Code location:** `code/Function/147_nRF52840/xiao_nrf52840_147_sd_image_reader/`
+**Code location:** `code_GFX2/Function/147_nRF52840/xiao_nrf52840_147_sd_image_reader/`
 
 <div class="github_container" style={{textAlign: 'center'}}>
     <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets" target="_blank" rel="noopener noreferrer">
@@ -234,7 +236,7 @@ This demo reads `.bmp` image files from a MicroSD card and displays them on the 
 
 ### How It Works
 
-The LCD and SD card share the same hardware SPI bus (SCK = D8, MOSI = D10). To avoid bus contention, the demo uses software-controlled chip-select switching: before any LCD operation, the SD card CS pin (D6) is de-asserted and LCD CS (D2) is asserted, and vice versa.
+The LCD and SD card share the same hardware SPI bus (SCK = D8, MOSI = D10, MISO = D9). To avoid bus contention, the sketch de-asserts the SD card chip-select (D6) before any LCD operation and re-asserts it before SD access. The SD card is driven by SdFat in `SHARED_SPI` mode on the default `SPI` instance, while the LCD runs on Seeed_GFX2's SPI host — both share the same physical D8/D9/D10 pins.
 
 The sketch scans the SD card root directory for `.bmp` files (up to 24), then displays them in a loop with a 2-second interval between images.
 
@@ -298,7 +300,7 @@ The 1.47 Inch Touch Display has an onboard **PDM (Pulse Density Modulation) digi
 
 This demo turns the onboard PDM microphone into a large, responsive volume meter. A 10-segment bar fills the center of the screen — green at low levels, yellow at mid-range, red when loud. The percentage is displayed above the bar and changes color to match the level.
 
-**Code location:** `code/Function/147_nRF52840/xiao_nrf52840_147_mic_canvas/`
+**Code location:** `code_GFX2/Function/147_nRF52840/xiao_nrf52840_147_mic_canvas/`
 
 <div class="github_container" style={{textAlign: 'center'}}>
     <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets" target="_blank" rel="noopener noreferrer">
@@ -358,7 +360,7 @@ The bar responds in real time. In a quiet room the bar stays empty. Speaking at 
 
 This demo records **5 seconds** of audio from the onboard PDM microphone into RAM, saves it to a MicroSD card as a WAV file, then plays it back through an external I2S amplifier. Press one button to record, another to play.
 
-**Code location:** `code/Function/147_nRF52840/xiao_nrf52840_147_sd_unline_record/`
+**Code location:** `code_GFX2/Function/147_nRF52840/xiao_nrf52840_147_sd_unline_record/`
 
 <div class="github_container" style={{textAlign: 'center'}}>
     <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets" target="_blank" rel="noopener noreferrer">
@@ -475,7 +477,7 @@ Press USR1 and the screen shows a recording progress bar. After 5 seconds it con
 
 This demo turns the screen into an interactive fluid simulation — golden sand particles that flow and settle according to gravity, as measured by the onboard LSM6DS3 6-axis IMU. Tilt the board and the sand shifts direction in real time.
 
-**Code location:** `code/Function/147_nRF52840/xiao_nrf52840_147_electronic_quicksand/`
+**Code location:** `code_GFX2/Function/147_nRF52840/xiao_nrf52840_147_electronic_quicksand/`
 
 <div class="github_container" style={{textAlign: 'center'}}>
     <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets" target="_blank" rel="noopener noreferrer">
@@ -524,7 +526,7 @@ The golden sand particles flow smoothly as you tilt the board. When held flat, t
 
 This demo implements a **screen sleep/wake system** driven by the LSM6DS3 IMU's built-in wake-up interrupt on **D14**. The screen automatically turns off (backlight off + CPU enters System ON sleep) after 8 seconds of inactivity, and wakes instantly when you pick up or move the device.
 
-**Code location:** `code/Function/147_nRF52840/xiao_nrf52840_147_wakeup/`
+**Code location:** `code_GFX2/Function/147_nRF52840/xiao_nrf52840_147_wakeup/`
 
 <div class="github_container" style={{textAlign: 'center'}}>
     <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets" target="_blank" rel="noopener noreferrer">
@@ -804,7 +806,7 @@ The function takes the measured battery voltage `v` and looks up the correspondi
 
 ## Resources
 
-- **[GitHub]** [XIAO Display Board Demo Code](https://github.com/Seeed-Projects/Display-Gadgets) — all Function demos are in the `code/Function/147_nRF52840/` directory
+- **[GitHub]** [XIAO Display Board Demo Code](https://github.com/Seeed-Projects/Display-Gadgets) — all Function demos are in the `code_GFX2/Function/147_nRF52840/` directory
 - **[PDF]** [Schematic — 1.47 Inch Touch Display](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/schematics/1.47_Inch_Touch_Display_Powered_by_XIAO_nRF52840_Plus/Schematic)
 ## Tech Support & Product Discussion
 

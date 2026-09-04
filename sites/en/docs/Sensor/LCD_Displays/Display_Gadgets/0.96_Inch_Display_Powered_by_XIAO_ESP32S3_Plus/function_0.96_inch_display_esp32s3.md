@@ -26,36 +26,39 @@ url: https://wiki.seeedstudio.com/function_0.96_inch_display_esp32s3/
 This page collects standalone function-level demos for each onboard peripheral of the 0.96 Inch Display. Each section is self-contained — you can pick the one that matches your use case without reading through the others.
 
 :::note
-All demos in this page require **esp32 Boards by Espressif (3.3.11)** as described in [Getting Started](/getting_started_0.96_inch_display_esp32s3). Additionally, install the following library.
+All demos in this page require **esp32 Boards by Espressif (3.3.11)** as described in [Getting Started](/getting_started_0.96_inch_display_esp32s3), plus the **Seeed_GFX2** library installed manually as described below.
 :::
 
-All four demos use **GFX Library for Arduino** (Arduino_GFX). Install it from the Arduino Library Manager:
+- **Seeed_GFX2 (Manual Installation)** — this library is not available in Library Manager and must be installed manually:
 
-<div class="table-center">
-  <table align="center">
-    <tr><th>Library</th><th>Search Keyword</th><th>Author</th><th>Required by</th></tr>
-    <tr><td><strong>GFX Library for Arduino</strong></td><td><code>GFX Library for Arduino</code></td><td>Moon On Our Nation</td><td>All four demos</td></tr>
-  </table>
-</div>
+<div class="github_container" style={{textAlign: 'center'}}>
+    <a class="github_item" href="https://github.com/Seeed-Studio/Seeed_GFX2/archive/refs/tags/v1.0.0.zip" target="_blank" rel="noopener noreferrer">
+    <strong><span><font color={'FFFFFF'} size={"4"}> Download Seeed_GFX2</font></span></strong>
+    <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
+    </a>
+</div><br />
 
-**Step 1.** In the Arduino IDE, go to **Sketch > Include Library > Manage Libraries...**.
+**Step 1.** Click the button above to download `Seeed_GFX2` v1.0.0 as a ZIP file (pinned to a release tag so the tutorial stays reproducible). Alternatively, clone the repository from [Seeed-Studio/Seeed_GFX2](https://github.com/Seeed-Studio/Seeed_GFX2).
 
-**Step 2.** Search for **"GFX Library for Arduino"** (author *Moon On Our Nation*) and click **Install**.
+**Step 2.** In the Arduino IDE, go to **Sketch > Include Library > Add .ZIP Library...** and select the downloaded ZIP. The IDE reads `library.properties` and installs it into the correct `Seeed_GFX2` folder automatically — you do not need to rename the extracted folder. (To install manually instead, unzip the archive and rename the extracted folder to `Seeed_GFX2` before placing it in `Documents/Arduino/libraries/`.)
+
+**Step 3.** Restart the Arduino IDE so the new library is detected.
 
 :::tip
-- **GFX Library for Arduino** (Arduino_GFX) is the graphics library used by all four demos. Each sketch constructs an `Arduino_ST7789` panel directly in the `.ino` file — an 80×160 IPS display at `rotation = 2` with a 24-pixel column offset — so no separate `driver.h` or board-preset file is needed.
+- **Seeed_GFX2** is Seeed Studio's graphics library built on a layered `Board` + `Panel Config` architecture. Each demo initializes the display with a single `display.begin<Board_..., Config_...>()` call — the **Board** template owns the pin map (CS/DC/SCK/MOSI/RST/BL), and the **Panel Config** bakes in the 80×160 resolution, BGR color order, and rotation. No `driver.h` or manual panel construction is needed.
+- On this board the demos use `Board_XIAO_0inch96_LCD<13, 12>` (RST=13, BL=12) with `Config_Seeed_0inch96_LCD_ST7789` (80×160, BGR, rotation 2).
 - The **IMU** is read directly over I2C (`Wire`) in these demos — no external IMU library is needed. The **PDM microphone** and **I2S output** use the ESP-IDF 5 drivers (`driver/i2s_pdm.h`, `driver/i2s_std.h`) and `LittleFS`, all included with the esp32 board package.
 - The 0.96 Display has **no touch controller, no SD card slot, and no Grove connector** — it only has a back-side 4-pin I2C test pad — so no touch, SD, or Grove libraries are needed.
 :::
 
 ## Getting the Demo Code
 
-Every demo on this page lives in the [Display-Gadgets](https://github.com/Seeed-Projects/Display-Gadgets) repository. Each demo is a self-contained `.ino` sketch — the display is configured directly in the sketch via Arduino_GFX, so grab the `.ino` file (or the whole folder) and it compiles as-is.
+Every demo on this page lives in the [Display-Gadgets](https://github.com/Seeed-Projects/Display-Gadgets) repository, under the `code_GFX2/Function/` directory. Each demo is a folder containing a single `.ino` sketch. **Always download the complete folder** rather than copying the `.ino` source from the GitHub web view.
 
 **Option A — Download the repository as a ZIP (recommended):**
 
 1. Open [github.com/Seeed-Projects/Display-Gadgets](https://github.com/Seeed-Projects/Display-Gadgets) and click **Code > Download ZIP**, then extract the archive anywhere convenient.
-2. Navigate into `code/Function/` and open the folder shown in each demo's **Code location** line. For example, the GraphicTest demo for this board lives in `code/Function/096_ESP32/xiao_esp32s3_096_graphictest/`.
+2. Navigate into `code_GFX2/Function/` and open the folder shown in each demo's **Code location** line. For example, the GraphicTest demo for this board lives in `code_GFX2/Function/096_ESP32/xiao_esp32s3_096_graphictest/`.
 3. **Double-click the `.ino` file** to open it in the Arduino IDE.
 
 **Option B — git clone:**
@@ -64,16 +67,16 @@ Every demo on this page lives in the [Display-Gadgets](https://github.com/Seeed-
 git clone https://github.com/Seeed-Projects/Display-Gadgets.git
 ```
 
-Then open the demo's `.ino` file from the cloned `code/Function/...` folder.
+Then open the demo's `.ino` file from the cloned `code_GFX2/Function/...` folder.
 
 ## Screen Display — GraphicTest
 
 This demo runs a full graphics benchmark on the 0.96-inch ST7789 IPS panel (80×160), covering color bars, lines, rectangles, circles, triangles, rounded rectangles, text, and a pixel gradient. Use it to verify that the screen is wired correctly and that all draw calls work as expected.
 
-**Code location:** `code/Function/096_ESP32/xiao_esp32s3_096_graphictest/`
+**Code location:** `code_GFX2/Function/096_ESP32/xiao_esp32s3_096_graphictest/`
 
 <div class="github_container" style={{textAlign: 'center'}}>
-    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/096_ESP32/xiao_esp32s3_096_graphictest" target="_blank" rel="noopener noreferrer">
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code_GFX2/Function/096_ESP32/xiao_esp32s3_096_graphictest" target="_blank" rel="noopener noreferrer">
     <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
     <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
     </a>
@@ -81,18 +84,16 @@ This demo runs a full graphics benchmark on the 0.96-inch ST7789 IPS panel (80×
 
 ### How It Works
 
-The sketch initializes the ST7789 IPS panel via Arduino_GFX, then runs through ten graphics primitives in sequence, measuring the execution time of each one via `micros()` and printing the result to the serial monitor.
+The sketch initializes the ST7789 IPS panel via **Seeed_GFX2**, then runs through ten graphics primitives in sequence, measuring the execution time of each one via `micros()` and printing the result to the serial monitor.
 
-The key LCD configuration is declared directly in the sketch:
+The display is initialized with a single template call:
 
-- **Chip select:** D2
-- **Data/command:** D3
-- **SPI clock:** D8
-- **SPI data (MOSI):** D10
-- **Reset:** D17
-- **Backlight:** D18 (PWM-capable)
+```cpp
+display.begin<Board_XIAO_0inch96_LCD<13, 12>,
+              Config_Seeed_0inch96_LCD_ST7789>();
+```
 
-The panel is constructed as an 80×160 ST7789 at `rotation = 2` with a 24-pixel column offset. The sketch calls `invertDisplay(true)` because this IPS panel drives colors inverted by default — `invertDisplay()` only flips the polarity and does not affect the panel's RGB/BGR channel order. No MADCTL fix or JD9853A-specific register tweaks are needed.
+The **Board** template owns the pin map — CS=D2, DC=D3, SCK=D8, MOSI=D10 — and its `<RST, BL>` template parameters take bare GPIO numbers, so `<13, 12>` sets RST=GPIO13 (D17) and BL=GPIO12 (D18). The **Panel Config** bakes in the 80×160 resolution, BGR color order, and rotation 2 — no `driver.h` or manual `invertDisplay()` call is needed.
 
 ### Running the Demo
 
@@ -108,16 +109,16 @@ The panel is constructed as an 80×160 ST7789 at `rotation = 2` with a 24-pixel 
 === XIAO ESP32-S3 Plus 0.96 graphic test ===
 LCD width: 80
 LCD height: 160
-Color bars: 5.59 ms
-Lines: 58.13 ms
-Fast lines: 8.29 ms
-Rectangles: 6.97 ms
-Filled rects: 17.30 ms
-Circles: 12.11 ms
-Triangles: 12.92 ms
-Round rects: 8.82 ms
-Text: 9.90 ms
-Pixel gradient: 161.09 ms
+Color bars: ... ms
+Lines: ... ms
+Fast lines: ... ms
+Rectangles: ... ms
+Filled rects: ... ms
+Circles: ... ms
+Triangles: ... ms
+Round rects: ... ms
+Text: ... ms
+Pixel gradient: ... ms
 Graphic test finished.
 ```
 
@@ -147,10 +148,10 @@ The demos below read the IMU directly over I2C (`Wire`) — no external IMU libr
 
 This demo turns the screen into an interactive fluid simulation — golden sand particles that flow and settle according to gravity, as measured by the onboard 6-axis IMU. Tilt the board and the sand shifts direction in real time.
 
-**Code location:** `code/Function/096_ESP32/xiao_esp32s3_096_electronic_quicksand/`
+**Code location:** `code_GFX2/Function/096_ESP32/xiao_esp32s3_096_electronic_quicksand/`
 
 <div class="github_container" style={{textAlign: 'center'}}>
-    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/096_ESP32/xiao_esp32s3_096_electronic_quicksand" target="_blank" rel="noopener noreferrer">
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code_GFX2/Function/096_ESP32/xiao_esp32s3_096_electronic_quicksand" target="_blank" rel="noopener noreferrer">
     <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
     <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
     </a>
@@ -196,10 +197,10 @@ The golden sand particles flow smoothly as you tilt the board. When held flat, t
 
 This demo implements a **screen sleep/wake system** driven by the IMU's built-in wake-up interrupt on **D14**. The screen automatically turns off (backlight off) after 8 seconds of inactivity, and wakes instantly when you pick up or move the device.
 
-**Code location:** `code/Function/096_ESP32/xiao_esp32s3_096_wakeup/`
+**Code location:** `code_GFX2/Function/096_ESP32/xiao_esp32s3_096_wakeup/`
 
 <div class="github_container" style={{textAlign: 'center'}}>
-    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/096_ESP32/xiao_esp32s3_096_wakeup" target="_blank" rel="noopener noreferrer">
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code_GFX2/Function/096_ESP32/xiao_esp32s3_096_wakeup" target="_blank" rel="noopener noreferrer">
     <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
     <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
     </a>
@@ -290,10 +291,10 @@ The 0.96 Display's PDM microphone connects to the same pins as the other XIAO di
   </table>
 </div>
 
-**Code location:** `code/Function/096_ESP32/xiao_esp32s3_096_flash_record/`
+**Code location:** `code_GFX2/Function/096_ESP32/xiao_esp32s3_096_flash_record/`
 
 <div class="github_container" style={{textAlign: 'center'}}>
-    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/096_ESP32/xiao_esp32s3_096_flash_record" target="_blank" rel="noopener noreferrer">
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code_GFX2/Function/096_ESP32/xiao_esp32s3_096_flash_record" target="_blank" rel="noopener noreferrer">
     <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
     <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
     </a>
@@ -542,7 +543,7 @@ This is an estimate only — the ESP32-S3 Plus version does not have the nRF5284
 
 ## Resources
 
-- **[GitHub]** [XIAO Display Board Demo Code](https://github.com/Seeed-Projects/Display-Gadgets) — all Function demos are in the `code/Function/096_ESP32/` directory
+- **[GitHub]** [XIAO Display Board Demo Code](https://github.com/Seeed-Projects/Display-Gadgets) — all Function demos are in the `code_GFX2/Function/096_ESP32/` directory
 - **[PDF]** [Schematic — 0.96 Inch Display (XIAO ESP32-S3 Plus)](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/schematics/0.96_Inch_Display_Powered_by_XIAO_ESP32-S3_Plus/Schematic)
 
 ## Tech Support & Product Discussion
