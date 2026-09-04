@@ -61,17 +61,10 @@ This display board is designed for the **XIAO nRF52840 Plus**. If you are using 
 
 ## Hardware Overview
 
-Before we start, refer to the following images to understand the physical layout of the 0.96 Inch Display.
+Before we start, refer to the following image to understand the physical layout of the 0.96 Inch Display.
 
-### Front View
-
-<!-- TODO: Add front view image (096_nRF52840Plus_display_hardware_front.jpg) -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_nRF52840Plus_display_hardware_front.jpg" style={{width:600, height:'auto'}}/></div> -->
-
-### Back View
-
-<!-- TODO: Add back view image (096_nRF52840Plus_display_hardware_back.jpg) -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_nRF52840Plus_display_hardware_back.jpg" style={{width:600, height:'auto'}}/></div> -->
+<!-- TODO: Add front-and-back overview image with pin labels (096_nRF52840Plus_display_hardware_overview.png) -->
+<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_nRF52840Plus_display_hardware_overview.png" style={{width:1000, height:'auto'}}/></div> -->
 
 ### Pin Map
 
@@ -103,8 +96,6 @@ The 0.96 Inch Display breaks out all XIAO nRF52840 Plus pins. The table below li
   </table>
 </div>
 
-<!-- TODO: Add annotated pinout image (096_nRF52840Plus_display_pinout.png) -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_nRF52840Plus_display_pinout.png" style={{width:1000, height:'auto'}}/></div> -->
 
 ## Getting Started — Dashboard
 
