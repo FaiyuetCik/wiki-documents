@@ -61,17 +61,10 @@ Unlike the nRF52840 Plus version which reports battery percentage with charging 
 
 ## Hardware Overview
 
-Before we start, refer to the following images to understand the physical layout of the 1.47 Inch Touch Display.
+Before we start, refer to the following image to understand the physical layout of the 1.47 Inch Touch Display.
 
-### Front View
-
-<!-- TODO: Add front view image (147_ESP32S3Plus_display_hardware_front.jpg) -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_touch_display_hardware_front.jpg" style={{width:600, height:'auto'}}/></div> -->
-
-### Back View
-
-<!-- TODO: Add back view image (147_ESP32S3Plus_display_hardware_back.jpg) -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_touch_display_hardware_back.jpg" style={{width:600, height:'auto'}}/></div> -->
+<!-- TODO: Add front-and-back overview image with pin labels (147_ESP32S3Plus_display_hardware_overview.png) -->
+<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_display_hardware_overview.png" style={{width:1000, height:'auto'}}/></div> -->
 
 ### Pin Map
 
@@ -103,8 +96,6 @@ The 1.47 Inch Touch Display breaks out all XIAO ESP32-S3 Plus pins. The table be
   </table>
 </div>
 
-<!-- TODO: Add annotated pinout image (147_ESP32S3Plus_display_pinout.png) -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_touch_display_pinout.png" style={{width:1000, height:'auto'}}/></div> -->
 
 ## Getting Started — Dashboard
 

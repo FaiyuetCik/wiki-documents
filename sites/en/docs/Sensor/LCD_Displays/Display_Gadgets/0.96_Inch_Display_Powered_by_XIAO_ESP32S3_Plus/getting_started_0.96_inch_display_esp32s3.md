@@ -65,17 +65,10 @@ The ESP32-S3 Plus version uses D16 to measure the battery divider voltage. The c
 
 ## Hardware Overview
 
-Refer to the following views to identify the connectors and onboard components before connecting expansion hardware.
+Refer to the following view to identify the connectors and onboard components before connecting expansion hardware.
 
-### Front View
-
-<!-- TODO: Add front view image (096_ESP32S3Plus_display_hardware_front.jpg) -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_hardware_front.jpg" style={{width:600, height:'auto'}}/></div> -->
-
-### Back View
-
-<!-- TODO: Add back view image (096_ESP32S3Plus_display_hardware_back.jpg) -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_hardware_back.jpg" style={{width:600, height:'auto'}}/></div> -->
+<!-- TODO: Add front-and-back overview image with pin labels (096_ESP32S3Plus_display_hardware_overview.png) -->
+<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_hardware_overview.png" style={{width:1000, height:'auto'}}/></div> -->
 
 ### Pin Map
 
@@ -107,8 +100,6 @@ The table below lists the XIAO ESP32-S3 Plus pins used by the display board and 
   </table>
 </div>
 
-<!-- TODO: Add annotated pinout image (096_ESP32S3Plus_display_pinout.png) -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_pinout.png" style={{width:1000, height:'auto'}}/></div> -->
 
 :::caution
 D4 and D5 are shared with the onboard IMU. Any external I2C device connected to the test pad must use a unique address and support 3.3 V logic.
