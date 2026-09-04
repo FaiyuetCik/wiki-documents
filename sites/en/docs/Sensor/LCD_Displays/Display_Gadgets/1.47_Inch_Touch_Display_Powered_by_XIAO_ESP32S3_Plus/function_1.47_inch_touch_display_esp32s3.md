@@ -108,22 +108,18 @@ The **Board** template owns the pin map — CS=D2, DC=D3, SCK=D8, MOSI=D10 — a
 === XIAO ESP32-S3 Plus 1.47 graphic test ===
 LCD width: 172
 LCD height: 320
-Color bars: ... ms
-Lines: ... ms
-Fast lines: ... ms
-Rectangles: ... ms
-Filled rects: ... ms
-Circles: ... ms
-Triangles: ... ms
-Round rectangles: ... ms
-Text: ... ms
-Pixel gradient: ... ms
+Color bars: 162.32 ms
+Lines: 4562.40 ms
+Fast lines: 240.45 ms
+Rectangles: 189.31 ms
+Filled rectangles: 644.85 ms
+Circles: 667.74 ms
+Triangles: 531.25 ms
+Round rectangles: 236.16 ms
+Text: 1899.09 ms
+Pixel gradient: 7933.69 ms
 Graphic test finished.
 ```
-
-:::note
-Timing values depend on your board and Seeed_GFX2 version — the `... ms` placeholders above should be replaced with your own measurements.
-:::
 
 On the screen, you will see each test pattern displayed for about one second before the next one starts. When all tests complete, a "Finished" screen appears with a blue rounded-rectangle border.
 
