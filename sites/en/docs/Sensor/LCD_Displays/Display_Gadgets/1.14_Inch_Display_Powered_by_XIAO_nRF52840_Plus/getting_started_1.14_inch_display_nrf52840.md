@@ -26,7 +26,7 @@ url: https://wiki.seeedstudio.com/getting_started_1.14_inch_display_nrf52840/
 <div class="table-center">
   <table align="center">
     <tr><th>1.14 Inch Display (XIAO nRF52840 Plus)</th></tr>
-    <!-- TODO: Replace with actual product hero image -->
+    <!-- TODO: Replace with actual product hero image (114_nRF52840Plus_display_hardware_hero.jpg) -->
     <tr><td><div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/seeed_logo/logo_2023.png" style={{width:100, height:'auto'}}/></div></td></tr>
     <tr><td><div class="get_one_now_container" style={{textAlign: 'center'}}>
         <a class="get_one_now_item" href="#" target="_blank">
@@ -66,12 +66,12 @@ Before we start, refer to the following images to understand the physical layout
 
 ### Front View
 
-<!-- TODO: Add front view image -->
+<!-- TODO: Add front view image (114_nRF52840Plus_display_hardware_front.jpg) -->
 <!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_nRF52840Plus_display_hardware_front.jpg" style={{width:600, height:'auto'}}/></div> -->
 
 ### Back View
 
-<!-- TODO: Add back view image -->
+<!-- TODO: Add back view image (114_nRF52840Plus_display_hardware_back.jpg) -->
 <!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_nRF52840Plus_display_hardware_back.jpg" style={{width:600, height:'auto'}}/></div> -->
 
 ### Pin Map
@@ -104,7 +104,7 @@ The 1.14 Inch Display breaks out all XIAO nRF52840 Plus pins. The table below li
   </table>
 </div>
 
-<!-- TODO: Add annotated pinout image -->
+<!-- TODO: Add annotated pinout image (114_nRF52840Plus_display_pinout.png) -->
 <!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_nRF52840Plus_display_pinout.png" style={{width:1000, height:'auto'}}/></div> -->
 
 ## Getting Started — Dashboard
