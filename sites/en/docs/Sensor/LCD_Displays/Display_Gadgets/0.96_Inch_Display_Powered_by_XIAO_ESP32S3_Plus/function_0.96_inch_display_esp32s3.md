@@ -341,8 +341,7 @@ The ESP-IDF v5 API (`i2s_new_channel()` / `i2s_channel_read()` / `i2s_channel_wr
   <table align="center">
     <tr><th>State</th><th>Description</th></tr>
     <tr><td><strong>Ready</strong></td><td>"Recorder" title with "USR1: record" and "USR2: play" (or "No recording")</td></tr>
-    <tr><td><strong>Warm-up</strong></td><td>"Mic warm-up..." with "Please wait" before capture begins</td></tr>
-    <tr><td><strong>Recording</strong></td><td>Red "REC" label, a percentage and elapsed/total time (e.g. "45%  2.0/5.0s"), and a red progress bar</td></tr>
+    <tr><td><strong>Recording</strong></td><td>"Capturing voice" with "Please speak" while capturing (no live progress)</td></tr>
     <tr><td><strong>Error</strong></td><td>"Mic timeout" with "Try again" when capture exceeds 7 seconds</td></tr>
     <tr><td><strong>Saved</strong></td><td>"Done — Saved WAV" confirmation, then returns to Ready</td></tr>
     <tr><td><strong>Playback</strong></td><td>"Playing..." while streaming, then "Finished"</td></tr>
@@ -365,7 +364,7 @@ The ESP-IDF v5 API (`i2s_new_channel()` / `i2s_channel_read()` / `i2s_channel_wr
 The recorder stores the WAV file in `LittleFS`, which uses the **SPIFFS** partition. The board's default partition scheme (`16M Flash (2MB APP/12.5MB FATFS)`) contains no SPIFFS partition, so `LittleFS.begin()` returns `false`, the WAV file cannot be written, and the screen shows "Write failed / Check flash". You **must** select the SPIFFS partition scheme above, or recording will not work.
 :::
 
-**Step 6.** Press **USR1 (D6)** to record 5 seconds of audio from the onboard microphone. The progress bar fills as it records.
+**Step 6.** Press **USR1 (D6)** to record 5 seconds of audio from the onboard microphone. The screen shows "Capturing voice" while recording.
 
 **Step 7.** Press **USR2 (D7)** to play the recording back through the speaker.
 
@@ -377,7 +376,7 @@ The recording is stored in onboard Flash (`LittleFS`), so it survives a power cy
 
 <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_function_flash_record.gif" style={{width:500, height:'auto'}}/></div>
 
-Press USR1 and the screen shows a recording progress bar. After 5 seconds it confirms the WAV was saved. Press USR2 and the audio plays through the connected speaker while the screen shows the playback status.
+Press USR1 and the screen shows "Capturing voice". After 5 seconds it confirms the WAV was saved. Press USR2 and the audio plays through the connected speaker while the screen shows the playback status.
 
 ---
 

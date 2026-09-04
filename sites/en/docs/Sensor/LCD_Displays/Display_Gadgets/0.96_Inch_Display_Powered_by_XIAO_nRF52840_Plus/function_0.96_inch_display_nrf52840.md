@@ -93,18 +93,16 @@ This demo runs a full graphics benchmark on the 0.96-inch ST7789 IPS panel (80×
 
 ### How It Works
 
-The sketch initializes the ST7789 IPS panel via Arduino_GFX using **software SPI**, then runs through ten graphics primitives in sequence, measuring the execution time of each one via `micros()` and printing the result to the serial monitor.
+The sketch initializes the ST7789 IPS panel via **Seeed_GFX2**, then runs through ten graphics primitives in sequence, measuring the execution time of each one via `micros()` and printing the result to the serial monitor.
 
-The key LCD configuration:
+The display is initialized with a single template call:
 
-- **Chip select:** D2
-- **Data/command:** D3
-- **SPI clock:** D8
-- **SPI data (MOSI):** D10
-- **Reset:** D17
-- **Backlight:** D18 (PWM-capable)
+```cpp
+display.begin<Board_XIAO_0inch96_LCD<38, 37>,
+              Config_Seeed_0inch96_LCD_ST7789>();
+```
 
-The ST7789 panel is initialized with `rotation = 2`, `invertDisplay(true)`, and a column offset of 24 (`col_offset = 24`, `row_offset = 0`). Because hardware SPI is incompatible with this panel, all draws go through `Arduino_SWSPI`.
+The **Board** template owns the pin map — CS=D2, DC=D3, SCK=D8, MOSI=D10 — and its `<RST, BL>` template parameters take bare GPIO numbers, so `<38, 37>` sets RST=GPIO38 and BL=GPIO37. The **Panel Config** bakes in the 80×160 resolution, BGR color order, and rotation 2 — no `driver.h` or manual `invertDisplay()` call is needed. Seeed_GFX2 drives the panel with a conservative 10 MHz hardware SPI, avoiding the signal-margin problem that forced software SPI in older demos.
 
 :::note
 **Color order (BGR panel).** This 0.96-inch panel physically swaps the red and blue channels. The demo aliases colors accordingly (e.g. a wire-level red `0xF800` appears blue on screen). If you write your own drawing code, use the demo's color aliases or account for the BGR order — otherwise reds and blues will appear swapped.
@@ -341,7 +339,7 @@ The 0.96 Display does **not** have an SD card slot, so this demo records into th
 
 **Display:**
 
-The screen is driven by **Arduino_GFX** using **Arduino_SWSPI** (software SPI). The ST7789 panel (80×160) is initialized with **rotation 2**, a **24-pixel column offset**, and **invert enabled**.
+The screen is driven by **Seeed_GFX2** with `Board_XIAO_0inch96_LCD<38, 37>` and `Config_Seeed_0inch96_LCD_ST7789` (80×160, BGR, rotation 2) over 10 MHz hardware SPI.
 
 **Recording (USR1):**
 
