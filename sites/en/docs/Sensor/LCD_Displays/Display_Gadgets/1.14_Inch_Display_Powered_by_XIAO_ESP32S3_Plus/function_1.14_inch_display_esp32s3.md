@@ -506,7 +506,7 @@ The screen shows "SHT31 OK" with the temperature and humidity, updating once per
 
 #### Expected Result
 
-<!-- TODO: Add SHT31 demo GIF (114_ESP32S3Plus_function_sht31.gif) -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_function_sht31.gif" style={{width:500, height:'auto'}}/></div>
 
 The temperature and humidity update once per second on the screen. Breathe on the sensor and the humidity reading rises.
 
