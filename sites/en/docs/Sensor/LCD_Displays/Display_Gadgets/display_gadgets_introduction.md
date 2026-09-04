@@ -65,7 +65,7 @@ All six models share the following onboard peripherals:
 - PDM digital microphone
 - 6-axis IMU (LSM6DS3, 3-axis accelerometer + 3-axis gyroscope)
 - Battery voltage detection
-- Arduino support (GFX Library for Arduino on all models; Seeed_GFX on the 1.14" and 1.47" Function demos only)
+- Arduino support (GFX Library for Arduino on the factory Dashboard; Seeed_GFX2 on the Function demos)
 
 ## Getting Started
 

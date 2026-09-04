@@ -147,7 +147,7 @@ Then go to **Tools > Board > Boards Manager**, search for **esp32**, and install
 </div>
 
 :::note
-**GFX Library for Arduino** is required by both the factory Dashboard firmware and the standalone function demos in the [Function](/function_0.96_inch_display_esp32s3) page — the same library covers both.
+**GFX Library for Arduino** above is required for the factory Dashboard firmware. The standalone function demos in the [Function](/function_0.96_inch_display_esp32s3) page instead use **Seeed_GFX2** (installed manually as described on that page) — the two libraries are different and not interchangeable.
 :::
 
 :::tip

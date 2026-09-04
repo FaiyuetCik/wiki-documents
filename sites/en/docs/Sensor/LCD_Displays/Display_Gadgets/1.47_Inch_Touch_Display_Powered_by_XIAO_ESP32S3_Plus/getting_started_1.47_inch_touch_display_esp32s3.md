@@ -162,7 +162,7 @@ libraries/esp_lcd_touch_axs5106l/
 **Step 3.** Restart the Arduino IDE so the new library is detected.
 
 :::note
-**GFX Library for Arduino** above is required for the factory Dashboard firmware and for the **SD BMP Reader** and **SD Recorder** examples on the [Function](/function_1.47_inch_touch_display_esp32s3) page. Most other Function examples use **Seeed_GFX** (Seeed Studio's fork of Bodmer's TFT_eSPI) instead — the two graphics libraries serve different purposes and are not interchangeable, so install whichever the specific tutorial asks for.
+**GFX Library for Arduino** above is required for the factory Dashboard firmware. The [Function](/function_1.47_inch_touch_display_esp32s3) demos instead use **Seeed_GFX2** (installed manually as described on that page) — the two graphics libraries serve different purposes and are not interchangeable, so install whichever the specific tutorial asks for.
 :::
 
 :::tip

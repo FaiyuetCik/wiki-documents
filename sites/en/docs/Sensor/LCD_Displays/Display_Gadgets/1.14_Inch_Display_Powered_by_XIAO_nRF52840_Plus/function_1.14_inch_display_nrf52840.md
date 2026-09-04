@@ -28,7 +28,7 @@ url: https://wiki.seeedstudio.com/function_1.14_inch_display_nrf52840/
 This page collects standalone function-level demos for each onboard peripheral of the 1.14 Inch Display. Each section is self-contained — you can pick the one that matches your use case without reading through the others.
 
 :::note
-All demos in this page require **Seeed nRF52 Boards (1.1.13)** as described in [Getting Started](/getting_started_1.14_inch_display_nrf52840). Additionally, install the following libraries.
+All demos in this page require **Seeed nRF52 Boards (1.1.13)** as described in [Getting Started](/getting_started_1.14_inch_display_nrf52840), plus the **Seeed_GFX2** library installed manually as described below.
 :::
 
 - **Library Manager** — go to **Sketch > Include Library > Manage Libraries...**, search for and install:
@@ -40,27 +40,25 @@ All demos in this page require **Seeed nRF52 Boards (1.1.13)** as described in [
   </table>
 </div>
 
-- **Seeed_GFX (Manual Installation)** — this library is not available in Library Manager and must be installed manually:
-
-:::note
-Seeed_GFX's nRF52840 processor includes `Seeed_Arduino_FS.h` when `SMOOTH_FONT` is enabled (the default). Install **Seeed Arduino FS** from the Library Manager (search "Seeed Arduino FS") or from [Seeed-Studio/Seeed_Arduino_FS](https://github.com/Seeed-Studio/Seeed_Arduino_FS) — otherwise the demos fail to compile with `Seeed_Arduino_FS.h: No such file or directory`.
-:::
+- **Seeed_GFX2 (Manual Installation)** — this library is not available in Library Manager and must be installed manually:
 
 <div class="github_container" style={{textAlign: 'center'}}>
-    <a class="github_item" href="https://github.com/Seeed-Studio/Seeed_GFX/archive/a2de1abca0597c202193f22d01e9fa35d1ff613b.zip" target="_blank" rel="noopener noreferrer">
-    <strong><span><font color={'FFFFFF'} size={"4"}> Download Seeed_GFX</font></span></strong>
+    <a class="github_item" href="https://github.com/Seeed-Studio/Seeed_GFX2/archive/refs/tags/v1.0.0.zip" target="_blank" rel="noopener noreferrer">
+    <strong><span><font color={'FFFFFF'} size={"4"}> Download Seeed_GFX2</font></span></strong>
     <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
     </a>
 </div><br />
 
-**Step 1.** Click the button above to download `Seeed_GFX` as a ZIP file (pinned to a fixed commit so the tutorial stays reproducible). Alternatively, clone the repository from [Seeed-Studio/Seeed_GFX](https://github.com/Seeed-Studio/Seeed_GFX).
+**Step 1.** Click the button above to download `Seeed_GFX2` v1.0.0 as a ZIP file (pinned to a release tag so the tutorial stays reproducible). Alternatively, clone the repository from [Seeed-Studio/Seeed_GFX2](https://github.com/Seeed-Studio/Seeed_GFX2).
 
-**Step 2.** In the Arduino IDE, go to **Sketch > Include Library > Add .ZIP Library...** and select the downloaded ZIP. The IDE reads `library.properties` and installs it into the correct `Seeed_GFX` folder automatically — you do not need to rename the extracted folder. (To install manually instead, unzip the archive and rename the extracted folder to `Seeed_GFX` before placing it in `Documents/Arduino/libraries/`.)
+**Step 2.** In the Arduino IDE, go to **Sketch > Include Library > Add .ZIP Library...** and select the downloaded ZIP. The IDE reads `library.properties` and installs it into the correct `Seeed_GFX2` folder automatically — you do not need to rename the extracted folder. (To install manually instead, unzip the archive and rename the extracted folder to `Seeed_GFX2` before placing it in `Documents/Arduino/libraries/`.)
 
 **Step 3.** Restart the Arduino IDE so the new library is detected.
 
 :::tip
-- **Seeed_GFX** is Seeed Studio's fork of TFT_eSPI with pre-configured XIAO board presets. Each sketch's `driver.h` selects `BOARD_SCREEN_COMBO 75` with `USE_XIAO_TFT_DISPLAY_BOARD`, which provides the ST7789 driver and pin mapping — the 135×240 resolution is set by the `TFT_eSPI tft(135, 240)` constructor in each sketch. This library is different from **GFX Library for Arduino** (by Moon On Our Nation) used in the Dashboard.
+- **Seeed_GFX2** is Seeed Studio's graphics library built on a layered `Board` + `Panel Config` architecture. Each demo initializes the display with a single `display.begin<Board_..., Config_...>()` call — the **Board** template owns the pin map (CS/DC/SCK/MOSI/RST/BL), and the **Panel Config** bakes in the 135×240 resolution, color order, and inversion. No `driver.h` or manual pin setup is needed.
+- On this board the demos use `Board_XIAO_1inch14_LCD<38, 37>` (RST=38, BL=37) with `Config_Seeed_1inch14_LCD_ST7789` (135×240). A few demos define a sketch-local `Config_XIAO_1inch14_LCD_ST7789_BGR` override for the BGR color order.
+- The **IMU** demos use the **Seeed Arduino LSM6DS3** library (installed above).
 - The 1.14 Display has **no touch controller, no SD card slot**, so no touch or SD libraries are needed.
 :::
 
@@ -72,13 +70,13 @@ The recording is stored in the nRF52840's **internal Flash filesystem**. This di
 
 ## Getting the Demo Code
 
-Every demo on this page lives in the [Display-Gadgets](https://github.com/Seeed-Projects/Display-Gadgets) repository. Each demo is a folder that contains the `.ino` sketch **together with a `driver.h` configuration file** — both are required to compile, so always grab the whole folder rather than copying the `.ino` source from the GitHub web view.
+Every demo on this page lives in the [Display-Gadgets](https://github.com/Seeed-Projects/Display-Gadgets) repository, under the `code_GFX2/Function/` directory. Each demo is a folder containing a single `.ino` sketch. **Always download the complete folder** rather than copying the `.ino` source from the GitHub web view.
 
 **Option A — Download the repository as a ZIP (recommended):**
 
 1. Open [github.com/Seeed-Projects/Display-Gadgets](https://github.com/Seeed-Projects/Display-Gadgets) and click **Code > Download ZIP**, then extract the archive anywhere convenient.
-2. Navigate into `code/Function/` and open the folder shown in each demo's **Code location** line. For example, the GraphicTest demo for this board lives in `code/Function/114_nRF52840/xiao_nrf52840_114_graphictest/`.
-3. **Double-click the `.ino` file** to open it in the Arduino IDE. Keep the `.ino` and `driver.h` together in the same folder — the IDE relies on them being side-by-side.
+2. Navigate into `code_GFX2/Function/` and open the folder shown in each demo's **Code location** line. For example, the GraphicTest demo for this board lives in `code_GFX2/Function/114_nRF52840/xiao_nrf52840_114_graphictest/`.
+3. **Double-click the `.ino` file** to open it in the Arduino IDE.
 
 **Option B — git clone:**
 
@@ -86,16 +84,16 @@ Every demo on this page lives in the [Display-Gadgets](https://github.com/Seeed-
 git clone https://github.com/Seeed-Projects/Display-Gadgets.git
 ```
 
-Then open the demo's `.ino` file from the cloned `code/Function/...` folder.
+Then open the demo's `.ino` file from the cloned `code_GFX2/Function/...` folder.
 
 ## Screen Display — GraphicTest
 
 This demo runs a full graphics benchmark on the 1.14-inch ST7789 IPS panel (135×240), covering color bars, lines, rectangles, circles, triangles, rounded rectangles, text, and a pixel gradient. Use it to verify that the screen is wired correctly and that all draw calls work as expected.
 
-**Code location:** `code/Function/114_nRF52840/xiao_nrf52840_114_graphictest/`
+**Code location:** `code_GFX2/Function/114_nRF52840/xiao_nrf52840_114_graphictest/`
 
 <div class="github_container" style={{textAlign: 'center'}}>
-    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/114_nRF52840/xiao_nrf52840_114_graphictest" target="_blank" rel="noopener noreferrer">
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code_GFX2/Function/114_nRF52840/xiao_nrf52840_114_graphictest" target="_blank" rel="noopener noreferrer">
     <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
     <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
     </a>
@@ -103,18 +101,16 @@ This demo runs a full graphics benchmark on the 1.14-inch ST7789 IPS panel (135�
 
 ### How It Works
 
-The sketch initializes the ST7789 IPS panel via TFT_eSPI, then runs through ten graphics primitives in sequence, measuring the execution time of each one via `micros()` and printing the result to the serial monitor.
+The sketch initializes the ST7789 IPS panel via **Seeed_GFX2**, then runs through ten graphics primitives in sequence, measuring the execution time of each one via `micros()` and printing the result to the serial monitor.
 
-The key LCD configuration is abstracted in `driver.h`:
+The display is initialized with a single template call:
 
-- **Chip select:** D2
-- **Data/command:** D3
-- **SPI clock:** D8
-- **SPI data (MOSI):** D10
-- **Reset:** D17
-- **Backlight:** D18 (PWM-capable)
+```cpp
+display.begin<Board_XIAO_1inch14_LCD<38, 37>,
+              Config_Seeed_1inch14_LCD_ST7789>();
+```
 
-The ST7789 IPS panel on this board requires `invertDisplay(true)` for correct colors (unlike the 1.47" JD9853A which uses `invertDisplay(false)`). No MADCTL fix or JD9853A-specific register tweaks are needed.
+The **Board** template owns the pin map — CS=D2, DC=D3, SCK=D8, MOSI=D10 — and its `<RST, BL>` template parameters take bare GPIO numbers, so `<38, 37>` sets RST=GPIO38 and BL=GPIO37. The **Panel Config** bakes in the 135×240 resolution, color order, and inversion (`invert = true`), so no `driver.h` or manual `invertDisplay()` call is needed.
 
 ### Running the Demo
 
@@ -129,16 +125,16 @@ The ST7789 IPS panel on this board requires `invertDisplay(true)` for correct co
 ```
 LCD width: 135
 LCD height: 240
-Color bars: 333.98 ms
-Lines: 1031.25 ms
-Fast lines: 471.68 ms
-Rectangles: 375.98 ms
-Filled rectangles: 1170.90 ms
-Circles: 447.27 ms
-Triangles: 567.38 ms
-Round rectangles: 397.46 ms
-Text: 437.50 ms
-Pixel gradient: 1657.23 ms
+Color bars: ... ms
+Lines: ... ms
+Fast lines: ... ms
+Rectangles: ... ms
+Filled rectangles: ... ms
+Circles: ... ms
+Triangles: ... ms
+Round rectangles: ... ms
+Text: ... ms
+Pixel gradient: ... ms
 Graphic test finished.
 ```
 
@@ -164,10 +160,10 @@ Both demos below use the LSM6DS3 at I2C address **0x6A**.
 
 This demo turns the screen into an interactive fluid simulation — golden sand particles that flow and settle according to gravity, as measured by the onboard 6-axis IMU. Tilt the board and the sand shifts direction in real time.
 
-**Code location:** `code/Function/114_nRF52840/xiao_nrf52840_114_electronic_quicksand/`
+**Code location:** `code_GFX2/Function/114_nRF52840/xiao_nrf52840_114_electronic_quicksand/`
 
 <div class="github_container" style={{textAlign: 'center'}}>
-    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/114_nRF52840/xiao_nrf52840_114_electronic_quicksand" target="_blank" rel="noopener noreferrer">
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code_GFX2/Function/114_nRF52840/xiao_nrf52840_114_electronic_quicksand" target="_blank" rel="noopener noreferrer">
     <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
     <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
     </a>
@@ -213,10 +209,10 @@ The golden sand particles flow smoothly as you tilt the board. When held flat, t
 
 This demo implements a **screen sleep/wake system** driven by the IMU's built-in motion interrupt on **D14**. The screen automatically turns off (backlight off + nRF52 system ON sleep) after a configurable idle period, and wakes instantly when you pick up or move the device.
 
-**Code location:** `code/Function/114_nRF52840/xiao_nrf52840_114_wakeup/`
+**Code location:** `code_GFX2/Function/114_nRF52840/xiao_nrf52840_114_wakeup/`
 
 <div class="github_container" style={{textAlign: 'center'}}>
-    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/114_nRF52840/xiao_nrf52840_114_wakeup" target="_blank" rel="noopener noreferrer">
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code_GFX2/Function/114_nRF52840/xiao_nrf52840_114_wakeup" target="_blank" rel="noopener noreferrer">
     <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
     <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
     </a>
@@ -300,10 +296,10 @@ The 1.14 Inch Display features the same PDM digital microphone as the 1.47" vers
 
 This demo visualizes the PDM microphone's real-time audio input as a dynamic equalizer-style waveform and a segmented volume bar. Speak, clap, or blow into the onboard microphone and watch the bars react instantly.
 
-**Code location:** `code/Function/114_nRF52840/xiao_nrf52840_114_voice_bar/`
+**Code location:** `code_GFX2/Function/114_nRF52840/xiao_nrf52840_114_voice_bar/`
 
 <div class="github_container" style={{textAlign: 'center'}}>
-    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/114_nRF52840/xiao_nrf52840_114_voice_bar" target="_blank" rel="noopener noreferrer">
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code_GFX2/Function/114_nRF52840/xiao_nrf52840_114_voice_bar" target="_blank" rel="noopener noreferrer">
     <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
     <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
     </a>
@@ -364,10 +360,10 @@ This demo records a short audio clip from the onboard PDM microphone into the nR
 - **USR2** plays the recording back through an external **MAX98357A** and speaker.
 - This demo has been compiled, flashed, and hardware-verified on the XIAO nRF52840 Plus with **Seeed nRF52 Boards 1.1.13**.
 
-**Code location:** `code/Function/114_nRF52840/xiao_nrf52840_114_flash_record/`
+**Code location:** `code_GFX2/Function/114_nRF52840/xiao_nrf52840_114_flash_record/`
 
 <div class="github_container" style={{textAlign: 'center'}}>
-    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/114_nRF52840/xiao_nrf52840_114_flash_record" target="_blank" rel="noopener noreferrer">
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code_GFX2/Function/114_nRF52840/xiao_nrf52840_114_flash_record" target="_blank" rel="noopener noreferrer">
     <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
     <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
     </a>
@@ -454,14 +450,14 @@ The 1.14 Inch Display features a dedicated **Grove I2C connector** that exposes 
 D4/D5 are shared between the Grove connector and the onboard IMU. The IMU is at address `0x6A`. When connecting an external I2C device, make sure it does not conflict with this address.
 :::
 
-### Demo: Mech Keycap Counter
+### Demo: SHT31 Temperature & Humidity
 
-This demo turns the Grove I2C connector into a button counter using the **Grove Mech Keycap** (SKU 111020049). Press the keycap and the on-screen counter increments from 0 to 9, then wraps back to 0 with a color-coded progress bar.
+This demo reads temperature and humidity from a **Grove SHT31** sensor plugged into the Grove I2C connector and displays the readings on the screen. The sketch talks to the sensor directly over I2C with `Wire.h` — no SHT31 library is needed — and validates each reading with the sensor's CRC.
 
-**Code location:** `code/Function/114_nRF52840/xiao_nrf52840_114_counter/`
+**Code location:** `code_GFX2/Function/114_nRF52840/xiao_nrf52840_114_sht31_temperature_humidity/`
 
 <div class="github_container" style={{textAlign: 'center'}}>
-    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/Function/114_nRF52840/xiao_nrf52840_114_counter" target="_blank" rel="noopener noreferrer">
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code_GFX2/Function/114_nRF52840/xiao_nrf52840_114_sht31_temperature_humidity" target="_blank" rel="noopener noreferrer">
     <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
     <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
     </a>
@@ -469,79 +465,53 @@ This demo turns the Grove I2C connector into a button counter using the **Grove 
 
 #### Hardware Setup
 
-Plug the Grove Mech Keycap directly into the **Grove I2C connector** on the display board. The keycap uses the following wiring:
+Plug a **Grove SHT31** temperature & humidity sensor into the Grove I2C connector. The sensor is powered at 3.3V and communicates at I2C address `0x44`:
 
 <div class="table-center">
   <table align="center">
-    <tr><th>Grove Wire</th><th>Color</th><th>XIAO Pin</th><th>Keycap Signal</th></tr>
-    <tr><td>SCL</td><td>Yellow</td><td>D5</td><td>SIG (button)</td></tr>
-    <tr><td>SDA</td><td>White</td><td>D4</td><td>NC (LED, not used)</td></tr>
-    <tr><td>VCC</td><td>Red</td><td>3V3</td><td>Power</td></tr>
-    <tr><td>GND</td><td>Black</td><td>GND</td><td>Ground</td></tr>
+    <tr><th>Grove Pin</th><th>XIAO Pin</th><th>SHT31</th></tr>
+    <tr><td>GND</td><td>GND</td><td>GND</td></tr>
+    <tr><td>3V3</td><td>3V3</td><td>VCC</td></tr>
+    <tr><td>SDA</td><td>D4</td><td>SDA</td></tr>
+    <tr><td>SCL</td><td>D5</td><td>SCL</td></tr>
   </table>
 </div>
-
-:::note
-Although the connector is labeled "I2C," this demo reads the keycap button through **analog voltage detection** on D5 — not through I2C communication. When pressed, the keycap pulls D5 to VCC, causing a voltage jump the ADC detects.
-:::
 
 #### How It Works
 
-**Button detection via ADC** — the sketch samples D5 with `analogRead()` at startup to calibrate a baseline (~624 when not pressed). When the keycap is pressed, D5 connects to VCC and the ADC reading jumps to ~941. A press is registered when the ADC exceeds `baseline + 150` with a 60 ms debounce window.
+The sketch reads the SHT31 directly over I2C (`Wire`) at address `0x44`:
 
-**Display layout:**
+1. **I2C scan** — on startup it scans the I2C bus and reports every device found.
+2. **Single-shot measurement** — it sends a high-repeatability single-shot command (`0x24 0x00`, no clock stretching), waits 20 ms, then reads 6 bytes: temperature high/low + CRC, humidity high/low + CRC.
+3. **CRC check** — each 16-bit value is verified against its CRC byte; a mismatch is reported as an error (wiring or a damaged/noisy module).
+4. **Conversion** — raw values are converted to temperature (`-45 + 175 × raw / 65535` °C) and relative humidity (`100 × raw / 65535` %).
 
-<div class="table-center">
-  <table align="center">
-    <tr><th>Element</th><th>Description</th></tr>
-    <tr><td><strong>Title</strong></td><td>"COUNTER" with "Press Mech Keycap" subtitle</td></tr>
-    <tr><td><strong>Number</strong></td><td>Large centered digit (0–9), font size 8. Color transitions from green (0) through yellow to red (9) — a heat-map gradient using <code>color565(r, g, 0)</code>.</td></tr>
-    <tr><td><strong>Progress bar</strong></td><td>Horizontal bar near the bottom. Filled portion grows with each press from 0/9 to 9/9, colored to match the digit.</td></tr>
-    <tr><td><strong>Hint</strong></td><td>Bottom label: "press key: 0 - 9"</td></tr>
-  </table>
-</div>
-
-**Counter logic:**
-- `g_count` increments on each press (`0 → 1 → ... → 9 → 0`)
-- `drawAll()` only redraws when the count changes (differential rendering)
-- Serial monitor prints ADC, baseline, and count every 500 ms for debugging
+The display is initialized with `Board_XIAO_1inch14_LCD<38, 37>` and a sketch-local `Config_XIAO_1inch14_LCD_ST7789_BGR` (135×240, BGR color order, inverted) so colors render correctly. The screen shows "SHT31 OK" with the live temperature and humidity, or "SHT31 ERROR" plus an error code if a read fails.
 
 #### Running the Demo
 
-**Step 1.** Open `xiao_nrf52840_114_counter.ino` in Arduino IDE.
+**Step 1.** Open `xiao_nrf52840_114_sht31_temperature_humidity.ino` in Arduino IDE.
 
-**Step 2.** Select **Tools > Board > Seeed nRF52 Boards > Seeed XIAO nRF52840 Plus** and the correct **Port**.
+**Step 2.** Select **Tools > Board > Seeed nRF52 Boards > Seeed XIAO nRF52840 Plus** and the correct **Port**, then click **Upload**.
 
-**Step 3.** Click **Upload**.
-
-**Step 4.** Open **Tools > Serial Monitor** (115200 baud). You should see:
+**Step 3.** Open **Tools > Serial Monitor** (115200 baud). You should see:
 
 ```
-[BTN] D5 base=623  threshold=773
-ADC=623  base=623  max=623  cnt=0
-ADC=624  base=623  max=626  cnt=0
-ADC=622  base=623  max=626  cnt=0
-...
+=== XIAO nRF52840 1.14 SHT31 Temperature/Humidity ===
+[PIN] SDA=D4 SCL=D5 address=0x44
+[I2C] scan start
+[I2C] found 0x44
+[I2C] scan done
+[SHT31] OK T=26.81 C H=48.32 %
 ```
 
-**Step 5.** Press the Mech Keycap. The counter increments from 0 to 9 and the progress bar fills. Each press is logged to the serial monitor:
-
-```
-...
-ADC=623  base=623  max=944  cnt=1
->>> PRESS! ADC=942  count=2
->>> PRESS! ADC=941  count=3
->>> PRESS! ADC=940  count=4
->>> PRESS! ADC=940  count=5
-ADC=624  base=623  max=944  cnt=5
-...
-```
+The screen shows "SHT31 OK" with the temperature and humidity, updating once per second. If the sensor is disconnected or the CRC check fails, the screen shows "SHT31 ERROR" with an error code.
 
 #### Expected Result
 
-<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_nRF52840Plus_function_counter.gif" style={{width:500, height:'auto'}}/></div>
+<!-- TODO: Add SHT31 demo GIF (114_nRF52840Plus_function_sht31.gif) -->
 
-The screen shows a large colored digit that increments with each keycap press. The progress bar at the bottom fills proportionally. At count 9, the next press wraps back to 0. The digit and bar color shift smoothly from green (low) to red (high).
+The temperature and humidity update once per second on the screen. Breathe on the sensor and the humidity reading rises.
 
 ---
 
@@ -756,7 +726,7 @@ int voltageToPercent(float v) {
 
 ## Resources
 
-- **[GitHub]** [XIAO Display Board Demo Code](https://github.com/Seeed-Projects/Display-Gadgets) — all Function demos are in the `code/Function/114_nRF52840/` directory
+- **[GitHub]** [XIAO Display Board Demo Code](https://github.com/Seeed-Projects/Display-Gadgets) — all Function demos are in the `code_GFX2/Function/114_nRF52840/` directory
 - **[PDF]** [Schematic — 1.14 Inch Display (XIAO nRF52840 Plus)](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/schematics/1.14_Inch_Display_Powered_by_XIAO_nRF52840_Plus/Schematic)
 
 ## Tech Support & Product Discussion
