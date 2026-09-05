@@ -59,8 +59,7 @@ This combination makes it an ideal platform for portable HMI applications, IoT d
 
 Before we start, refer to the following image to understand the physical layout of the 1.47 Inch Touch Display.
 
-<!-- TODO: Add front-and-back overview image with pin labels (147_nRF52840Plus_display_hardware_overview.png) -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_nRF52840Plus_display_hardware_overview.png" style={{width:1000, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_nRF52840Plus_display_hardware_overview.png" style={{width:1000, height:'auto'}}/></div>
 
 ### Pin Map
 
