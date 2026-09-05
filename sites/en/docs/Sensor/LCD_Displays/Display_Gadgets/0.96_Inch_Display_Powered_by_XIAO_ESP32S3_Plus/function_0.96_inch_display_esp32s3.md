@@ -99,7 +99,7 @@ The **Board** template owns the pin map — CS=D2, DC=D3, SCK=D8, MOSI=D10 — a
 
 **Step 1.** Open `xiao_esp32s3_096_graphictest.ino` in Arduino IDE.
 
-**Step 2.** Select **Tools > Board > esp32 > XIAO_ESP32S3_Plus** and the correct **Port**.
+**Step 2.** Select **Tools > Board > esp32 > XIAO_ESP32S3_PLUS** and the correct **Port**.
 
 **Step 3.** Click **Upload**.
 
