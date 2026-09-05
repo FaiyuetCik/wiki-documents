@@ -45,7 +45,7 @@ All demos in this page require **esp32 Boards by Espressif (3.3.11)** as describ
 
 :::tip
 - **Seeed_GFX2** is Seeed Studio's graphics library built on a layered `Board` + `Panel Config` architecture. Each demo initializes the display with a single `display.begin<Board_..., Config_...>()` call — the **Board** template owns the pin map (CS/DC/SCK/MOSI/RST/BL), and the **Panel Config** bakes in the resolution, color order (BGR), and orientation. No `driver.h` or manual pin setup is needed.
-- On this board the demos use `Board_XIAO_1inch47_Touch_Display<13, 12>` (RST=13, BL=12) with `Config_XIAO_1inch47_Touch_JD9853A` (172×320, BGR, no inversion).
+- On this board the demos use `Board_XIAO_1inch47_Touch_Display<13, 12>` (RST=13, BL=12) with `Config_Seeed_1inch47_Touch_JD9853A` (172×320, BGR, no inversion).
 - The **touch controller** (AXS5106L) is handled by the `Seeed_GFX2` Touch layer (`Touch_AXS5106L`) — no extra library is needed. The **IMU** is read over bare I2C (`Wire`) in the sketches.
 - The **SD BMP Reader** and **SD Recorder** examples use the ESP32 board package's built-in **`SD.h`** for SD card access.
 :::
@@ -89,7 +89,7 @@ The display is initialized with a single template call:
 
 ```cpp
 display.begin<Board_XIAO_1inch47_Touch_Display<13, 12>,
-              Config_XIAO_1inch47_Touch_JD9853A>();
+              Config_Seeed_1inch47_Touch_JD9853A>();
 ```
 
 The **Board** template owns the pin map — CS=D2, DC=D3, SCK=D8, MOSI=D10 — and its `<RST, BL>` template parameters take bare GPIO numbers, so `<13, 12>` sets RST=GPIO13 (D17) and BL=GPIO12 (D18). The **Panel Config** bakes in the 172×320 resolution, BGR color order, and no inversion — no `driver.h` or manual MADCTL write is needed.
