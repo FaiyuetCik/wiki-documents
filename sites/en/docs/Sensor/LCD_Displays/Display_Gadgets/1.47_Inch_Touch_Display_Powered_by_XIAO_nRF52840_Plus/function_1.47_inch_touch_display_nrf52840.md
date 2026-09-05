@@ -58,7 +58,7 @@ All demos in this page require **Seeed nRF52 Boards (1.1.13)** as described in [
 
 :::tip
 - **Seeed_GFX2** is Seeed Studio's graphics library built on a layered `Board` + `Panel Config` architecture. Each demo initializes the display with a single `display.begin<Board_..., Config_...>()` call — the **Board** template owns the pin map (CS/DC/SCK/MOSI/RST/BL), and the **Panel Config** bakes in the 172×320 resolution, color order (BGR), and orientation. No `driver.h` or manual pin setup is needed.
-- On this board the demos use `Board_XIAO_1inch47_Touch_Display<38, 37>` (RST=38, BL=37) with `Config_XIAO_1inch47_Touch_JD9853A` (172×320, BGR, no inversion).
+- On this board the demos use `Board_XIAO_1inch47_Touch_Display<38, 37>` (RST=38, BL=37) with `Config_Seeed_1inch47_Touch_JD9853A` (172×320, BGR, no inversion).
 - The **touch controller** (AXS5106L) is handled by the `Seeed_GFX2` Touch layer (`Touch_AXS5106L`) — no extra library is needed. The **IMU** demos use the **Seeed Arduino LSM6DS3** library (installed above).
 :::
 
@@ -101,7 +101,7 @@ The display is initialized with a single template call:
 
 ```cpp
 display.begin<Board_XIAO_1inch47_Touch_Display<38, 37>,
-              Config_XIAO_1inch47_Touch_JD9853A>();
+              Config_Seeed_1inch47_Touch_JD9853A>();
 ```
 
 The **Board** template owns the pin map — CS=D2, DC=D3, SCK=D8, MOSI=D10 — and its `<RST, BL>` template parameters take bare GPIO numbers, so `<38, 37>` sets RST=GPIO38 and BL=GPIO37. The **Panel Config** bakes in the 172×320 resolution, BGR color order, and no inversion — no `driver.h` or manual MADCTL write is needed.
