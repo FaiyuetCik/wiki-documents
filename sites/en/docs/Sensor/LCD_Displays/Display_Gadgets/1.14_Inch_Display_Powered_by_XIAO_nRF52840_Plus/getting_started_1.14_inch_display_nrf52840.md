@@ -63,8 +63,7 @@ This display board is designed for the **XIAO nRF52840 Plus**. If you are using 
 
 Before we start, refer to the following image to understand the physical layout of the 1.14 Inch Display.
 
-<!-- TODO: Add front-and-back overview image with pin labels (114_nRF52840Plus_display_hardware_overview.png) -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_nRF52840Plus_display_hardware_overview.png" style={{width:1000, height:'auto'}}/></div> -->
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_nRF52840Plus_display_hardware_overview.png" style={{width:1000, height:'auto'}}/></div>
 
 ### Pin Map
 
