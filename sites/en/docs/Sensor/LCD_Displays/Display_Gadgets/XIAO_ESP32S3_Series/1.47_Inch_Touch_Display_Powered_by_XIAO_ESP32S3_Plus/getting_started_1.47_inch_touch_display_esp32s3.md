@@ -220,7 +220,7 @@ If the board still doesn't show up, restart Arduino IDE and try again.
 - **📦[3D Model]** [1.47 Inch Touch Display for XIAO Plus (STEP)](https://github.com/Seeed-Projects/Display-Gadgets/raw/main/resources/3d-model/1.47%20Inch%20Touch%20Display%20for%20XIAO%20Plus.step)
 - **📄[Datasheet]** [1.47 Inch Display Datasheet](https://github.com/Seeed-Projects/Display-Gadgets/raw/main/resources/datasheet/1.47%20Inch%20Display%20Datasheet.pdf)
 - **🏠[3D Enclosure]** [XIAO 1.47'' IPS Display Enclosure (Design by gokul)](https://github.com/Seeed-Projects/Display-Gadgets/raw/main/resources/enclosure/XIAO%201.47%27%27%20IPS%20Display%20Enclosure.zip)
-- **💾[Factory Firmware]** [XIAO 1.47'' IPS Display Dashboard Firmware](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/example/147_ESP32/0703_DashBoard_147_ESP32)
+- **💾[Factory Firmware]** [XIAO 1.47'' IPS Display Factory Firmware](https://github.com/Seeed-Projects/Display-Gadgets/raw/main/resources/firmware/XIAO%201.47%27%27%20IPS%20Display%20%28ESP32-S3%29%20Factory%20Firmware.zip)
 
 ## Tech Support & Product Discussion
 

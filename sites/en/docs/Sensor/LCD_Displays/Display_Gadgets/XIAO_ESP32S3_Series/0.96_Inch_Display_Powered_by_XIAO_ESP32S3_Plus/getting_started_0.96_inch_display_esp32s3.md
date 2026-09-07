@@ -234,7 +234,7 @@ Hold the board near the buttons, and do not touch the **XIAO** module. Grip the 
 - **📄[Schematic]** [XIAO 0.96'' IPS Display (ESP32-S3) Schematic](https://github.com/Seeed-Projects/Display-Gadgets/raw/main/resources/schematic/XIAO%200.96%27%27%20IPS%20Display%20%28ESP32-S3%29%20Schematic.pdf)
 - **📦[3D Model]** [0.96 Inch Display for XIAO Plus (STEP)](https://github.com/Seeed-Projects/Display-Gadgets/raw/main/resources/3d-model/0.96%20Inch%20Display%20for%20XIAO%20Plus.step)
 - **📄[Datasheet]** [0.96 Inch Display Datasheet](https://github.com/Seeed-Projects/Display-Gadgets/raw/main/resources/datasheet/0.96%20Inch%20Display%20Datasheet.pdf)
-- **💾[Factory Firmware]** [XIAO 0.96'' IPS Display Dashboard Firmware](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/example/096_ESP32/0715_DashBoard_096_ESP32)
+- **💾[Factory Firmware]** [XIAO 0.96'' IPS Display Factory Firmware](https://github.com/Seeed-Projects/Display-Gadgets/raw/main/resources/firmware/XIAO%200.96%27%27%20IPS%20Display%20%28ESP32-S3%29%20Factory%20Firmware.zip)
 
 ## Tech Support & Product Discussion
 

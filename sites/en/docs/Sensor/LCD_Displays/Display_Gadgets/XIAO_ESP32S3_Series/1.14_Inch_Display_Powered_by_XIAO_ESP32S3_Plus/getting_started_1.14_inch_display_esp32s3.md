@@ -229,7 +229,7 @@ We strongly recommend **against hot-plugging** devices on the I2C interface. Alw
 - **📄[Schematic]** [XIAO 1.14'' IPS Display (ESP32-S3) Schematic](https://github.com/Seeed-Projects/Display-Gadgets/raw/main/resources/schematic/XIAO%201.14%27%27%20IPS%20Display%20%28ESP32-S3%29%20Schematic.pdf)
 - **📦[3D Model]** [1.14 Inch Display for XIAO Plus (STEP)](https://github.com/Seeed-Projects/Display-Gadgets/raw/main/resources/3d-model/1.14%20Inch%20Display%20for%20XIAO%20Plus.step)
 - **📄[Datasheet]** [1.14 Inch Display Datasheet](https://github.com/Seeed-Projects/Display-Gadgets/raw/main/resources/datasheet/1.14%20Inch%20Display%20Datasheet.pdf)
-- **💾[Factory Firmware]** [XIAO 1.14'' IPS Display Dashboard Firmware](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/example/114_ESP32/0715_DashBoard_114_ESP32)
+- **💾[Factory Firmware]** [XIAO 1.14'' IPS Display Factory Firmware](https://github.com/Seeed-Projects/Display-Gadgets/raw/main/resources/firmware/XIAO%201.14%27%27%20IPS%20Display%20%28ESP32-S3%29%20Factory%20Firmware.zip)
 
 ## Tech Support & Product Discussion
 
