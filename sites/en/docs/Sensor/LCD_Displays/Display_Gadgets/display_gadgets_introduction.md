@@ -42,20 +42,20 @@ The XIAO Display Gadgets series is a family of compact expansion boards that pai
 
 | Model | Size | Controller | Resolution | Touch | MicroSD | Buttons | Current (Dashboard) | SKU |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| [1.47" Touch Display (nRF52840)](/getting_started_1.47_inch_touch_display_nrf52840) | 1.47" | nRF52840 | 172×320 | ✓ | ✓ | 2 | TODO | 100004242 |
-| [1.47" Touch Display (ESP32-S3)](/getting_started_1.47_inch_touch_display_esp32s3) | 1.47" | ESP32-S3 | 172×320 | ✓ | ✓ | 2 | TODO | 100069905 |
-| [1.14" Display (nRF52840)](/getting_started_1.14_inch_display_nrf52840) | 1.14" | nRF52840 | 135×240 | — | — | 3 | TODO | 100069374 |
-| [1.14" Display (ESP32-S3)](/getting_started_1.14_inch_display_esp32s3) | 1.14" | ESP32-S3 | 135×240 | — | — | 3 | TODO | 100086099 |
-| [0.96" Display (nRF52840)](/getting_started_0.96_inch_display_nrf52840) | 0.96" | nRF52840 | 80×160 | — | — | 2 | TODO | 100063377 |
-| [0.96" Display (ESP32-S3)](/getting_started_0.96_inch_display_esp32s3) | 0.96" | ESP32-S3 | 80×160 | — | — | 2 | TODO | 100037468 |
+| [XIAO 1.47'' IPS Display (nRF52840)](/getting_started_1.47_inch_touch_display_nrf52840) | 1.47" | nRF52840 | 172×320 | ✓ | ✓ | 2 | TODO | 100004242 |
+| [XIAO 1.47'' IPS Display (ESP32-S3)](/getting_started_1.47_inch_touch_display_esp32s3) | 1.47" | ESP32-S3 | 172×320 | ✓ | ✓ | 2 | TODO | 100069905 |
+| [XIAO 1.14'' IPS Display (nRF52840)](/getting_started_1.14_inch_display_nrf52840) | 1.14" | nRF52840 | 135×240 | — | — | 3 | TODO | 100069374 |
+| [XIAO 1.14'' IPS Display (ESP32-S3)](/getting_started_1.14_inch_display_esp32s3) | 1.14" | ESP32-S3 | 135×240 | — | — | 3 | TODO | 100086099 |
+| [XIAO 0.96'' IPS Display (nRF52840)](/getting_started_0.96_inch_display_nrf52840) | 0.96" | nRF52840 | 80×160 | — | — | 2 | TODO | 100063377 |
+| [XIAO 0.96'' IPS Display (ESP32-S3)](/getting_started_0.96_inch_display_esp32s3) | 0.96" | ESP32-S3 | 80×160 | — | — | 2 | TODO | 100037468 |
 
 *Current is measured while running the Dashboard firmware (unit: mA); values are pending measurement.*
 
 ## How to Choose
 
-- **1.47" Touch Display** — choose this if you need a capacitive touchscreen and MicroSD storage, for example for photo frames, SD audio recording, or touch-driven HMI interfaces.
-- **1.14" Display** — a mid-size screen with three user buttons and a Grove I2C connector, a good balance between compactness and expandability.
-- **0.96" Display** — the smallest form factor, ideal for wearables and space-constrained designs.
+- **XIAO 1.47'' IPS Display** — choose this if you need a capacitive touchscreen and MicroSD storage, for example for photo frames, SD audio recording, or touch-driven HMI interfaces.
+- **XIAO 1.14'' IPS Display** — a mid-size screen with three user buttons and a Grove I2C connector, a good balance between compactness and expandability.
+- **XIAO 0.96'' IPS Display** — the smallest form factor, ideal for wearables and space-constrained designs.
 - **Controller** — pick the ESP32-S3 variant when you need Wi-Fi and Bluetooth connectivity; pick the nRF52840 variant for a low-power BLE-focused design.
 
 ## Shared Features

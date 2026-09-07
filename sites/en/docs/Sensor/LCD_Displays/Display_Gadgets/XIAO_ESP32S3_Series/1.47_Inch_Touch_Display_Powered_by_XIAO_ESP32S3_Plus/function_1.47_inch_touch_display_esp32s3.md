@@ -1,10 +1,10 @@
 ---
-description: Standalone function-level demos for each onboard peripheral of the 1.47 Inch Touch Display Powered by XIAO ESP32-S3 Plus. Covers screen, SD card, IMU, touch, PDM microphone, SD audio recording and playback, buttons, and battery voltage detection.
+description: Standalone function-level demos for each onboard peripheral of the XIAO 1.47'' IPS Display (ESP32-S3). Covers screen, SD card, IMU, touch, PDM microphone, SD audio recording and playback, buttons, and battery voltage detection.
 title: Onboard Peripheral Usage
 keywords:
   - XIAO
   - ESP32-S3
-  - Touch Display
+  - IPS Display
   - LCD
   - Function
 image: https://files.seeedstudio.com/wiki/seeed_logo/logo_2023.png
@@ -22,7 +22,7 @@ url: https://wiki.seeedstudio.com/function_1.47_inch_touch_display_esp32s3/
 
 # Onboard Peripheral Usage
 
-This page collects standalone function-level demos for each onboard peripheral of the 1.47 Inch Touch Display. Each section is self-contained — you can pick the one that matches your use case without reading through the others.
+This page collects standalone function-level demos for each onboard peripheral of the 1.47'' IPS Display. Each section is self-contained — you can pick the one that matches your use case without reading through the others.
 
 :::note
 All demos in this page require **esp32 Boards by Espressif (3.3.11)** as described in [Getting Started](/getting_started_1.47_inch_touch_display_esp32s3), plus the **Seeed_GFX2** library installed manually as described below.
@@ -446,10 +446,10 @@ This separation avoids SPI transaction conflicts between LCD refreshes and SD ca
 
 ## IMU
 
-The 1.47 Inch Touch Display features an onboard 6-axis IMU (LSM6DS3) connected via I2C on D4/D5. The motion interrupt line on **D14** supports hardware wake-up and gesture detection.
+The 1.47'' IPS Display features an onboard 6-axis IMU (LSM6DS3) connected via I2C on D4/D5. The motion interrupt line on **D14** supports hardware wake-up and gesture detection.
 
 :::note
-The onboard IMU is the **LSM6DS3** (confirmed from the board schematic, I2C address `0x6A`). The demo sketches additionally probe for a QMI8658-compatible sensor as a defensive fallback, but the shipped 1.47 Inch Display uses the LSM6DS3.
+The onboard IMU is the **LSM6DS3** (confirmed from the board schematic, I2C address `0x6A`). The demo sketches additionally probe for a QMI8658-compatible sensor as a defensive fallback, but the shipped 1.47'' IPS Display uses the LSM6DS3.
 :::
 
 Both demos below use automatic IMU detection — the sketches probe for both the LSM6DS3 (0x6A) and a QMI8658-compatible sensor, so they work regardless of which sensor variant is populated on your board.
@@ -583,7 +583,7 @@ The screen displays real-time accelerometer and gyroscope data while awake. Afte
 
 ## User Button
 
-The 1.47 Inch Touch Display has **two physical push buttons** connected to the XIAO ESP32-S3 Plus:
+The 1.47'' IPS Display has **two physical push buttons** connected to the XIAO ESP32-S3 Plus:
 
 <div class="table-center">
   <table align="center">
@@ -671,7 +671,7 @@ The button breakout pads (labeled U1 and U2 on the board) mirror D19 and D15 res
 
 ## Battery Voltage Detection
 
-The 1.47 Inch Touch Display includes an onboard battery voltage measurement circuit. The ESP32-S3 Plus reads the LiPo battery voltage through a voltage divider on D16.
+The 1.47'' IPS Display includes an onboard battery voltage measurement circuit. The ESP32-S3 Plus reads the LiPo battery voltage through a voltage divider on D16.
 
 ### ESP32-S3 Plus Battery Measurement
 
@@ -726,7 +726,7 @@ The circuit provides a continuous live-sense reading: `VBAT → 316K → ADC nod
 ## Resources
 
 - **[GitHub]** [XIAO Display Board Demo Code](https://github.com/Seeed-Projects/Display-Gadgets) — all Function demos are in the `code_GFX2/Function/147_ESP32/` directory
-- **[PDF]** [Schematic — 1.47 Inch Touch Display (XIAO ESP32-S3 Plus)](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/schematics/1.47_Inch_Touch_Display_Powered_by_XIAO_ESP32-S3_Plus/Schematic)
+- **[PDF]** [Schematic — XIAO 1.47'' IPS Display (ESP32-S3)](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/schematics/1.47_Inch_Touch_Display_Powered_by_XIAO_ESP32-S3_Plus/Schematic)
 
 ## Tech Support & Product Discussion
 

@@ -1,6 +1,6 @@
 ---
-description: Getting Started with 0.96 Inch Display Powered by XIAO ESP32-S3 Plus.
-title: Getting Started with 0.96 Inch Display Powered by XIAO ESP32-S3 Plus
+description: Getting Started with XIAO 0.96'' IPS Display (ESP32-S3).
+title: Getting Started with XIAO 0.96'' IPS Display (ESP32-S3)
 keywords:
   - XIAO
   - ESP32-S3
@@ -21,11 +21,11 @@ updatedAt: '2026-08-24'
 url: https://wiki.seeedstudio.com/getting_started_0.96_inch_display_esp32s3/
 ---
 
-# Getting Started with 0.96 Inch Display Powered by XIAO ESP32-S3 Plus
+# Getting Started with XIAO 0.96'' IPS Display (ESP32-S3)
 
 <div class="table-center">
   <table align="center">
-    <tr><th>0.96 Inch Display (XIAO ESP32-S3 Plus)</th></tr>
+    <tr><th>XIAO 0.96'' IPS Display (ESP32-S3)</th></tr>
     <tr><td><div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_hardware_hero.jpg" style={{width:600, height:'auto'}}/></div></td></tr>
     <tr><td><div class="get_one_now_container" style={{textAlign: 'center'}}>
         <a class="get_one_now_item" href="#" target="_blank">
@@ -37,7 +37,7 @@ url: https://wiki.seeedstudio.com/getting_started_0.96_inch_display_esp32s3/
 
 ## Introduction
 
-The 0.96 Inch Display is a compact expansion board powered by the XIAO ESP32-S3 Plus. It combines an 80×160 IPS color LCD, an onboard PDM microphone, a 6-axis IMU, two user buttons, I2C and I2S expansion pads, and battery voltage sensing in a form factor designed for small connected devices.
+The 0.96'' IPS Display is a compact expansion board powered by the XIAO ESP32-S3 Plus. It combines an 80×160 IPS color LCD, an onboard PDM microphone, a 6-axis IMU, two user buttons, I2C and I2S expansion pads, and battery voltage sensing in a form factor designed for small connected devices.
 
 The ESP32-S3 Plus adds Wi-Fi and Bluetooth connectivity, making the board suitable for compact wearables, portable sensor dashboards, keychain gadgets, and wireless IoT prototypes.
 
@@ -56,7 +56,7 @@ The ESP32-S3 Plus adds Wi-Fi and Bluetooth connectivity, making the board suitab
 </div>
 
 :::note
-This display board is designed for the **XIAO ESP32-S3 Plus**. If you are using the XIAO nRF52840 Plus version, refer to the [0.96 Inch Display Powered by XIAO nRF52840 Plus](/getting_started_0.96_inch_display_nrf52840) guide instead.
+This display board is designed for the **XIAO ESP32-S3 Plus**. If you are using the XIAO nRF52840 Plus version, refer to the [XIAO 0.96'' IPS Display (nRF52840)](/getting_started_0.96_inch_display_nrf52840) guide instead.
 :::
 
 :::note
@@ -177,7 +177,7 @@ After upload, the Dashboard uses a compact layout optimized for the 80×160 disp
 
 **Welcome Header**
 
-The top of the screen shows **"Hello"** and the subtitle **"0.96 Display"**.
+The top of the screen shows **"Hello"** and the subtitle **"0.96'' IPS Display"**.
 
 <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_display_dashboard_welcome_header.gif" style={{width:500, height:'auto'}}/></div>
 
@@ -267,7 +267,7 @@ Hold the board near the buttons, and do not touch the **XIAO** module. Grip the 
 ## Resources
 
 - **[GitHub]** [XIAO Display Board Demo Code](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/example/096_ESP32/0715_DashBoard_096_ESP32)
-- **[PDF]** [Schematic — 0.96 Inch Display (XIAO ESP32-S3 Plus)](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/schematics/0.96_Inch_Display_Powered_by_XIAO_ESP32-S3_Plus/Schematic)
+- **[PDF]** [Schematic — XIAO 0.96'' IPS Display (ESP32-S3)](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/schematics/0.96_Inch_Display_Powered_by_XIAO_ESP32-S3_Plus/Schematic)
 
 ## Tech Support & Product Discussion
 

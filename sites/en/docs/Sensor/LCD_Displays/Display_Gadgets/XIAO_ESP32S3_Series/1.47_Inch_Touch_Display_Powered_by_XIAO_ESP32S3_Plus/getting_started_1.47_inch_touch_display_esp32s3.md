@@ -1,10 +1,10 @@
 ---
-description: Getting Started with 1.47 Inch Touch Display Powered by XIAO ESP32-S3 Plus.
-title: Getting Started with 1.47 Inch Touch Display Powered by XIAO ESP32-S3 Plus
+description: Getting Started with XIAO 1.47'' IPS Display (ESP32-S3).
+title: Getting Started with XIAO 1.47'' IPS Display (ESP32-S3)
 keywords:
   - XIAO
   - ESP32-S3
-  - Touch Display
+  - IPS Display
   - LCD
 image: https://files.seeedstudio.com/wiki/seeed_logo/logo_2023.png
 slug: /getting_started_1.47_inch_touch_display_esp32s3
@@ -20,11 +20,11 @@ updatedAt: '2026-08-24'
 url: https://wiki.seeedstudio.com/getting_started_1.47_inch_touch_display_esp32s3/
 ---
 
-# Getting Started with 1.47 Inch Touch Display Powered by XIAO ESP32-S3 Plus
+# Getting Started with XIAO 1.47'' IPS Display (ESP32-S3)
 
 <div class="table-center">
   <table align="center">
-    <tr><th>1.47 Inch Touch Display (XIAO ESP32-S3 Plus)</th></tr>
+    <tr><th>XIAO 1.47'' IPS Display (ESP32-S3)</th></tr>
     <tr><td><div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_display_hardware_hero.jpg" style={{width:600, height:'auto'}}/></div></td></tr>
     <tr><td><div class="get_one_now_container" style={{textAlign: 'center'}}>
         <a class="get_one_now_item" href="#" target="_blank">
@@ -36,7 +36,7 @@ url: https://wiki.seeedstudio.com/getting_started_1.47_inch_touch_display_esp32s
 
 ## Introduction
 
-The 1.47 Inch Touch Display is an expansion board designed for the XIAO series, powered by the XIAO ESP32-S3 Plus. It features a 172×320 color LCD with capacitive touch, onboard PDM microphone, 6-axis IMU (LSM6DS3), MicroSD card slot, and battery voltage measurement — all integrated into a compact form factor.
+The 1.47'' IPS Display is an expansion board designed for the XIAO series, powered by the XIAO ESP32-S3 Plus. It features a 172×320 color LCD with capacitive touch, onboard PDM microphone, 6-axis IMU (LSM6DS3), MicroSD card slot, and battery voltage measurement — all integrated into a compact form factor.
 
 This combination makes it an ideal platform for portable HMI applications, IoT dashboards, wearable devices, and interactive prototyping. With the ESP32-S3's dual-core processor, Wi-Fi, and Bluetooth capabilities, it extends the dashboard into a wireless-connected hub.
 
@@ -61,14 +61,14 @@ Unlike the nRF52840 Plus version which reports battery percentage with charging 
 
 ## Hardware Overview
 
-Before we start, refer to the following image to understand the physical layout of the 1.47 Inch Touch Display.
+Before we start, refer to the following image to understand the physical layout of the 1.47'' IPS Display.
 
 <!-- TODO: Add front-and-back overview image with pin labels (147_ESP32S3Plus_display_hardware_overview.png) -->
 <!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_display_hardware_overview.png" style={{width:1000, height:'auto'}}/></div> -->
 
 ### Pin Map
 
-The 1.47 Inch Touch Display breaks out all XIAO ESP32-S3 Plus pins. The table below lists every pin, its net name on the display board, its function, and how it is connected to onboard peripherals.
+The 1.47'' IPS Display breaks out all XIAO ESP32-S3 Plus pins. The table below lists every pin, its net name on the display board, its function, and how it is connected to onboard peripherals.
 
 <div class="table-center">
   <table align="center">
@@ -302,7 +302,7 @@ If the board still doesn't show up, restart Arduino IDE and try again.
 ## Resources
 
 - **[GitHub]** [XIAO 1.47" ESP32-S3 Dashboard Code](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/example/147_ESP32/0703_DashBoard_147_ESP32)
-- **[PDF]** [Schematic — 1.47 Inch Touch Display (XIAO ESP32-S3 Plus)](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/schematics/1.47_Inch_Touch_Display_Powered_by_XIAO_ESP32-S3_Plus/Schematic)
+- **[PDF]** [Schematic — XIAO 1.47'' IPS Display (ESP32-S3)](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/schematics/1.47_Inch_Touch_Display_Powered_by_XIAO_ESP32-S3_Plus/Schematic)
 
 ## Tech Support & Product Discussion
 
