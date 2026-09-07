@@ -42,16 +42,27 @@ This combination makes it an ideal platform for portable HMI applications, IoT d
 
 <div class="table-center">
   <table align="center">
-    <tr><th>Item</th><th>Detail</th></tr>
-    <tr><td>Screen</td><td>1.47 inch, JD9853A, 172×320</td></tr>
-    <tr><td>Touch</td><td>AXS5106L, capacitive touch, I2C (D4/D5), interrupt D7</td></tr>
-    <tr><td>SD Card</td><td>MicroSD, SPI (D6 CS), shared D8/D9/D10 with LCD</td></tr>
-    <tr><td>Microphone</td><td>PDM digital microphone (D0 CLK / D1 DATA)</td></tr>
-    <tr><td>IMU</td><td>LSM6DS3, 3-axis accelerometer + 3-axis gyroscope, I2C (D4/D5), interrupt D14, double-tap detection</td></tr>
-    <tr><td>Buttons</td><td>BTN_A = D19 / BTN_B = D15 (2 buttons, active-low)</td></tr>
-    <tr><td>Battery</td><td>LiPo battery connector, D16 ADC voltage measurement (raw ADC voltage + calculated battery voltage)</td></tr>
-    <tr><td>Expansion</td><td>I2C breakout (GND, 3V3, SDA, SCL); Button breakout (U1, U2); I2S breakout (3V3, GND, D11, D12, D13); SWD (MTDI, MTDO, EN, GND, MTMS, MTCK, D+, D-)</td></tr>
-    <tr><td>Compatibility</td><td>XIAO ESP32-S3 Plus</td></tr>
+    <tr><th>Specification</th><th>Detail</th></tr>
+    <tr><td>Product Positioning</td><td>Touch & Full Interaction</td></tr>
+    <tr><td>Core Controller</td><td>Seeed Studio XIAO ESP32-S3 Plus</td></tr>
+    <tr><td>Processor</td><td>ESP32-S3R8, Dual-Core, up to 240 MHz</td></tr>
+    <tr><td>Memory</td><td>8 MB PSRAM + 16 MB Flash</td></tr>
+    <tr><td>Wireless Connectivity</td><td>2.4 GHz Wi-Fi + BLE 5.0</td></tr>
+    <tr><td>Display Type</td><td>1.47" IPS TFT LCD</td></tr>
+    <tr><td>Resolution</td><td>172 × 320</td></tr>
+    <tr><td>Display Driver</td><td>JD9853A</td></tr>
+    <tr><td>Display Interface</td><td>SPI</td></tr>
+    <tr><td>Touch Input</td><td>Capacitive Touch</td></tr>
+    <tr><td>6-Axis IMU</td><td>Yes</td></tr>
+    <tr><td>PDM Digital Microphone</td><td>Yes</td></tr>
+    <tr><td>MicroSD Card Slot</td><td>Yes</td></tr>
+    <tr><td>Grove I2C Connector</td><td>No</td></tr>
+    <tr><td>User Buttons</td><td>2</td></tr>
+    <tr><td>Battery Connector</td><td>2-pin JST, 3.7 V LiPo</td></tr>
+    <tr><td>Battery Monitoring</td><td>Battery voltage monitoring via D16 ADC; battery level can be estimated from the measured voltage. Battery status detection is not supported.</td></tr>
+    <tr><td>Expansion Interfaces</td><td>1x I2C pads, 1x I2S pads, 1x SWD pads, 2x user-button pads</td></tr>
+    <tr><td>Board Size</td><td>25 × 50 mm</td></tr>
+    <tr><td>Best For</td><td>Touch UI, portable HMI, local media & data logging</td></tr>
   </table>
 </div>
 
