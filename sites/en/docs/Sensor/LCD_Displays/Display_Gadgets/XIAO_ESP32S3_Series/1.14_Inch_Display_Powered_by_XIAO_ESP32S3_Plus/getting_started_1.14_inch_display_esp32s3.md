@@ -14,10 +14,10 @@ sidebar_label: Getting Started
 sidebar_position: 1
 type: gettingstarted
 last_update:
-  date: 08/25/2026
+  date: 09/07/2026
   author: FaiyuetCik
 createdAt: '2026-08-11'
-updatedAt: '2026-08-25'
+updatedAt: '2026-09-07'
 url: https://wiki.seeedstudio.com/getting_started_1.14_inch_display_esp32s3/
 ---
 
@@ -60,7 +60,7 @@ This display board is designed for the **XIAO ESP32-S3 Plus**. If you are using 
 :::
 
 :::note
-Unlike the nRF52840 Plus version which reports battery percentage with charging status, the ESP32-S3 Plus version uses D16 for battery voltage measurement only. It displays the raw ADC voltage and calculated battery voltage on screen, without percentage or charging detection. See the [Battery Voltage](#battery-voltage) section below for details.
+Unlike the nRF52840 Plus version which reports battery percentage with charging status, the ESP32-S3 Plus version uses D16 for battery voltage measurement only, without percentage or charging detection.
 :::
 
 ## Hardware Overview
@@ -101,9 +101,9 @@ The 1.14'' IPS Display breaks out all XIAO ESP32-S3 Plus pins. The table below l
 </div>
 
 
-## Getting Started — Dashboard
+## Getting Started
 
-The product ships with a **Factory Dashboard** firmware preloaded, which demonstrates all onboard peripherals: screen display, IMU data, microphone, Grove I2C scan, battery voltage, button-controlled backlight, and double-tap detection. The steps below walk you through setting up the development environment and re-flashing this firmware — useful if you want to restore the factory demo after experimenting with your own code, or use it as a starting point for your own projects.
+This guide uploads a minimal **"Hello, XIAO"** sketch to the display board: the screen turns on its backlight, fills black, and prints **"Hello,"** and **"XIAO"** as two centered lines of large green text. It is the fastest way to confirm the screen and your development environment are working before diving into the individual peripheral demos.
 
 ### Software Preparation
 
@@ -123,37 +123,40 @@ https://espressif.github.io/arduino-esp32/package_esp32_index.json
 
 Then go to **Tools > Board > Boards Manager**, search for **esp32** and install version **3.3.11**.
 
-- **Required Libraries** — go to **Sketch > Include Library > Manage Libraries...**, search for and install the following:
-
-<div class="table-center">
-  <table align="center">
-    <tr><th>Library</th><th>Search Keyword</th><th>Author</th></tr>
-    <tr><td><strong>GFX Library for Arduino</strong></td><td><code>GFX Library for Arduino</code></td><td>Moon On Our Nation</td></tr>
-  </table>
-</div>
-
-:::note
-**GFX Library for Arduino** above is only required for the factory Dashboard firmware. If you are working with the standalone function demos in the [Function](/function_1.14_inch_display_esp32s3) page, install **Seeed_GFX2** (from [Seeed-Studio/Seeed_GFX2](https://github.com/Seeed-Studio/Seeed_GFX2)) instead — the two libraries are different and not interchangeable.
-:::
-
-:::tip
-The **Wire**, **SPI**, and **WiFi** libraries are included with the esp32 board package and do not need separate installation. **LittleFS** and the ESP-IDF 5 **I2S** drivers are included with esp32 Boards 3.3.11 and do not need to be installed separately.
-:::
-
-### Download the Dashboard Code
-
-The complete example code is available on GitHub:
+- **Seeed_GFX2 (Manual Installation)** — this library is not available in the Library Manager and must be installed manually:
 
 <div class="github_container" style={{textAlign: 'center'}}>
-    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code/example/114_ESP32/0715_DashBoard_114_ESP32" target="_blank" rel="noopener noreferrer">
+    <a class="github_item" href="https://github.com/Seeed-Studio/Seeed_GFX2/archive/refs/tags/v1.0.0.zip" target="_blank" rel="noopener noreferrer">
+    <strong><span><font color={'FFFFFF'} size={"4"}> Download Seeed_GFX2</font></span></strong>
+    <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
+    </a>
+</div><br />
+
+**Step 1.** Click the button above to download `Seeed_GFX2` v1.0.0 as a ZIP file (pinned to a release tag so the tutorial stays reproducible). Alternatively, clone the repository from [Seeed-Studio/Seeed_GFX2](https://github.com/Seeed-Studio/Seeed_GFX2).
+
+**Step 2.** In the Arduino IDE, go to **Sketch > Include Library > Add .ZIP Library...** and select the downloaded ZIP. The IDE reads `library.properties` and installs it into the correct `Seeed_GFX2` folder automatically — you do not need to rename the extracted folder. (To install manually instead, unzip the archive and rename the extracted folder to `Seeed_GFX2` before placing it in `Documents/Arduino/libraries/`.)
+
+**Step 3.** Restart the Arduino IDE so the new library is detected.
+
+:::tip
+- **Seeed_GFX2** is Seeed Studio's graphics library built on a layered `Board` + `Panel Config` architecture. Each demo initializes the display with a single `display.begin<Board_..., Config_...>()` call — the **Board** template owns the pin map (CS/DC/SCK/MOSI/RST/BL), and the **Panel Config** bakes in the 135×240 resolution, color order (BGR), and orientation. No `driver.h` or manual pin setup is needed.
+- On this board the sketch uses `Board_XIAO_1inch14_LCD<13, 12>` (RST=13, BL=12) with `Config_Seeed_1inch14_LCD_ST7789`.
+:::
+
+### Download the Code
+
+The example sketch is available on GitHub:
+
+<div class="github_container" style={{textAlign: 'center'}}>
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code_GFX2/getting_started_code/xiao_esp32s3_114_hello" target="_blank" rel="noopener noreferrer">
     <strong><span><font color={'FFFFFF'} size={"4"}> Download the Code</font></span></strong>
     <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
     </a>
 </div><br />
 
-Navigate to `code/example/114_ESP32/0715_DashBoard_114_ESP32/` and open `0715_DashBoard_114_ESP32.ino` in Arduino IDE.
+Navigate to `code_GFX2/getting_started_code/xiao_esp32s3_114_hello/` and open `xiao_esp32s3_114_hello.ino` in the Arduino IDE. **Download the complete folder** rather than copying the `.ino` source from the GitHub web view.
 
-### Upload the Firmware
+### Upload the Sketch
 
 **Step 1.** Connect the XIAO ESP32-S3 Plus to your computer via the USB-C port.
 
@@ -161,95 +164,32 @@ Navigate to `code/example/114_ESP32/0715_DashBoard_114_ESP32/` and open `0715_Da
 
 **Step 3.** Select the correct **Port** under **Tools > Port**.
 
-**Step 4.** Click the **Upload** button (→). The firmware will compile and upload to the board.
+**Step 4.** Click the **Upload** button (→). The sketch will compile and upload to the board.
 
-<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_uploadpage.png" style={{width:1000, height:'auto'}}/></div>
+### Expected Output
 
-:::tip
-If you can't find the board, follow these steps: **Tools > Board > esp32 > XIAO_ESP32S3_PLUS**.
-:::
+After uploading, the screen lights up with a black background and shows two centered lines of large green text — **"Hello,"** on the first line and **"XIAO"** on the second. The greeting stays on screen without redrawing.
 
-### Dashboard Overview
+<!-- TODO: Add screenshot/GIF of the Hello output (114_ESP32S3Plus_display_hello.png) -->
+<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_hello.png" style={{width:500, height:'auto'}}/></div> -->
 
-Once uploaded, the factory Dashboard lights up the screen and demonstrates every onboard peripheral through a unified interface. Here is what each area shows and how to interact with it:
+If the display fails to initialize, the sketch prints the library error message to the serial monitor at **115200** baud. Open **Tools > Serial Monitor** and set the baud rate to 115200 to read it.
 
-**Welcome Banner**
+## What's Next
 
-At the top of the screen, **"Hello,XIAO!"** is displayed in large green text, with a subtitle reading **"1.14 Inch Display"** in cyan below it. This static banner appears on boot — if you see it without artifacts or tearing, the LCD is working correctly.
-
-Pressing <strong>USR3 (D19)</strong> toggles the header text between <strong>"Hello,XIAO!"</strong> and <strong>"Seeed Studio"</strong>. Due to the 135 px display width, the second title is abbreviated to <strong>"Seeed"</strong> on screen.
-
-<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_welcome_banner.gif" style={{width:500, height:'auto'}}/></div>
-
-<a id="battery-voltage"></a>
-
-**Battery Voltage**
-
-The **SYS** card displays two voltage readings: **D16** (raw ADC voltage at the pin) and **Calc** (calculated battery voltage, multiplied by the divider ratio of ~2.975). The voltage divider circuit is: `VBAT → 316K → ADC node → 160K → GND`.
-
-There are three power scenarios:
-
-- **USB-C powered, no battery** — the board is powered via USB-C, no battery connected.
-- **Battery only (no USB-C)** — the board runs on battery power, displaying live voltage readings.
-- **USB-C + battery** — both connected; the battery charges while the board operates. There is a switch on the board to toggle battery power mode on or off.
+The display board packs several onboard peripherals. The [Function](/function_1.14_inch_display_esp32s3) page provides a standalone demo for each one:
 
 <div class="table-center">
   <table align="center">
-    <tr>
-      <td><div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_battery_states1.jpg" style={{width:220, height:'auto'}}/></div></td>
-      <td><div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_battery_states2.jpg" style={{width:220, height:'auto'}}/></div></td>
-    </tr>
-    <tr>
-      <td><div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_battery_states3.jpg" style={{width:220, height:'auto'}}/></div></td>
-      <td><div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_battery_states4.jpg" style={{width:220, height:'auto'}}/></div></td>
-    </tr>
+    <tr><th>Peripheral</th><th>Demo</th></tr>
+    <tr><td>Screen</td><td>[GraphicTest](/function_1.14_inch_display_esp32s3#screen-display--graphictest) — ten graphics primitives with timing benchmarks</td></tr>
+    <tr><td>IMU</td><td>[Electronic Quicksand + Raise to Wake](/function_1.14_inch_display_esp32s3#imu) — 6-axis motion effects and wake-on-motion</td></tr>
+    <tr><td>Microphone & Audio</td><td>[Voice Bar + Flash Recorder](/function_1.14_inch_display_esp32s3#microphone--audio) — live PDM level meter and recording</td></tr>
+    <tr><td>Grove I2C</td><td>[SHT31 Temperature & Humidity](/function_1.14_inch_display_esp32s3#grove-i2c) — read a Grove SHT31 sensor</td></tr>
+    <tr><td>Buttons</td><td>[User Buttons](/function_1.14_inch_display_esp32s3#user-buttons) — read presses and debounce with interrupts</td></tr>
+    <tr><td>Battery</td><td>[Battery Voltage Detection](/function_1.14_inch_display_esp32s3#battery-voltage-detection) — measure the divider voltage</td></tr>
   </table>
 </div>
-
-:::note
-Unlike the nRF52840 Plus version which can detect charging status and calculate battery percentage, the ESP32-S3 Plus version displays live voltage readings rather than percentage or charging state.
-:::
-
-**I2C Scan**
-
-Also inside the **SYS** card, the **I2C** line shows the result of a periodic I2C bus scan. It displays the number of detected I2C devices followed by the lowest address. By default it shows the onboard 6-axis IMU — **"1 0x6A"**.
-
-<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_i2c_scan.jpg" style={{width:500, height:'auto'}}/></div>
-
-**Motion Sensor**
-
-The **MOTION** card streams 6-axis IMU data over I2C. Accelerometer readings (X/Y/Z) and gyroscope readings (X/Y/Z) are shown as multi-line text. Pick up the board and tilt or shake it — the values change according to the direction of movement.
-
-<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_motion.gif" style={{width:500, height:'auto'}}/></div>
-
-**Double-Tap Counter**
-
-The **"Tap"** counter at the top-right of the MOTION card tracks double-tap gestures. Firmly tap the board twice in quick succession (like a mouse double-click) and the counter increments by 1. This uses the LSM6DS3's built-in double-tap detection on the D14 interrupt line.
-
-<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_double_tap.gif" style={{width:500, height:'auto'}}/></div>
-
-**Microphone Level**
-
-The **MIC LEVEL** card displays a VU-style audio meter — a segmented horizontal bar that grows and shrinks with the ambient sound volume. In a quiet room the bar stays empty or nearly so. Speak into the onboard PDM microphone or blow on it, and the bar fills up, turning orange then red at high volume levels. The raw peak value is printed below the bar for debugging.
-
-<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_mic.gif" style={{width:500, height:'auto'}}/></div>
-
-**Button & Backlight Control**
-
-The **BACKLIGHT** card at the bottom shows the current brightness percentage and the three push-button mappings:
-
-<div class="table-center">
-  <table align="center">
-    <tr><th>Button</th><th>Pin</th><th>Action</th></tr>
-    <tr><td><strong>USR1</strong></td><td>D6</td><td>Short press: cycle brightness through <strong>100% → 75% → 50% → 25% → 0% → 100%</strong></td></tr>
-    <tr><td><strong>USR2</strong></td><td>D7</td><td>Short press: <strong>toggle screen off / restore to last brightness</strong></td></tr>
-    <tr><td><strong>USR3</strong></td><td>D19</td><td>Short press: <strong>toggle header title between "Hello,XIAO!" and "Seeed"</strong></td></tr>
-  </table>
-</div>
-
-When the screen is off (0% or toggled), pressing USR2 restores it to the previous non-zero level.
-
-<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_dashboard_button.gif" style={{width:500, height:'auto'}}/></div>
 
 ## FAQ
 
@@ -274,7 +214,7 @@ We strongly recommend **against hot-plugging** devices on the I2C interface. Alw
 
 ## Resources
 
-- **[GitHub]** [XIAO Display Board Demo Code](https://github.com/Seeed-Projects/Display-Gadgets) — Dashboard code is in `code/example/114_ESP32/`
+- **[GitHub]** [Getting Started Hello Sketch](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code_GFX2/getting_started_code/xiao_esp32s3_114_hello)
 - **[PDF]** [Schematic — XIAO 1.14'' IPS Display (ESP32-S3)](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/schematics/1.14_Inch_Display_Powered_by_XIAO_ESP32-S3_Plus/Schematic)
 
 ## Tech Support & Product Discussion
