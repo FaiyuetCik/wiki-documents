@@ -24,6 +24,10 @@ url: https://wiki.seeedstudio.com/function_1.47_inch_touch_display_esp32s3/
 
 This page collects standalone function-level demos for each onboard peripheral of the 1.47'' IPS Display. Each section is self-contained — you can pick the one that matches your use case without reading through the others.
 
+:::tip
+The demo GIFs on this page are sped up to keep them short. The actual demos run at normal speed.
+:::
+
 :::note
 All demos in this page require **esp32 Boards by Espressif (3.3.11)** as described in [Getting Started](/getting_started_1.47_inch_touch_display_esp32s3), plus the **Seeed_GFX2** library installed manually as described below.
 :::
