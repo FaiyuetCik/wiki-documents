@@ -183,7 +183,7 @@ The display board packs several onboard peripherals. The [Function](/function_1.
     <tr><th>Peripheral</th><th>Demo</th></tr>
     <tr><td>Screen</td><td>[GraphicTest](/function_1.14_inch_display_esp32s3#screen-display--graphictest) — ten graphics primitives with timing benchmarks</td></tr>
     <tr><td>IMU</td><td>[Electronic Quicksand + Raise to Wake](/function_1.14_inch_display_esp32s3#imu) — 6-axis motion effects and wake-on-motion</td></tr>
-    <tr><td>Microphone & Audio</td><td>[Voice Bar + Flash Recorder](/function_1.14_inch_display_esp32s3#microphone--audio) — live PDM level meter and recording</td></tr>
+    <tr><td>Microphone & Speaker</td><td>[Voice Bar + Flash Recorder](/function_1.14_inch_display_esp32s3#microphone--speaker) — live PDM level meter and recording</td></tr>
     <tr><td>Grove I2C</td><td>[SHT31 Temperature & Humidity](/function_1.14_inch_display_esp32s3#grove-i2c) — read a Grove SHT31 sensor</td></tr>
     <tr><td>Buttons</td><td>[User Buttons](/function_1.14_inch_display_esp32s3#user-buttons) — read presses and debounce with interrupts</td></tr>
     <tr><td>Battery</td><td>[Battery Voltage Detection](/function_1.14_inch_display_esp32s3#battery-voltage-detection) — measure the divider voltage</td></tr>

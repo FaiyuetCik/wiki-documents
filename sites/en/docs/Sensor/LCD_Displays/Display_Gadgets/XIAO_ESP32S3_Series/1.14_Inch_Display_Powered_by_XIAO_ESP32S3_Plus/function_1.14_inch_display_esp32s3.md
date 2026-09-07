@@ -264,7 +264,7 @@ The screen displays real-time motion data while awake. After 8 seconds of stilln
 
 ---
 
-## Microphone & Audio
+## Microphone & Speaker
 
 The 1.14'' IPS Display has an onboard **PDM (Pulse Density Modulation) digital microphone** for audio input, plus I2S output pads for driving an external speaker/amplifier. This section shows two demos: a real-time **Voice Bar** visualization of the microphone input (no extra hardware), and a **Flash Recorder** that records audio to onboard Flash and plays it back through an external I2S amplifier.
 
