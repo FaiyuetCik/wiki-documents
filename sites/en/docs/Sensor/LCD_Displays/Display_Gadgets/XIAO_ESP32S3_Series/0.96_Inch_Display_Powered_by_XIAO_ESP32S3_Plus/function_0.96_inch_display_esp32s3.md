@@ -26,7 +26,7 @@ url: https://wiki.seeedstudio.com/function_0.96_inch_display_esp32s3/
 This page collects standalone function-level demos for each onboard peripheral of the 0.96'' IPS Display. Each section is self-contained — you can pick the one that matches your use case without reading through the others.
 
 :::tip
-The demo GIFs on this page are sped up to keep them short. The actual demos run at normal speed.
+The demo GIFs on this page are sped up to keep them short.
 :::
 
 :::note
