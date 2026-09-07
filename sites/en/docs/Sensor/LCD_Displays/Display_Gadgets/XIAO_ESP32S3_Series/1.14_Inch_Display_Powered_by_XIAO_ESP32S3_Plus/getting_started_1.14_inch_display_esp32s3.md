@@ -170,8 +170,8 @@ Navigate to `code_GFX2/getting_started_code/xiao_esp32s3_114_hello/` and open `x
 
 After uploading, the screen lights up with a black background and shows two centered lines of large green text — **"Hello,"** on the first line and **"XIAO"** on the second. The greeting stays on screen without redrawing.
 
-<!-- TODO: Add screenshot/GIF of the Hello output (114_ESP32S3Plus_display_hello.png) -->
-<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_hello.png" style={{width:500, height:'auto'}}/></div> -->
+<!-- TODO: Add screenshot/GIF of the Hello output (114_ESP32S3Plus_display_hello.gif) -->
+<!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_hello.gif" style={{width:500, height:'auto'}}/></div> -->
 
 If the display fails to initialize, the sketch prints the library error message to the serial monitor at **115200** baud. Open **Tools > Serial Monitor** and set the baud rate to 115200 to read it.
 
