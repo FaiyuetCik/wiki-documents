@@ -289,7 +289,7 @@ The image appears on the screen with a green "BMP OK" header (showing the decode
 
 ---
 
-## Microphone — Big Volume Bar
+## Microphone — Volume Bar
 
 This demo turns the onboard PDM microphone into a large, responsive volume meter. A 10-segment bar fills the center of the screen — green at low levels, yellow at mid-range, red when loud. The percentage is displayed above the bar and changes color to match the level.
 
@@ -344,7 +344,7 @@ The bar uses **differential rendering**: only segments whose state changed since
 **Step 3.** Open **Tools > Serial Monitor** (115200 baud). You should see:
 
 ```
-=== Big Volume Bar (ESP32-S3) ===
+=== Volume Bar (ESP32-S3) ===
 [MIC] PDM RX ready (IDF v5)
 [MIC] ready — speak or blow into the mic
 ```
