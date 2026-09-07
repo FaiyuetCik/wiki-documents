@@ -1,5 +1,5 @@
 ---
-description: Standalone function-level demos for each onboard peripheral of the 1.14 Inch Display Powered by XIAO ESP32-S3 Plus. Covers screen, IMU, PDM microphone and I2S audio (voice bar + flash recorder), Grove I2C, buttons, and battery voltage detection.
+description: Standalone function-level demos for each onboard peripheral of the XIAO 1.14'' IPS Display (ESP32-S3). Covers screen, IMU, PDM microphone and I2S audio (voice bar + flash recorder), Grove I2C, buttons, and battery voltage detection.
 title: Onboard Peripheral Usage
 keywords:
   - XIAO
@@ -23,7 +23,7 @@ url: https://wiki.seeedstudio.com/function_1.14_inch_display_esp32s3/
 
 # Onboard Peripheral Usage
 
-This page collects standalone function-level demos for each onboard peripheral of the 1.14 Inch Display. Each section is self-contained — you can pick the one that matches your use case without reading through the others.
+This page collects standalone function-level demos for each onboard peripheral of the 1.14'' IPS Display. Each section is self-contained — you can pick the one that matches your use case without reading through the others.
 
 :::note
 All demos in this page require **esp32 Boards by Espressif (3.3.11)** as described in [Getting Started](/getting_started_1.14_inch_display_esp32s3), plus the **Seeed_GFX2** library installed manually as described below.
@@ -48,7 +48,7 @@ All demos in this page require **esp32 Boards by Espressif (3.3.11)** as describ
 - **Seeed_GFX2** is Seeed Studio's graphics library built on a layered `Board` + `Panel Config` architecture. Each demo initializes the display with a single `display.begin<Board_..., Config_...>()` call — the **Board** template owns the pin map (CS/DC/SCK/MOSI/RST/BL), and the **Panel Config** bakes in the 135×240 resolution, color order, and inversion. No `driver.h` or manual pin setup is needed.
 - On this board the demos use `Board_XIAO_1inch14_LCD<13, 12>` (RST=13, BL=12) with `Config_Seeed_1inch14_LCD_ST7789` (135×240). A few demos define a sketch-local `Config_XIAO_1inch14_LCD_ST7789_BGR` override for the BGR color order.
 - The **IMU** is read directly over I2C (`Wire`) in these demos — no external IMU library is needed. The **PDM microphone** and **I2S output** use the ESP-IDF 5 drivers (`driver/i2s_pdm.h`, `driver/i2s_std.h`) and `LittleFS`, all included with the esp32 board package.
-- The 1.14 Display has **no touch controller, no SD card slot**, so no touch or SD libraries are needed.
+- The 1.14'' IPS Display has **no touch controller, no SD card slot**, so no touch or SD libraries are needed.
 :::
 
 ## Getting the Demo Code
@@ -134,10 +134,10 @@ After the sketch runs through all patterns, the screen shows a "Graphic / Finish
 
 ## IMU
 
-The 1.14 Inch Display features an onboard **LSM6DS3** 6-axis IMU (3-axis accelerometer + 3-axis gyroscope) connected via I2C on D4/D5 at address **0x6A**. The motion interrupt line on **D14** supports hardware wake-up and gesture detection.
+The 1.14'' IPS Display features an onboard **LSM6DS3** 6-axis IMU (3-axis accelerometer + 3-axis gyroscope) connected via I2C on D4/D5 at address **0x6A**. The motion interrupt line on **D14** supports hardware wake-up and gesture detection.
 
 :::note
-The onboard IMU is the **LSM6DS3** (confirmed from the board schematic, I2C address `0x6A`). The demo sketches additionally probe for a QMI8658-compatible sensor as a defensive fallback in case of BOM variants, but the shipped 1.14 Inch Display uses the LSM6DS3.
+The onboard IMU is the **LSM6DS3** (confirmed from the board schematic, I2C address `0x6A`). The demo sketches additionally probe for a QMI8658-compatible sensor as a defensive fallback in case of BOM variants, but the shipped 1.14'' IPS Display uses the LSM6DS3.
 :::
 
 The demos below read the IMU directly over I2C (`Wire`) — no external IMU library is required.
@@ -266,7 +266,7 @@ The screen displays real-time motion data while awake. After 8 seconds of stilln
 
 ## Microphone & Audio
 
-The 1.14 Inch Display has an onboard **PDM (Pulse Density Modulation) digital microphone** for audio input, plus I2S output pads for driving an external speaker/amplifier. This section shows two demos: a real-time **Voice Bar** visualization of the microphone input (no extra hardware), and a **Flash Recorder** that records audio to onboard Flash and plays it back through an external I2S amplifier.
+The 1.14'' IPS Display has an onboard **PDM (Pulse Density Modulation) digital microphone** for audio input, plus I2S output pads for driving an external speaker/amplifier. This section shows two demos: a real-time **Voice Bar** visualization of the microphone input (no extra hardware), and a **Flash Recorder** that records audio to onboard Flash and plays it back through an external I2S amplifier.
 
 <div class="table-center">
   <table align="center">
@@ -431,7 +431,7 @@ Press USR1 and the screen shows "Capturing 5 seconds". After 5 seconds it confir
 
 ## Grove I2C
 
-The 1.14 Inch Display features a dedicated **Grove I2C connector** that exposes D4 (SDA) and D5 (SCL) on a standard 4-pin Grove socket (GND / 3V3 / SDA / SCL). D4/D5 are shared internally with the onboard IMU.
+The 1.14'' IPS Display features a dedicated **Grove I2C connector** that exposes D4 (SDA) and D5 (SCL) on a standard 4-pin Grove socket (GND / 3V3 / SDA / SCL). D4/D5 are shared internally with the onboard IMU.
 
 <div class="table-center">
   <table align="center">
@@ -514,7 +514,7 @@ The temperature and humidity update once per second on the screen. Breathe on th
 
 ## User Buttons
 
-The 1.14 Inch Display has **three physical push buttons** connected to the XIAO ESP32-S3 Plus:
+The 1.14'' IPS Display has **three physical push buttons** connected to the XIAO ESP32-S3 Plus:
 
 <div class="table-center">
   <table align="center">
@@ -623,7 +623,7 @@ The button breakout pads (labeled U1, U2, and U3 on the board) mirror D6, D7, an
 
 ## Battery Voltage Detection
 
-The 1.14 Inch Display includes an onboard battery voltage measurement circuit. The ESP32-S3 Plus reads the LiPo battery voltage through a voltage divider on D16.
+The 1.14'' IPS Display includes an onboard battery voltage measurement circuit. The ESP32-S3 Plus reads the LiPo battery voltage through a voltage divider on D16.
 
 ### ESP32-S3 Plus Battery Measurement
 
@@ -678,7 +678,7 @@ The circuit provides a continuous live-sense reading: `VBAT → 316K → ADC nod
 ## Resources
 
 - **[GitHub]** [XIAO Display Board Demo Code](https://github.com/Seeed-Projects/Display-Gadgets) — all Function demos are in the `code_GFX2/Function/114_ESP32/` directory
-- **[PDF]** [Schematic — 1.14 Inch Display (XIAO ESP32-S3 Plus)](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/schematics/1.14_Inch_Display_Powered_by_XIAO_ESP32-S3_Plus/Schematic)
+- **[PDF]** [Schematic — XIAO 1.14'' IPS Display (ESP32-S3)](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/schematics/1.14_Inch_Display_Powered_by_XIAO_ESP32-S3_Plus/Schematic)
 
 ## Tech Support & Product Discussion
 

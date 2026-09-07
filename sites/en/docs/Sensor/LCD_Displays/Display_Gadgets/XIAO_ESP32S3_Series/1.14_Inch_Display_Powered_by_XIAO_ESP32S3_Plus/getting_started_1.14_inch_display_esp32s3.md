@@ -1,6 +1,6 @@
 ---
-description: Getting Started with 1.14 Inch Display Powered by XIAO ESP32-S3 Plus.
-title: Getting Started with 1.14 Inch Display Powered by XIAO ESP32-S3 Plus
+description: Getting Started with XIAO 1.14'' IPS Display (ESP32-S3).
+title: Getting Started with XIAO 1.14'' IPS Display (ESP32-S3)
 keywords:
   - XIAO
   - ESP32-S3
@@ -21,11 +21,11 @@ updatedAt: '2026-08-25'
 url: https://wiki.seeedstudio.com/getting_started_1.14_inch_display_esp32s3/
 ---
 
-# Getting Started with 1.14 Inch Display Powered by XIAO ESP32-S3 Plus
+# Getting Started with XIAO 1.14'' IPS Display (ESP32-S3)
 
 <div class="table-center">
   <table align="center">
-    <tr><th>1.14 Inch Display (XIAO ESP32-S3 Plus)</th></tr>
+    <tr><th>XIAO 1.14'' IPS Display (ESP32-S3)</th></tr>
     <tr><td><div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_hardware_hero.jpg" style={{width:600, height:'auto'}}/></div></td></tr>
     <tr><td><div class="get_one_now_container" style={{textAlign: 'center'}}>
         <a class="get_one_now_item" href="#" target="_blank">
@@ -37,7 +37,7 @@ url: https://wiki.seeedstudio.com/getting_started_1.14_inch_display_esp32s3/
 
 ## Introduction
 
-The 1.14 Inch Display is an expansion board designed for the XIAO series, powered by the XIAO ESP32-S3 Plus. It features a 135×240 IPS color LCD, onboard PDM microphone, 6-axis IMU, Grove I2C connector, three user buttons, and battery voltage measurement — all integrated into a compact form factor.
+The 1.14'' IPS Display is an expansion board designed for the XIAO series, powered by the XIAO ESP32-S3 Plus. It features a 135×240 IPS color LCD, onboard PDM microphone, 6-axis IMU, Grove I2C connector, three user buttons, and battery voltage measurement — all integrated into a compact form factor.
 
 This combination makes it an ideal platform for wearable devices, compact sensor nodes, portable instruments, and IoT prototyping where space is at a premium. With the ESP32-S3's dual-core processor, Wi-Fi, and Bluetooth capabilities, it extends the display into a wireless-connected device.
 
@@ -56,7 +56,7 @@ This combination makes it an ideal platform for wearable devices, compact sensor
 </div>
 
 :::note
-This display board is designed for the **XIAO ESP32-S3 Plus**. If you are using the XIAO nRF52840 Plus version, please refer to the [1.14 Inch Display Powered by XIAO nRF52840 Plus](/getting_started_1.14_inch_display_nrf52840) guide instead.
+This display board is designed for the **XIAO ESP32-S3 Plus**. If you are using the XIAO nRF52840 Plus version, please refer to the [XIAO 1.14'' IPS Display (nRF52840)](/getting_started_1.14_inch_display_nrf52840) guide instead.
 :::
 
 :::note
@@ -65,14 +65,14 @@ Unlike the nRF52840 Plus version which reports battery percentage with charging 
 
 ## Hardware Overview
 
-Before we start, refer to the following image to understand the physical layout of the 1.14 Inch Display.
+Before we start, refer to the following image to understand the physical layout of the 1.14'' IPS Display.
 
 <!-- TODO: Add front-and-back overview image with pin labels (114_ESP32S3Plus_display_hardware_overview.png) -->
 <!-- <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_display_hardware_overview.png" style={{width:1000, height:'auto'}}/></div> -->
 
 ### Pin Map
 
-The 1.14 Inch Display breaks out all XIAO ESP32-S3 Plus pins. The table below lists every pin, its net name on the display board, its function, and how it is connected to onboard peripherals.
+The 1.14'' IPS Display breaks out all XIAO ESP32-S3 Plus pins. The table below lists every pin, its net name on the display board, its function, and how it is connected to onboard peripherals.
 
 <div class="table-center">
   <table align="center">
@@ -275,7 +275,7 @@ We strongly recommend **against hot-plugging** devices on the I2C interface. Alw
 ## Resources
 
 - **[GitHub]** [XIAO Display Board Demo Code](https://github.com/Seeed-Projects/Display-Gadgets) — Dashboard code is in `code/example/114_ESP32/`
-- **[PDF]** [Schematic — 1.14 Inch Display (XIAO ESP32-S3 Plus)](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/schematics/1.14_Inch_Display_Powered_by_XIAO_ESP32-S3_Plus/Schematic)
+- **[PDF]** [Schematic — XIAO 1.14'' IPS Display (ESP32-S3)](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/schematics/1.14_Inch_Display_Powered_by_XIAO_ESP32-S3_Plus/Schematic)
 
 ## Tech Support & Product Discussion
 
