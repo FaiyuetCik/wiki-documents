@@ -43,15 +43,27 @@ This combination makes it an ideal platform for wearable devices, compact sensor
 
 <div class="table-center">
   <table align="center">
-    <tr><th>Item</th><th>Detail</th></tr>
-    <tr><td>Screen</td><td>1.14 inch, ST7789, 135×240, IPS</td></tr>
-    <tr><td>Microphone</td><td>PDM digital microphone (D0 CLK / D1 DATA)</td></tr>
-    <tr><td>IMU</td><td>LSM6DS3 (6-axis: 3-axis accelerometer + 3-axis gyroscope), I2C (D4/D5), interrupt D14, double-tap detection</td></tr>
-    <tr><td>Buttons</td><td>USR1 = D6 / USR2 = D7 / USR3 = D19 (3 buttons, active-low)</td></tr>
-    <tr><td>Grove I2C</td><td>D4/D5 breakout (shared with onboard IMU; standard Grove I2C connector)</td></tr>
-    <tr><td>Battery</td><td>LiPo battery connector, D16 ADC voltage measurement (raw ADC voltage + calculated battery voltage)</td></tr>
-    <tr><td>Expansion</td><td>I2C breakout pads (GND, 3V3, SDA, SCL); Button breakout pads (U1, U2, U3); I2S breakout pads (3V3, GND, D11, D12, D13); SWD interface (MTDI, MTDO, EN, GND, MTMS, MTCK, D+, D-)</td></tr>
-    <tr><td>Compatibility</td><td>XIAO ESP32-S3 Plus</td></tr>
+    <tr><th>Specification</th><th>Detail</th></tr>
+    <tr><td>Product Positioning</td><td>Sensing & Expansion</td></tr>
+    <tr><td>Core Controller</td><td>Seeed Studio XIAO ESP32-S3 Plus</td></tr>
+    <tr><td>Processor</td><td>ESP32-S3R8, Dual-Core, up to 240 MHz</td></tr>
+    <tr><td>Memory</td><td>8 MB PSRAM + 16 MB Flash</td></tr>
+    <tr><td>Wireless Connectivity</td><td>2.4 GHz Wi-Fi + BLE 5.0</td></tr>
+    <tr><td>Display Type</td><td>1.14" IPS TFT LCD</td></tr>
+    <tr><td>Resolution</td><td>135 × 240</td></tr>
+    <tr><td>Display Driver</td><td>ST7789</td></tr>
+    <tr><td>Display Interface</td><td>SPI</td></tr>
+    <tr><td>Touch Input</td><td>No</td></tr>
+    <tr><td>6-Axis IMU</td><td>Yes</td></tr>
+    <tr><td>PDM Digital Microphone</td><td>Yes</td></tr>
+    <tr><td>MicroSD Card Slot</td><td>No</td></tr>
+    <tr><td>Grove I2C Connector</td><td>Yes</td></tr>
+    <tr><td>User Buttons</td><td>3</td></tr>
+    <tr><td>Battery Connector</td><td>2-pin JST, 3.7 V LiPo</td></tr>
+    <tr><td>Battery Monitoring</td><td>Battery voltage monitoring via D16 ADC; battery level can be estimated from the measured voltage. Battery status detection is not supported.</td></tr>
+    <tr><td>Expansion Interfaces</td><td>1x Grove I2C Connector, 1x I2C pads, 1x I2S pads, 1x SWD pads, 3x user-button pads</td></tr>
+    <tr><td>Board Size</td><td>25 × 46.7 mm</td></tr>
+    <tr><td>Best For</td><td>Sensor dashboards, Grove projects, physical controllers</td></tr>
   </table>
 </div>
 

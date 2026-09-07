@@ -43,15 +43,27 @@ The ESP32-S3 Plus adds Wi-Fi and Bluetooth connectivity, making the board suitab
 
 <div class="table-center">
   <table align="center">
-    <tr><th>Item</th><th>Detail</th></tr>
-    <tr><td>Screen</td><td>0.96 inch, ST7789, 80×160, IPS</td></tr>
-    <tr><td>Microphone</td><td>PDM digital microphone (D0 clock / D1 data)</td></tr>
-    <tr><td>IMU</td><td>LSM6DS3, 3-axis accelerometer + 3-axis gyroscope, I2C address 0x6A (D4/D5), interrupt D14</td></tr>
-    <tr><td>Buttons</td><td>USR1 = D6 / USR2 = D7 (2 buttons, active-low)</td></tr>
-    <tr><td>I2C breakout</td><td>D4/D5 back-side 4-pin test pad, shared with the onboard IMU</td></tr>
-    <tr><td>Battery</td><td>LiPo battery connector; D16 ADC voltage sensing through a 316 kΩ / 160 kΩ divider</td></tr>
-    <tr><td>Expansion</td><td>I2C test pad (GND, 3V3, SDA, SCL); I2S breakout (D11, D12, D13)</td></tr>
-    <tr><td>Compatibility</td><td>XIAO ESP32-S3 Plus</td></tr>
+    <tr><th>Specification</th><th>Detail</th></tr>
+    <tr><td>Product Positioning</td><td>Ultra-Compact</td></tr>
+    <tr><td>Core Controller</td><td>Seeed Studio XIAO ESP32-S3 Plus</td></tr>
+    <tr><td>Processor</td><td>ESP32-S3R8, Dual-Core, up to 240 MHz</td></tr>
+    <tr><td>Memory</td><td>8 MB PSRAM + 16 MB Flash</td></tr>
+    <tr><td>Wireless Connectivity</td><td>2.4 GHz Wi-Fi + BLE 5.0</td></tr>
+    <tr><td>Display Type</td><td>0.96" IPS TFT LCD</td></tr>
+    <tr><td>Resolution</td><td>80 × 160</td></tr>
+    <tr><td>Display Driver</td><td>ST7789</td></tr>
+    <tr><td>Display Interface</td><td>SPI</td></tr>
+    <tr><td>Touch Input</td><td>No</td></tr>
+    <tr><td>6-Axis IMU</td><td>Yes</td></tr>
+    <tr><td>PDM Digital Microphone</td><td>Yes</td></tr>
+    <tr><td>MicroSD Card Slot</td><td>No</td></tr>
+    <tr><td>Grove I2C Connector</td><td>No</td></tr>
+    <tr><td>User Buttons</td><td>2</td></tr>
+    <tr><td>Battery Connector</td><td>2-pin JST, 3.7 V LiPo</td></tr>
+    <tr><td>Battery Monitoring</td><td>Battery voltage monitoring via D16 ADC; battery level can be estimated from the measured voltage. Battery status detection is not supported.</td></tr>
+    <tr><td>Expansion Interfaces</td><td>1x I2C pads, 1x I2S pads</td></tr>
+    <tr><td>Board Size</td><td>17.8 × 42 mm</td></tr>
+    <tr><td>Best For</td><td>Tiny IoT devices, wearables, status displays</td></tr>
   </table>
 </div>
 
