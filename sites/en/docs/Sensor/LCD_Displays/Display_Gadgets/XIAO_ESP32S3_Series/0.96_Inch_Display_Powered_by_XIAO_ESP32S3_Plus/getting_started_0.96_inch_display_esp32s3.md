@@ -187,7 +187,7 @@ The display board packs several onboard peripherals. The [Function](/function_0.
     <tr><th>Peripheral</th><th>Demo</th></tr>
     <tr><td>Screen</td><td>[GraphicTest](/function_0.96_inch_display_esp32s3#screen-display--graphictest) — ten graphics primitives with timing benchmarks</td></tr>
     <tr><td>IMU</td><td>[Electronic Quicksand + Raise to Wake](/function_0.96_inch_display_esp32s3#imu) — 6-axis motion effects and wake-on-motion</td></tr>
-    <tr><td>Microphone & Audio</td><td>[Flash Recorder](/function_0.96_inch_display_esp32s3#microphone--audio--flash-recorder) — record and play back audio</td></tr>
+    <tr><td>Microphone & Speaker</td><td>[Flash Recorder](/function_0.96_inch_display_esp32s3#microphone--speaker--flash-recorder) — record and play back audio</td></tr>
     <tr><td>Buttons</td><td>[User Buttons](/function_0.96_inch_display_esp32s3#user-buttons) — read presses and debounce with interrupts</td></tr>
     <tr><td>Battery</td><td>[Battery Voltage Detection](/function_0.96_inch_display_esp32s3#battery-voltage-detection) — measure the divider voltage</td></tr>
   </table>

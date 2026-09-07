@@ -277,7 +277,7 @@ The screen displays real-time motion and battery data while awake. After 8 secon
 
 ---
 
-## Microphone & Audio — Flash Recorder
+## Microphone & Speaker — Flash Recorder
 
 This demo turns the 0.96'' IPS Display into a small voice recorder. Press USR1 to capture a 5-second clip from the onboard PDM microphone into onboard Flash, then press USR2 to play it back through an external I2S amplifier.
 
