@@ -180,8 +180,7 @@ The display board packs several onboard peripherals. The [Function](/function_1.
     <tr><td>Screen</td><td>[GraphicTest](/function_1.47_inch_touch_display_esp32s3#screen-display--graphictest) — ten graphics primitives with timing benchmarks</td></tr>
     <tr><td>Touch</td><td>[Touch Circle](/function_1.47_inch_touch_display_esp32s3#touch--touch-circle) — a circle that follows your finger</td></tr>
     <tr><td>SD Card</td><td>[BMP Reader](/function_1.47_inch_touch_display_esp32s3#sd-card--bmp-reader) — display a BMP from the MicroSD card</td></tr>
-    <tr><td>Microphone</td><td>[Volume Bar](/function_1.47_inch_touch_display_esp32s3#microphone--volume-bar) — live PDM level meter</td></tr>
-    <tr><td>Audio</td><td>[SD Recorder](/function_1.47_inch_touch_display_esp32s3#audio-recording-and-playback--sd-recorder) — record to SD and play back over I2S</td></tr>
+    <tr><td>Microphone & Speaker</td><td>[Volume Bar + SD Recorder](/function_1.47_inch_touch_display_esp32s3#microphone--speaker) — live PDM level meter and recording to SD</td></tr>
     <tr><td>IMU</td><td>[Electronic Quicksand + Raise to Wake](/function_1.47_inch_touch_display_esp32s3#imu) — 6-axis motion effects and wake-on-motion</td></tr>
     <tr><td>Buttons</td><td>[User Button](/function_1.47_inch_touch_display_esp32s3#user-button) — read presses and debounce with interrupts</td></tr>
     <tr><td>Battery</td><td>[Battery Voltage Detection](/function_1.47_inch_touch_display_esp32s3#battery-voltage-detection) — measure the divider voltage</td></tr>

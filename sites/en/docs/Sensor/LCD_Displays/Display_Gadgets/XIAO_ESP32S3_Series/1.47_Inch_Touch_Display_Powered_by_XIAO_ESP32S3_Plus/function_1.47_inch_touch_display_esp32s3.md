@@ -289,7 +289,9 @@ The image appears on the screen with a green "BMP OK" header (showing the decode
 
 ---
 
-## Microphone — Volume Bar
+## Microphone & Speaker
+
+### Demo 1: Volume Bar
 
 This demo turns the onboard PDM microphone into a large, responsive volume meter. A 10-segment bar fills the center of the screen — green at low levels, yellow at mid-range, red when loud. The percentage is displayed above the bar and changes color to match the level.
 
@@ -302,7 +304,7 @@ This demo turns the onboard PDM microphone into a large, responsive volume meter
     </a>
 </div><br />
 
-### How It Works
+#### How It Works
 
 The onboard **PDM (Pulse Density Modulation) digital microphone** is sampled through the ESP32-S3's I2S peripheral configured in PDM RX mode. On ESP-IDF v5 (Arduino core 3.3.11), this uses the new driver API (`driver/i2s_pdm.h`):
 
@@ -335,7 +337,7 @@ The I2S peripheral is configured at **16 kHz mono** with 4 DMA descriptors of 25
 
 The bar uses **differential rendering**: only segments whose state changed since the last frame are redrawn. Unchanged segments are left as-is, minimizing SPI traffic and preventing flicker.
 
-### Running the Demo
+#### Running the Demo
 
 **Step 1.** Open `xiao_esp32s3_147_mic_canvas.ino` in Arduino IDE.
 
@@ -351,7 +353,7 @@ The bar uses **differential rendering**: only segments whose state changed since
 
 **Step 4.** Speak into the PDM microphone (located near the bottom-left corner of the display board) or blow on it. The bar fills from green to yellow to red, and the percentage updates above it.
 
-### Expected Result
+#### Expected Result
 
 <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_function_mic_canvas.gif" style={{width:500, height:'auto'}}/></div>
 
@@ -359,7 +361,7 @@ The bar responds in real time. In a quiet room the bar stays empty. Speaking at 
 
 ---
 
-## Audio Recording and Playback — SD Recorder
+### Demo 2: SD Recorder
 
 This demo turns the board into a simple voice recorder. Press **USR1** to record 5 seconds of audio from the onboard PDM microphone, save it to the MicroSD card as a WAV file, then press **USR2** to play the recording back through an external **MAX98357A** I2S amplifier and speaker.
 
@@ -376,7 +378,7 @@ This demo turns the board into a simple voice recorder. Press **USR1** to record
 This demo uses **Seeed_GFX2** for the on-screen status display, and the **built-in `SD.h`** from the esp32 board package for file access. **No SdFat** is required.
 :::
 
-### Hardware Setup
+#### Hardware Setup
 
 **MicroSD card.** Insert a FAT32-formatted MicroSD card into the card slot on the display board **before** flashing the sketch or powering on. The onboard PDM microphone needs no external wiring.
 
@@ -395,7 +397,7 @@ This demo uses **Seeed_GFX2** for the on-screen status display, and the **built-
 
 Connect the speaker to the **SPK+** and **SPK-** terminals of the MAX98357A.
 
-### How It Works
+#### How It Works
 
 The demo runs through four stages, using four different peripherals in sequence:
 
@@ -415,7 +417,7 @@ The demo runs through four stages, using four different peripherals in sequence:
 
 This separation avoids SPI transaction conflicts between LCD refreshes and SD card access.
 
-### Running the Demo
+#### Running the Demo
 
 **Step 1.** Insert a **FAT32** MicroSD card into the card slot on the display board.
 
@@ -433,7 +435,7 @@ This separation avoids SPI transaction conflicts between LCD refreshes and SD ca
 
 **Step 8.** Press **USR2** to play the recording back through the speaker.
 
-### Expected Result
+#### Expected Result
 
 <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_function_sd_record_i2s.gif" style={{width:500, height:'auto'}}/></div>
 
