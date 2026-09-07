@@ -681,6 +681,7 @@ The circuit provides a continuous live-sense reading: `VBAT → 316K → ADC nod
 
 ## Resources
 
+- **📚[Full Resources]** [Getting Started — Resources](/getting_started_1.14_inch_display_esp32s3#resources) — schematic, KiCad project, 3D model, datasheet, enclosure, and factory firmware
 - **[GitHub]** [XIAO Display Board Demo Code](https://github.com/Seeed-Projects/Display-Gadgets) — all Function demos are in the `code_GFX2/Function/114_ESP32/` directory
 - **[PDF]** [Schematic — XIAO 1.14'' IPS Display (ESP32-S3)](https://github.com/Seeed-Projects/Display-Gadgets/tree/main/schematics/1.14_Inch_Display_Powered_by_XIAO_ESP32-S3_Plus/Schematic)
 
