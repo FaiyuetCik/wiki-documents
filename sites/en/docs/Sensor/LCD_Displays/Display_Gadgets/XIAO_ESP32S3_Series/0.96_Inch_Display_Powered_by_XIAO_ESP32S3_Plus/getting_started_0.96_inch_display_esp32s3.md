@@ -220,13 +220,15 @@ The display board packs several onboard peripherals. The [Function](/function_0.
 
 Restart Arduino IDE if the board entry still does not appear.
 
-### Why isn't my screen bright when I plug in the USB-C cable?
-
-The screen backlight may be off. Press the **USR2 (D7)** button to toggle the backlight back on — the display will light up normally.
-
 ### How should I hold the board?
 
 Hold the board near the buttons, and do not touch the **XIAO** module. Grip the board by the button area instead.
+
+### [About Factory Firmware-DashBoard]
+
+#### Why isn't my screen bright when I plug in the USB-C cable?
+
+The screen backlight may be off. Press the **USR2 (D7)** button to toggle the backlight back on — the display will light up normally.
 
 ## Resources
 

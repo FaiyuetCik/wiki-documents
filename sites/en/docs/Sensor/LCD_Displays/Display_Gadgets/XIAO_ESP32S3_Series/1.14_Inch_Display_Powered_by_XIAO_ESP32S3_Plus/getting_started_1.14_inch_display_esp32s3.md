@@ -217,7 +217,9 @@ Make sure you have added the ESP32 board package to Arduino IDE:
 
 If the board still doesn't show up, restart Arduino IDE and try again.
 
-### The I2C scan on the dashboard freezes — what should I do?
+### [About Factory Firmware-DashBoard]
+
+#### The I2C scan on the dashboard freezes — what should I do?
 
 Press the **Reset** button on the XIAO ESP32-S3 Plus once to reboot the board. This clears the stuck I2C bus and the dashboard returns to normal.
 
