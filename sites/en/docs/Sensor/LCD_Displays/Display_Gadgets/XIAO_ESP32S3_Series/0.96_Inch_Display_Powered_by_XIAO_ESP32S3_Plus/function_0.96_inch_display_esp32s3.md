@@ -543,7 +543,7 @@ The screen shows the raw D16 divider voltage on the top line and the calculated 
 The demo also prints a diagnostic line to the Serial Monitor every second, for example:
 
 ```
-D16 1.390V | Calc 4.135V
+D16 1.39V | Calc 4.14V
 ```
 
 ---
