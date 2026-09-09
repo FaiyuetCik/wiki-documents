@@ -677,7 +677,7 @@ The button breakout pads (labeled U1 and U2 on the board) mirror D19 and D15 res
 
 ## Battery Voltage Detection
 
-This demo reads the onboard battery voltage divider on **D16** and shows two live yellow readings on the 1.47'' IPS Display: the raw D16 divider voltage and the calculated battery voltage. Because the ESP32-S3 Plus has no charging-status pin, the demo reports voltage only — no percentage or charging state.
+This demo reads the onboard battery voltage divider on **D16** and shows two live yellow readings on the 1.47'' IPS Display: the raw D16 divider voltage and the calculated battery voltage. It displays voltage readings only; it does not estimate battery percentage or report charging status.
 
 **Code location:** `code_GFX2/Function/147_ESP32/xiao_esp32s3_147_battery_status/`
 
