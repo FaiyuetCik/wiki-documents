@@ -141,7 +141,7 @@ After the sketch runs through all patterns, the screen shows a "Graphic / Finish
 The 1.14'' IPS Display features an onboard **LSM6DS3** 6-axis IMU (3-axis accelerometer + 3-axis gyroscope) connected via I2C on D4/D5 at address **0x6A**. The motion interrupt line on **D14** supports hardware wake-up and gesture detection.
 
 :::note
-The onboard IMU is the **LSM6DS3** (confirmed from the board schematic, I2C address `0x6A`). The demo sketches additionally probe for a QMI8658-compatible sensor as a defensive fallback in case of BOM variants, but the shipped 1.14'' IPS Display uses the LSM6DS3.
+The onboard IMU is the **LSM6DS3** (confirmed from the board schematic, I2C address `0x6A`). The Electronic Quicksand demo probes for a QMI8658-compatible sensor as a defensive fallback. The Raise to Wake demo targets the onboard LSM6DS3 wake-up registers.
 :::
 
 The demos below read the IMU directly over I2C (`Wire`) — no external IMU library is required.
@@ -563,7 +563,7 @@ void loop() {
 
 ### Debounce with Interrupts
 
-For responsive, debounced button handling, you can use pin-change interrupts with a short settling delay:
+For responsive, debounced button handling, you can use GPIO interrupts with a short settling delay:
 
 ```cpp
 volatile bool btn1Flag = false;

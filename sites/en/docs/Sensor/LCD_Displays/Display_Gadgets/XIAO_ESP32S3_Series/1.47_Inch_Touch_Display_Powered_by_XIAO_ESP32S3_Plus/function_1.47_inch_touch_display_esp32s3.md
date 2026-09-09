@@ -631,7 +631,7 @@ void loop() {
 
 ### Debounce with Interrupts
 
-For responsive, debounced button handling, you can use pin-change interrupts with a short settling delay:
+For responsive, debounced button handling, you can use GPIO interrupts with a short settling delay:
 
 ```cpp
 volatile bool btnAFlag = false;
