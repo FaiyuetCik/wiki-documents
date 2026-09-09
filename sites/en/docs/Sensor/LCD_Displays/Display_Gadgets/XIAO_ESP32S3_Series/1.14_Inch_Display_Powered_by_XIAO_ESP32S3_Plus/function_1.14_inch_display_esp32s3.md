@@ -673,7 +673,7 @@ No charging-status signal is connected to an ESP32-S3 GPIO. This demo displays v
 
 ### Expected Result
 
-<!-- TODO: Add battery voltage demo photos (114_ESP32S3Plus_function_battery_status_display.jpg + 114_ESP32S3Plus_function_battery_status_back.jpg) -->
+<!-- TODO: Add battery voltage demo photos, battery-only: 114_ESP32S3Plus_function_battery_status_display.jpg (screen reading D16/Calc) + 114_ESP32S3Plus_function_battery_status_back.jpg (battery connector) -->
 <!--
 <div class="table-center">
   <table align="center">
