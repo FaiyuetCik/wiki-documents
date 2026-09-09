@@ -150,7 +150,7 @@ Then go to **Tools > Board > Boards Manager**, search for **esp32** and install 
 **Step 3.** Restart the Arduino IDE so the new library is detected.
 
 :::tip
-- **Seeed_GFX2** is Seeed Studio's graphics library built on a layered `Board` + `Panel Config` architecture. Each demo initializes the display with a single `display.begin<Board_..., Config_...>()` call — the **Board** template owns the pin map (CS/DC/SCK/MOSI/RST/BL), and the **Panel Config** bakes in the 135×240 resolution, color order (BGR), and orientation. No `driver.h` or manual pin setup is needed.
+- **Seeed_GFX2** is Seeed Studio's graphics library built on a layered `Board` + `Panel Config` architecture. Each demo initializes the display with a single `display.begin<Board_..., Config_...>()` call — the **Board** template owns the pin map (CS/DC/SCK/MOSI/RST/BL), and the **Panel Config** bakes in the 135×240 resolution, color order, and orientation. No `driver.h` or manual pin setup is needed.
 - On this board the sketch uses `Board_XIAO_1inch14_LCD<13, 12>` (RST=13, BL=12) with `Config_Seeed_1inch14_LCD_ST7789`.
 :::
 

@@ -411,6 +411,10 @@ The demo runs through four stages, using four different peripherals in sequence:
 
 **SD card (storage).** The recording is written to `/REC_RAW.WAV` on the MicroSD card using the ESP32 board package's built-in `SD.h`. The sketch mounts the card at several SPI frequencies — trying **8 MHz → 4 MHz → 1 MHz → 0.4 MHz** — until one succeeds. Each new recording overwrites the previous file.
 
+:::caution
+This demo deletes `/REC_RAW.WAV` on startup. Copy the recording to your computer before restarting the board if you want to keep it.
+:::
+
 **I2S playback.** Playback uses the I2S peripheral in master / transmit mode at **16 kHz, 16-bit, Philips stereo**. The mono samples are duplicated into both the left and right I2S channels, allowing playback regardless of the MAX98357A channel selection.
 
 **Shared LCD/SD bus.** The LCD and SD card share the **D8** (SCK), **D9** (MISO), and **D10** (MOSI) pins. The demo keeps them from colliding by giving each its own SPI host:
@@ -458,7 +462,7 @@ The 1.47'' IPS Display features an onboard 6-axis IMU (LSM6DS3) connected via I2
 The onboard IMU is the **LSM6DS3** (confirmed from the board schematic, I2C address `0x6A`). The demo sketches additionally probe for a QMI8658-compatible sensor as a defensive fallback, but the shipped 1.47'' IPS Display uses the LSM6DS3.
 :::
 
-Both demos below use automatic IMU detection — the sketches probe for both the LSM6DS3 (0x6A) and a QMI8658-compatible sensor, so they work regardless of which sensor variant is populated on your board.
+Both demos below read the onboard **LSM6DS3** over I2C. The sketches also probe for a QMI8658-compatible sensor as a defensive fallback, but the raise-to-wake configuration targets the LSM6DS3 registers.
 
 <a id="imu-quicksand"></a>
 
@@ -507,7 +511,7 @@ Particles near the surface flow freely (higher mobility); particles buried deepe
 
 <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/147_ESP32S3Plus_function_quicksand.gif" style={{width:500, height:'auto'}}/></div>
 
-The golden sand particles flow smoothly as you tilt the board. When held flat, the sand settles at the bottom of the screen. Rotate the board 90 degrees and the sand flows to the new "bottom" within a second.
+The particles flow toward the lower edge as you tilt the board. When the display lies flat, the demo retains the previous gravity direction.
 
 ---
 
@@ -528,14 +532,14 @@ This demo implements a **screen sleep/wake system** driven by the IMU's built-in
 
 The demo uses the IMU's **embedded wake-up event detector** — a hardware feature that monitors accelerometer data internally and asserts the INT1 pin (routed to D14 on this board) when motion exceeds a configurable threshold. This means the MCU does not need to poll the accelerometer continuously.
 
-The IMU is detected automatically (LSM6DS3 first, then QMI8658). Wake-up interrupt configuration differs slightly between the two, but the sketch handles both transparently.
+The raise-to-wake demo configures the onboard **LSM6DS3** for motion-triggered wake-up.
 
 **IMU configuration (LSM6DS3):**
 
 <div class="table-center">
   <table align="center">
     <tr><th>Register</th><th>Value</th><th>Purpose</th></tr>
-    <tr><td><code>CTRL1_XL</code></td><td><code>0x60</code></td><td>Accelerometer @ 416 Hz, ±2g</td></tr>
+    <tr><td><code>CTRL1_XL</code></td><td><code>0x40</code></td><td>Accelerometer @ 104 Hz, ±2g</td></tr>
     <tr><td><code>TAP_CFG</code></td><td><code>0x80</code></td><td>Enable embedded interrupts</td></tr>
     <tr><td><code>WAKE_UP_THS</code></td><td><code>0x05</code></td><td>Wake-up threshold (medium-low sensitivity)</td></tr>
     <tr><td><code>WAKE_UP_DUR</code></td><td><code>0x00</code></td><td>No duration filter (responsive wake)</td></tr>
@@ -577,7 +581,7 @@ The IMU is detected automatically (LSM6DS3 first, then QMI8658). Wake-up interru
 [WAKE] IMU_D14  count=2
 ```
 
-Each motion wake prints a new `[WAKE] IMU_D14  count=N` line with an incremented count (pressing USR2 while awake prints `[WAKE] USR2  count=N` instead). The sleep transition is shown on the screen only — no serial line is printed when the board goes to sleep.
+Each motion wake prints a new `[WAKE] IMU_D14  count=N` line with an incremented count. The sleep transition is shown on the screen only — no serial line is printed when the board goes to sleep.
 
 ### Expected Result
 
@@ -601,7 +605,7 @@ The 1.47'' IPS Display has **two physical push buttons** connected to the XIAO E
 
 ### Reading a Button
 
-Both buttons use the XIAO's internal pull-up resistors. A simple non-blocking read looks like this:
+Both buttons use the XIAO's internal pull-up resistors. A simple polled read with debounce looks like this:
 
 ```cpp
 const int BTN_A = D19;
@@ -627,7 +631,7 @@ void loop() {
 
 ### Debounce with Interrupts
 
-For responsive, debounced button handling without blocking the main loop, you can use pin-change interrupts:
+For responsive, debounced button handling, you can use pin-change interrupts with a short settling delay:
 
 ```cpp
 volatile bool btnAFlag = false;

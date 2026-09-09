@@ -193,7 +193,7 @@ Particles near the surface flow freely (higher mobility); particles buried deepe
 
 <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/096_ESP32S3Plus_function_quicksand.gif" style={{width:500, height:'auto'}}/></div>
 
-The golden sand particles flow smoothly as you tilt the board. When held flat, the sand settles at the bottom of the screen. Rotate the board 90 degrees and the sand flows to the new "bottom" within a second.
+The particles flow toward the lower edge as you tilt the board. When the display lies flat, the demo retains the previous gravity direction.
 
 ---
 
@@ -428,7 +428,7 @@ void loop() {
 
 ### Debounce with Interrupts
 
-For responsive, debounced button handling without blocking the main loop, you can use pin-change interrupts:
+For responsive, debounced button handling, you can use pin-change interrupts with a short settling delay:
 
 ```cpp
 volatile bool btn1Flag = false;
