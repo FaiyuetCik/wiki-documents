@@ -627,9 +627,22 @@ The button breakout pads (labeled U1, U2, and U3 on the board) mirror D6, D7, an
 
 ## Battery Voltage Detection
 
-The 1.14'' IPS Display includes an onboard battery voltage measurement circuit. The ESP32-S3 Plus reads the LiPo battery voltage through a voltage divider on D16.
+This demo reads the onboard battery voltage divider on **D16** and shows two live yellow readings on the 1.14'' IPS Display: the raw D16 divider voltage and the calculated battery voltage. Because the ESP32-S3 Plus has no charging-status pin, the demo reports voltage only — no percentage or charging state.
 
-### ESP32-S3 Plus Battery Measurement
+**Code location:** `code_GFX2/Function/114_ESP32/xiao_esp32s3_114_battery_status/`
+
+<div class="github_container" style={{textAlign: 'center'}}>
+    <a class="github_item" href="https://github.com/Seeed-Projects/Display-Gadgets/tree/main/code_GFX2/Function/114_ESP32/xiao_esp32s3_114_battery_status" target="_blank" rel="noopener noreferrer">
+    <strong><span><font color={'FFFFFF'} size={"4"}> View on GitHub</font></span></strong>
+    <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
+    </a>
+</div><br />
+
+### How It Works
+
+**Battery circuit:**
+
+The ESP32-S3 Plus reads the LiPo battery voltage through an onboard voltage divider connected to **D16**:
 
 <div class="table-center">
   <table align="center">
@@ -640,42 +653,45 @@ The 1.14'' IPS Display includes an onboard battery voltage measurement circuit. 
 
 **Voltage divider ratio:** R13 = 316 kΩ, R14 = 160 kΩ → **Divider ratio = (316 + 160) / 160 ≈ 2.975**
 
+**Reading:**
+
+The sketch initializes the display with `Board_XIAO_1inch14_LCD<13, 12>` and a sketch-local `Config_XIAO_1inch14_LCD_ST7789_BGR` (135×240, BGR, invert = true), then samples **D16** twelve times (700 µs apart) using `analogReadMilliVolts()` at 12-bit resolution with 11 dB attenuation. It averages the samples into the raw divider voltage, multiplies by the divider ratio to get the battery voltage (`Calc = D16 × 2.975`), and draws both as two centered yellow lines. The screen refreshes only when either value changes by a meaningful amount (D16 ≥ 0.02 V or Calc ≥ 0.05 V).
+
 :::note
-Unlike the nRF52840 Plus version, the ESP32-S3 Plus version cannot detect charging status (no `~CHG` pin is wired to a GPIO). It can still calculate a battery percentage from the measured voltage via a LiPo discharge lookup table — the Raise to Wake demo does exactly this.
+Unlike the nRF52840 Plus version, the ESP32-S3 Plus has no `~CHG` pin wired to a GPIO, so it cannot detect charging status or reliably compute battery percentage. This demo reports live voltage readings only.
 :::
 
-### Reading Battery Voltage
+### Running the Demo
 
-The ESP32-S3's 12-bit ADC reads the voltage at the ADC node (after the voltage divider). Multiply by the divider ratio to get the actual battery voltage:
+**Step 1.** Open `xiao_esp32s3_114_battery_status.ino` in Arduino IDE.
 
-```cpp
-const int BAT_ADC_PIN = D16;
-const float DIVIDER_RATIO = (316.0f + 160.0f) / 160.0f; // ≈ 2.975
+**Step 2.** Select **Tools > Board > esp32 > XIAO_ESP32S3_PLUS** and the correct **Port**.
 
-void setup() {
-  analogReadResolution(12);
-  analogSetPinAttenuation(BAT_ADC_PIN, ADC_11db);
-  Serial.begin(115200);
-}
+**Step 3.** Click **Upload**.
 
-void readBattery() {
-  // Average 32 samples for a stable reading
-  uint32_t sum = 0;
-  for (int i = 0; i < 32; i++) {
-    sum += analogReadMilliVolts(BAT_ADC_PIN);
-    delay(2);
-  }
+**Step 4.** Observe the screen — it shows two yellow lines: the raw D16 divider voltage and the calculated battery voltage. Connect or disconnect a LiPo battery (or the USB-C cable) to watch the values update.
 
-  uint32_t adcMv = sum / 32;                            // ADC node voltage in mV
-  uint32_t batMv = (uint32_t)(adcMv * DIVIDER_RATIO);   // battery voltage in mV
+### Expected Result
 
-  Serial.print("D16: "); Serial.print(adcMv / 1000.0f);
-  Serial.print("V, Battery: "); Serial.print(batMv / 1000.0f);
-  Serial.println("V");
-}
+<!-- TODO: Add battery voltage demo photos (114_ESP32S3Plus_function_battery_status_display.jpg + 114_ESP32S3Plus_function_battery_status_back.jpg) -->
+<!--
+<div class="table-center">
+  <table align="center">
+    <tr>
+      <td><div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_function_battery_status_display.jpg" style={{width:300, height:'auto'}}/><br/><strong>Voltage reading</strong> (D16 + Calc)</div></td>
+      <td><div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/Display_Gadgets/imgs/114_ESP32S3Plus_function_battery_status_back.jpg" style={{width:300, height:'auto'}}/><br/><strong>Battery connector</strong> (back)</div></td>
+    </tr>
+  </table>
+</div>
+-->
+
+The screen shows the raw D16 divider voltage on the top line and the calculated battery voltage (`Calc`) on the bottom line. With a LiPo battery connected, `Calc` reflects the cell voltage (≈ 3.7–4.2 V for a charged cell); without a battery, the values reflect whatever is present on the divider node (for example the USB supply through the charger).
+
+The demo also prints a diagnostic line to the Serial Monitor every second, for example:
+
 ```
-
-The circuit provides a continuous live-sense reading: `VBAT → 316K → ADC node (D16) → 160K → GND`.
+D16 1.39V | Calc 4.14V
+```
 
 ---
 
