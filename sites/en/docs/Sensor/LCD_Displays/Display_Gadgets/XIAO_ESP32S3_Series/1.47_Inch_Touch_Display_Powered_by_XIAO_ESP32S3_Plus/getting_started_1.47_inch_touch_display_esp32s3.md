@@ -67,7 +67,7 @@ This combination makes it an ideal platform for portable HMI applications, IoT d
 </div>
 
 :::note
-Unlike the nRF52840 Plus version which reports battery percentage with charging status, the ESP32-S3 Plus version uses D16 for battery voltage measurement only, without percentage or charging detection.
+The ESP32-S3 Plus uses D16 for voltage measurement. The voltage demo does not display battery percentage, and no charging-status signal is connected to an ESP32-S3 GPIO.
 :::
 
 ## Hardware Overview
