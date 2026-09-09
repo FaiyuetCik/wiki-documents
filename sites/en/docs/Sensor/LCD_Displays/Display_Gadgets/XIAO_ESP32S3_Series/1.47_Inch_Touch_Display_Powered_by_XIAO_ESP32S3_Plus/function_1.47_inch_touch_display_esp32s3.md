@@ -708,7 +708,7 @@ The ESP32-S3 Plus reads the LiPo battery voltage through an onboard voltage divi
 The sketch initializes the display with `Board_XIAO_1inch47_Touch_Display<13, 12>` and `Config_Seeed_1inch47_Touch_JD9853A` (172×320, BGR, no inversion), then samples **D16** twelve times (700 µs apart) using `analogReadMilliVolts()` at 12-bit resolution with 11 dB attenuation. It averages the samples into the raw divider voltage, multiplies by the divider ratio to get the battery voltage (`Calc = D16 × 2.975`), and draws both as two centered yellow lines. The screen refreshes only when either value changes by a meaningful amount (D16 ≥ 0.02 V or Calc ≥ 0.05 V).
 
 :::note
-Unlike the nRF52840 Plus version, the ESP32-S3 Plus has no `~CHG` pin wired to a GPIO, so it cannot detect charging status or reliably compute battery percentage. This demo reports live voltage readings only.
+No charging-status signal is connected to an ESP32-S3 GPIO. This demo displays voltage readings only; it does not detect battery presence or charging status, or estimate battery percentage.
 :::
 
 ### Running the Demo
@@ -735,12 +735,12 @@ Unlike the nRF52840 Plus version, the ESP32-S3 Plus has no `~CHG` pin wired to a
 </div>
 -->
 
-The screen shows the raw D16 divider voltage on the top line and the calculated battery voltage (`Calc`) on the bottom line. With a LiPo battery connected, `Calc` reflects the cell voltage (≈ 3.7–4.2 V for a charged cell); without a battery, the values reflect whatever is present on the divider node (for example the USB supply through the charger).
+The screen shows the raw D16 divider voltage on the top line and the calculated battery voltage (`Calc`) on the bottom line. With a LiPo battery connected, `Calc` approximates the battery terminal voltage. A reading can also appear under USB power alone, so `Calc` cannot by itself confirm whether a battery is attached.
 
 The demo also prints a diagnostic line to the Serial Monitor every second, for example:
 
 ```
-D16 1.39V | Calc 4.14V
+D16 1.390V | Calc 4.135V
 ```
 
 ---
