@@ -188,7 +188,7 @@ The display board packs several onboard peripherals. The [Function](/function_1.
   <table align="center">
     <tr><th>Peripheral</th><th>Demo</th></tr>
     <tr><td>Screen</td><td>[GraphicTest](/function_1.47_inch_touch_display_esp32s3#screen-display--graphictest) — ten graphics primitives with timing benchmarks</td></tr>
-    <tr><td>Touch</td><td>[Touch Circle](/function_1.47_inch_touch_display_esp32s3#touch--touch-circle) — a circle that follows your finger</td></tr>
+    <tr><td>Touch</td><td>[Touch Circle](/function_1.47_inch_touch_display_esp32s3#touch--touch-circle) — tap to draw persistent circles; tap CLEAR to erase them</td></tr>
     <tr><td>SD Card</td><td>[BMP Reader](/function_1.47_inch_touch_display_esp32s3#sd-card--bmp-reader) — display a BMP from the MicroSD card</td></tr>
     <tr><td>Microphone & Speaker</td><td>[Volume Bar + SD Recorder](/function_1.47_inch_touch_display_esp32s3#microphone--speaker) — live PDM level meter and recording to SD</td></tr>
     <tr><td>IMU</td><td>[Electronic Quicksand + Raise to Wake](/function_1.47_inch_touch_display_esp32s3#imu) — 6-axis motion effects and wake-on-motion</td></tr>
