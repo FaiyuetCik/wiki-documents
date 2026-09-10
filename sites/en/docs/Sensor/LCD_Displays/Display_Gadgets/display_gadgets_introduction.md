@@ -171,9 +171,13 @@ Once you have settled on a controller, choose the screen size based on the featu
 
 ## Shared Features
 
-All six models share the following onboard peripherals:
+All six models share the same onboard hardware:
 
+- Color IPS TFT LCD (SPI) — 80×160, 135×240, or 172×320 depending on the screen size
 - PDM digital microphone
 - 6-axis IMU (LSM6DS3, 3-axis accelerometer + 3-axis gyroscope)
-- Battery voltage detection
-- Arduino support (GFX Library for Arduino on the factory Dashboard; Seeed_GFX2 on the Function demos)
+- User buttons — 2 or 3, depending on the model
+- 2-pin JST connector for a 3.7 V LiPo battery
+- Battery voltage detection (the nRF52840 models additionally detect charging status)
+
+All models are programmed with the Arduino IDE using Seeed's **Seeed_GFX2** graphics library.
