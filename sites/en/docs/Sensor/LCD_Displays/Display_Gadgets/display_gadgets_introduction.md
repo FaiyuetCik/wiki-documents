@@ -143,10 +143,31 @@ The XIAO Display Gadgets series is a family of compact expansion boards that pai
 
 ## How to Choose
 
-- **XIAO 1.47'' IPS Display** — choose this if you need a capacitive touchscreen and MicroSD storage, for example for photo frames, SD audio recording, or touch-driven HMI interfaces.
-- **XIAO 1.14'' IPS Display** — a mid-size screen with three user buttons and a Grove I2C connector, a good balance between compactness and expandability.
-- **XIAO 0.96'' IPS Display** — the smallest form factor, ideal for wearables and space-constrained designs.
-- **Controller** — pick the ESP32-S3 variant when you need Wi-Fi and Bluetooth connectivity; pick the nRF52840 variant for a low-power BLE-focused design.
+Pick a model in two steps: first choose the **controller**, then choose the **screen size**.
+
+### Step 1: Choose the Controller
+
+Every screen size is available with either controller, and the display hardware — screen, touch, MicroSD, buttons, and onboard sensors — is identical between the two variants. The only difference is the XIAO on board.
+
+<div class="table-center">
+  <table align="center">
+    <tr><th></th><th>XIAO nRF52840 Plus</th><th>XIAO ESP32-S3 Plus</th></tr>
+    <tr><td>Wireless</td><td>BLE 5.4</td><td>2.4 GHz Wi-Fi + BLE 5.0</td></tr>
+    <tr><td>Memory</td><td>256 KB RAM + 1 MB internal Flash + 2 MB onboard Flash</td><td>8 MB PSRAM + 16 MB Flash</td></tr>
+    <tr><td>Best for</td><td>Battery-powered, BLE-focused wearables and sensor nodes</td><td>Wi-Fi-connected IoT devices and data dashboards</td></tr>
+  </table>
+</div>
+
+- **Pick the nRF52840 Plus** for a low-power BLE design where battery life matters — for example smart badges, BLE status displays, or long-running wearable sensors.
+- **Pick the ESP32-S3 Plus** when you need Wi-Fi connectivity or more memory — for example pushing sensor data to the cloud, a remote dashboard, or a wireless IoT prototype.
+
+### Step 2: Choose the Screen Size
+
+Once you have settled on a controller, choose the screen size based on the features you need:
+
+- **1.47"** — the only size with a capacitive touchscreen and MicroSD storage. Choose it for touch-driven HMIs, portable photo frames, SD audio recording, or local media and data logging.
+- **1.14"** — a mid-size screen with three user buttons and a Grove I2C connector. Choose it for sensor displays, Grove projects, or physical controllers where you want a balance of compactness and expandability.
+- **0.96"** — the smallest form factor. Choose it for wearables and space-constrained designs such as smart badges or keychain gadgets.
 
 ## Shared Features
 
