@@ -138,8 +138,13 @@ The XIAO Display Gadgets series is a family of compact expansion boards that pai
     <tr><td>Expansion Interfaces</td><td>1x I2C pads<br />1x I2S pads<br />1x SWD pads<br />2x user-button pads</td><td>1x Grove I2C Connector<br />1x I2C pads<br />1x I2S pads<br />1x SWD pads<br />3x user-button pads</td><td>1x I2C pads<br />1x I2S pads</td><td>1x I2C pads<br />1x I2S pads<br />1x SWD pads<br />2x user-button pads</td><td>1x Grove I2C Connector<br />1x I2C pads<br />1x I2S pads<br />1x SWD pads<br />3x user-button pads</td><td>1x I2C pads<br />1x I2S pads</td></tr>
     <tr><td>Board Size</td><td>26.4 × 51.4 × 12.6 mm</td><td>26 × 48 × 10.6 mm</td><td>18.8 × 43.6 × 10.6 mm</td><td>26.4 × 51.4 × 12.6 mm</td><td>26 × 48 × 10.6 mm</td><td>18.8 × 43.6 × 10.6 mm</td></tr>
     <tr><td>Best For</td><td>Touch UI, portable HMI, local media &amp; data logging</td><td>Sensor dashboards, Grove projects, physical controllers</td><td>Tiny IoT devices, wearables, status displays</td><td>Touch UI, portable HMI, local media and data logging</td><td>Portable sensor displays, Grove devices, physical controllers</td><td>Smart badges, tiny wearables, BLE status displays</td></tr>
+    <tr><td>Power Consumption (Dashboard)</td><td>130.53 mA @ 3.7 V</td><td>160.05 mA @ 3.7 V</td><td>159.76 mA @ 3.7 V</td><td>83.32 mA @ 3.7 V</td><td>39.07 mA @ 3.7 V</td><td>28.69 mA @ 3.7 V</td></tr>
   </table>
 </div>
+
+:::note
+**Power consumption** is measured with a Nordic Power Profiler Kit II (PPK2) in *Source meter* mode, supply voltage set to 3.7 V, sampling 100 samples per second for 60 seconds. Values are the 60-second average while running the factory Dashboard firmware.
+:::
 
 ## How to Choose
 
